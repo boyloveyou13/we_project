@@ -1,0 +1,75 @@
+﻿@model IEnumerable<WE_Project.Models.idea>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.idea_content)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.thumbs_up)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.thumbs_down)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.views)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.idea_date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.account.email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.category.category_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.topic.topic_name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.idea_content)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.thumbs_up)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.thumbs_down)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.views)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.idea_date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.account.email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.category.category_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.topic.topic_name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.idea_id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.idea_id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.idea_id })
+        </td>
+    </tr>
+}
+
+</table>

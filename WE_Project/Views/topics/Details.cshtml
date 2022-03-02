@@ -1,0 +1,50 @@
+﻿@model WE_Project.Models.topic
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>topic</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.topic_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.topic_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.describe)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.describe)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.closure_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.closure_date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.final_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.final_date)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.topic_id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

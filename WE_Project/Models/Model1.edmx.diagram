@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ddc5914c999c4581900b3fe41fdd5d46" Name="Diagram1">
+        <EntityTypeShape EntityType="squadnerdModel.account" Width="1.5" PointX="3" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="squadnerdModel.category" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="squadnerdModel.comment" Width="1.5" PointX="5.25" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="squadnerdModel.department" Width="1.5" PointX="0.75" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="squadnerdModel.file" Width="1.5" PointX="10.5" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="squadnerdModel.idea" Width="1.5" PointX="8.25" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="squadnerdModel.reaction" Width="1.5" PointX="10.5" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="squadnerdModel.topic" Width="1.5" PointX="10.5" PointY="6.5" IsExpanded="true" />
+        <AssociationConnector Association="squadnerdModel.FK_account_department" ManuallyRouted="false" />
+        <AssociationConnector Association="squadnerdModel.FK_comment_account" ManuallyRouted="false" />
+        <AssociationConnector Association="squadnerdModel.FK_idea_account" ManuallyRouted="false" />
+        <AssociationConnector Association="squadnerdModel.FK_reaction_account" ManuallyRouted="false" />
+        <AssociationConnector Association="squadnerdModel.FK_idea_category" ManuallyRouted="false" />
+        <AssociationConnector Association="squadnerdModel.FK_comment_idea" ManuallyRouted="false" />
+        <AssociationConnector Association="squadnerdModel.FK_file_idea" ManuallyRouted="false" />
+        <AssociationConnector Association="squadnerdModel.FK_idea_topic" ManuallyRouted="false" />
+        <AssociationConnector Association="squadnerdModel.FK_reaction_idea" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="squadnerdModel.notification" Width="1.5" PointX="5.25" PointY="6.75" />
+        <AssociationConnector Association="squadnerdModel.FK_notification_account" />
+        <AssociationConnector Association="squadnerdModel.FK_notification_comment" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

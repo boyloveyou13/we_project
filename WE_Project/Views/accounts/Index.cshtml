@@ -1,0 +1,106 @@
+﻿@model IEnumerable<WE_Project.Models.account>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <p>
+            @Html.ActionLink("Create New", "Create")
+        </p>
+        <div class="card mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Account</h6>
+            </div>
+            <div class="table-responsive p-3">
+                <table class="table align-items-center table-flush table-hover" id="dataTableHover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.email)
+                            </th>
+                            @*<th>
+                                @Html.DisplayNameFor(model => model.password)
+                            </th>*@
+                            <th>
+                                @Html.DisplayNameFor(model => model.state)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.fname)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.gender)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.phone)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.position)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.img)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.department.department_name)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.email)
+                            </td>
+                            @*<td>
+                                @Html.DisplayFor(modelItem => item.password)
+                            </td>*@
+                            <td>
+                                @Html.DisplayFor(modelItem => item.status)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.fname)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item._gender)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.phone)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.position)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.img)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.department.department_name)
+                            </td>
+                            <td>
+                                @*@Html.ActionLink("Edit", "Edit", new { id = item.account_id })*@
+                                <div></div>
+                                <a href="@Url.Action("Edit", "Accounts", new { id = item.account_id})">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <a href="@Url.Action("Details", "Accounts", new { id = item.account_id})">
+                                    <i class="fas fa-info-circle"></i>
+                                </a>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <a href="@Url.Action("Delete", "Accounts", new { id = item.account_id})" onclick="return confirm('Are you sure to delete this account?')">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

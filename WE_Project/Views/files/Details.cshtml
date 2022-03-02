@@ -1,0 +1,34 @@
+﻿@model WE_Project.Models.file
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>file</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.file_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.file_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.idea.idea_content)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.idea.idea_content)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.file_id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

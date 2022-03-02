@@ -1,0 +1,42 @@
+﻿@model WE_Project.Models.reaction
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>reaction</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.thumb)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.thumb)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.account.email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.account.email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.idea.idea_content)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.idea.idea_content)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.reaction_id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
