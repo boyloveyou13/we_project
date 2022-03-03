@@ -63,6 +63,17 @@ namespace WE_Project.Controllers
                 var topicDB = db.topic.Where(t => t.topic_name == topic.topic_name);
                 if (topicDB.ToList().Count == 0)
                 {
+                    //DateTime closure = (DateTime)topic.closure_date;
+                    if ((DateTime.Compare((DateTime)topic.closure_date, DateTime.Now.Date)) < 0)
+                    {
+                        ViewBag.ErrorMessage = "Closure date cannot be earlier than date now";
+                        return View(topic);
+                    }
+                    if (DateTime.Compare((DateTime)topic.closure_date, (DateTime)topic.final_date) > 0)
+                    {
+                        ViewBag.ErrorMessage = "Closure date cannot be earlier than final date";
+                        return View(topic);
+                    }
                     db.topic.Add(topic);
                     db.SaveChanges();
                     return RedirectToAction("Index");
@@ -103,9 +114,19 @@ namespace WE_Project.Controllers
             if (ModelState.IsValid)
             {
 
-                var topicDB = db.topic.Where(t => t.topic_name == topic.topic_name);
+                var topicDB = db.topic.Where(t => t.topic_name == topic.topic_name && t.topic_id != topic.topic_id);
                 if (topicDB.ToList().Count == 0)
                 {
+                    if((DateTime.Compare((DateTime)topic.closure_date,  DateTime.Now.Date)) < 0)
+                    {
+                        ViewBag.ErrorMessage = "Closure date cannot be earlier than date now";
+                        return View(topic);
+                    }
+                    if(DateTime.Compare((DateTime)topic.closure_date,(DateTime)topic.final_date) >0)
+                    {
+                        ViewBag.ErrorMessage = "Closure date cannot be earlier than final date";
+                        return View(topic);
+                    }
                     db.Entry(topic).State = EntityState.Modified;
                     db.SaveChanges();
                     return RedirectToAction("Index");

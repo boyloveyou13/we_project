@@ -58,6 +58,7 @@ namespace WE_Project.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "account_id,email,password,state,fname,gender,phone,position,department_id,img")] account account)
         {
+            
             if (ModelState.IsValid)
             {
                 var accountDB = db.account.Where(t => t.email == account.email);
@@ -147,8 +148,13 @@ namespace WE_Project.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit( account account)
+        public ActionResult Edit( account account, HttpPostedFileBase avatar)
         {
+            if (avatar != null)
+            {
+                account.img = new byte[avatar.ContentLength];
+                avatar.InputStream.Read(account.img, 0, avatar.ContentLength);
+            }
             if (ModelState.IsValid)
             {
                 db.Entry(account).State = EntityState.Modified;
@@ -157,6 +163,15 @@ namespace WE_Project.Controllers
             }
             ViewBag.department_id = new SelectList(db.department, "department_id", "department_name", account.department_id);
             return View(account);
+        }
+
+        public FileContentResult show(int? id)
+        {
+            account account = db.account.Find(id);
+            byte[] imageData = account.img;
+            if( imageData != null)
+                return File(imageData, "image/jpg");
+            else return null;
         }
 
         // GET: accounts/Delete/5

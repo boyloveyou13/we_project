@@ -96,8 +96,8 @@ namespace WE_Project.Controllers
         {
             if (ModelState.IsValid)
             {
-                var categoryDB = db.category.Where(t => t.category_name == category.category_name);
-                if (categoryDB.ToList().Count == 0)
+                var categoryDB = db.category.Where(t => t.category_name == category.category_name && t.category_id != category.category_id);
+                if (categoryDB.ToList().Count <= 0)
                 {
                     db.Entry(category).State = EntityState.Modified;
                     db.SaveChanges();

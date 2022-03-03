@@ -26,8 +26,10 @@ namespace WE_Project.Models
         }
     
         public int account_id { get; set; }
-        [DisplayName("Email")]
-        [Required(ErrorMessage = "Email is required.")]
+        [DisplayName("E-mail")]
+        [Required(ErrorMessage = "E-mail is required.")]
+        [MaxLength(50, ErrorMessage = "The number of characters has been exceeded, the limit is 50 characters")]
+        [DataType(DataType.EmailAddress, ErrorMessage = "E-mail is not valid.")]
         public string email { get; set; }
 
 
@@ -37,6 +39,7 @@ namespace WE_Project.Models
 
         [DisplayName("Password")]
         [Required(ErrorMessage = "Password is required.")]
+        [MaxLength(20, ErrorMessage = "The number of characters has been exceeded, the limit is 20 characters")]
         public string password { get; set; }
 
         [Required(ErrorMessage = "Confirmation Password is required.")]
@@ -54,6 +57,7 @@ namespace WE_Project.Models
         }
 
         [DisplayName("Full name")]
+        [MaxLength(50, ErrorMessage = "The number of characters has been exceeded, the limit is 50 characters")]
         public string fname { get; set; }
         [DisplayName("Gender")]
         public Nullable<bool> gender { get; set; }

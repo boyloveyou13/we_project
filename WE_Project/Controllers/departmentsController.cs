@@ -77,7 +77,7 @@ namespace WE_Project.Controllers
         {
             if (ModelState.IsValid)
             {
-                var departmentDB = db.department.Where(t => t.department_name == department.department_name);
+                var departmentDB = db.department.Where(t => t.department_name == department.department_name && t.department_id != department.department_id);
                 if (departmentDB.ToList().Count == 0)
                 {
                     db.Entry(department).State = EntityState.Modified;

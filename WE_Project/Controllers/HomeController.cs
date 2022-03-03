@@ -11,7 +11,6 @@ namespace WE_Project.Controllers
     {
         private squadnerdEntities db = new squadnerdEntities();
 
-
         public JsonResult CheckUsernameAvailability(string userdata)
         {
             System.Threading.Thread.Sleep(500);
