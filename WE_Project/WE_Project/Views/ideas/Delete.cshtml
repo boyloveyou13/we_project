@@ -1,0 +1,88 @@
+﻿@model WE_Project.Models.idea
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>idea</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.idea_content)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.idea_content)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.thumbs_up)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.thumbs_up)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.thumbs_down)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.thumbs_down)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.views)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.views)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.idea_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.idea_date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.account.email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.account.email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.category.category_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.category.category_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.topic.topic_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.topic.topic_name)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

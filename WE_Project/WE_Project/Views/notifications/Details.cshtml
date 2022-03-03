@@ -1,0 +1,42 @@
+﻿@model WE_Project.Models.notification
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>notification</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.state)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.state)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.account.email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.account.email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.comment.comment_content)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.comment.comment_content)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.notification_id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

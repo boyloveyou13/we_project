@@ -1,0 +1,13 @@
+﻿@model IEnumerable<WE_Project.Models.category>
+
+@{
+    ViewBag.Title = "CategoryMenu";
+}
+
+
+<a class="collapse-item" href="@Url.Action("Create","categories")">Create new category</a>
+@foreach (var item in Model)
+{
+    <a class="collapse-item" href="@Url.Action("Index", "categories",  new { id= item.category_id })">@Html.DisplayFor(modelItem => item.category_name)</a>
+}
+

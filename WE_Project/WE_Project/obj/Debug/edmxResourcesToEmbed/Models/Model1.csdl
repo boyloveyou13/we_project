@@ -1,0 +1,301 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="squadnerdModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="account">
+    <Key>
+      <PropertyRef Name="account_id" />
+    </Key>
+    <Property Name="account_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="state" Type="Int32" />
+    <Property Name="fname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="gender" Type="Boolean" />
+    <Property Name="phone" Type="Int32" />
+    <Property Name="position" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="department_id" Type="Int32" />
+    <Property Name="img" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <NavigationProperty Name="department" Relationship="Self.FK_account_department" FromRole="account" ToRole="department" />
+    <NavigationProperty Name="comment" Relationship="Self.FK_comment_account" FromRole="account" ToRole="comment" />
+    <NavigationProperty Name="idea" Relationship="Self.FK_idea_account" FromRole="account" ToRole="idea" />
+    <NavigationProperty Name="reaction" Relationship="Self.FK_reaction_account" FromRole="account" ToRole="reaction" />
+    <NavigationProperty Name="notification" Relationship="squadnerdModel.FK_notification_account" FromRole="account" ToRole="notification" />
+  </EntityType>
+  <EntityType Name="category">
+    <Key>
+      <PropertyRef Name="category_id" />
+    </Key>
+    <Property Name="category_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="category_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="describe" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="idea" Relationship="Self.FK_idea_category" FromRole="category" ToRole="idea" />
+  </EntityType>
+  <EntityType Name="comment">
+    <Key>
+      <PropertyRef Name="comment_id" />
+    </Key>
+    <Property Name="comment_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="comment_content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="account_id" Type="Int32" />
+    <Property Name="idea_id" Type="Int32" />
+    <NavigationProperty Name="account" Relationship="Self.FK_comment_account" FromRole="comment" ToRole="account" />
+    <NavigationProperty Name="idea" Relationship="Self.FK_comment_idea" FromRole="comment" ToRole="idea" />
+    <NavigationProperty Name="notification" Relationship="squadnerdModel.FK_notification_comment" FromRole="comment" ToRole="notification" />
+  </EntityType>
+  <EntityType Name="department">
+    <Key>
+      <PropertyRef Name="department_id" />
+    </Key>
+    <Property Name="department_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="department_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="account" Relationship="Self.FK_account_department" FromRole="department" ToRole="account" />
+  </EntityType>
+  <EntityType Name="file">
+    <Key>
+      <PropertyRef Name="file_id" />
+    </Key>
+    <Property Name="file_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idea_id" Type="Int32" />
+    <Property Name="file_name" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <NavigationProperty Name="idea" Relationship="Self.FK_file_idea" FromRole="file" ToRole="idea" />
+  </EntityType>
+  <EntityType Name="idea">
+    <Key>
+      <PropertyRef Name="idea_id" />
+    </Key>
+    <Property Name="idea_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="topic_id" Type="Int32" />
+    <Property Name="account_id" Type="Int32" />
+    <Property Name="category_id" Type="Int32" />
+    <Property Name="idea_content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="thumbs_up" Type="Int32" />
+    <Property Name="thumbs_down" Type="Int32" />
+    <Property Name="views" Type="Int32" />
+    <Property Name="idea_date" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="account" Relationship="Self.FK_idea_account" FromRole="idea" ToRole="account" />
+    <NavigationProperty Name="category" Relationship="Self.FK_idea_category" FromRole="idea" ToRole="category" />
+    <NavigationProperty Name="comment" Relationship="Self.FK_comment_idea" FromRole="idea" ToRole="comment" />
+    <NavigationProperty Name="file" Relationship="Self.FK_file_idea" FromRole="idea" ToRole="file" />
+    <NavigationProperty Name="topic" Relationship="Self.FK_idea_topic" FromRole="idea" ToRole="topic" />
+    <NavigationProperty Name="reaction" Relationship="Self.FK_reaction_idea" FromRole="idea" ToRole="reaction" />
+  </EntityType>
+  <EntityType Name="reaction">
+    <Key>
+      <PropertyRef Name="reaction_id" />
+    </Key>
+    <Property Name="reaction_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idea_id" Type="Int32" />
+    <Property Name="thumb" Type="Int32" />
+    <Property Name="account_id" Type="Int32" />
+    <NavigationProperty Name="account" Relationship="Self.FK_reaction_account" FromRole="reaction" ToRole="account" />
+    <NavigationProperty Name="idea" Relationship="Self.FK_reaction_idea" FromRole="reaction" ToRole="idea" />
+  </EntityType>
+  <EntityType Name="topic">
+    <Key>
+      <PropertyRef Name="topic_id" />
+    </Key>
+    <Property Name="topic_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="topic_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="describe" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="closure_date" Type="DateTime" Precision="0" />
+    <Property Name="final_date" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="idea" Relationship="Self.FK_idea_topic" FromRole="topic" ToRole="idea" />
+  </EntityType>
+  <Association Name="FK_account_department">
+    <End Role="department" Type="Self.department" Multiplicity="0..1" />
+    <End Role="account" Type="Self.account" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="department">
+        <PropertyRef Name="department_id" />
+      </Principal>
+      <Dependent Role="account">
+        <PropertyRef Name="department_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_comment_account">
+    <End Role="account" Type="Self.account" Multiplicity="0..1" />
+    <End Role="comment" Type="Self.comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="account">
+        <PropertyRef Name="account_id" />
+      </Principal>
+      <Dependent Role="comment">
+        <PropertyRef Name="account_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_idea_account">
+    <End Role="account" Type="Self.account" Multiplicity="0..1" />
+    <End Role="idea" Type="Self.idea" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="account">
+        <PropertyRef Name="account_id" />
+      </Principal>
+      <Dependent Role="idea">
+        <PropertyRef Name="account_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_reaction_account">
+    <End Role="account" Type="Self.account" Multiplicity="0..1" />
+    <End Role="reaction" Type="Self.reaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="account">
+        <PropertyRef Name="account_id" />
+      </Principal>
+      <Dependent Role="reaction">
+        <PropertyRef Name="account_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_idea_category">
+    <End Role="category" Type="Self.category" Multiplicity="0..1" />
+    <End Role="idea" Type="Self.idea" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="category">
+        <PropertyRef Name="category_id" />
+      </Principal>
+      <Dependent Role="idea">
+        <PropertyRef Name="category_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_comment_idea">
+    <End Role="idea" Type="Self.idea" Multiplicity="0..1" />
+    <End Role="comment" Type="Self.comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="idea">
+        <PropertyRef Name="idea_id" />
+      </Principal>
+      <Dependent Role="comment">
+        <PropertyRef Name="idea_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_file_idea">
+    <End Role="idea" Type="Self.idea" Multiplicity="0..1" />
+    <End Role="file" Type="Self.file" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="idea">
+        <PropertyRef Name="idea_id" />
+      </Principal>
+      <Dependent Role="file">
+        <PropertyRef Name="idea_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_idea_topic">
+    <End Role="topic" Type="Self.topic" Multiplicity="0..1" />
+    <End Role="idea" Type="Self.idea" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="topic">
+        <PropertyRef Name="topic_id" />
+      </Principal>
+      <Dependent Role="idea">
+        <PropertyRef Name="topic_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_reaction_idea">
+    <End Role="idea" Type="Self.idea" Multiplicity="0..1" />
+    <End Role="reaction" Type="Self.reaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="idea">
+        <PropertyRef Name="idea_id" />
+      </Principal>
+      <Dependent Role="reaction">
+        <PropertyRef Name="idea_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="squadnerdEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="account" EntityType="Self.account" />
+    <EntitySet Name="category" EntityType="Self.category" />
+    <EntitySet Name="comment" EntityType="Self.comment" />
+    <EntitySet Name="department" EntityType="Self.department" />
+    <EntitySet Name="file" EntityType="Self.file" />
+    <EntitySet Name="idea" EntityType="Self.idea" />
+    <EntitySet Name="reaction" EntityType="Self.reaction" />
+    <EntitySet Name="topic" EntityType="Self.topic" />
+    <AssociationSet Name="FK_account_department" Association="Self.FK_account_department">
+      <End Role="department" EntitySet="department" />
+      <End Role="account" EntitySet="account" />
+    </AssociationSet>
+    <AssociationSet Name="FK_comment_account" Association="Self.FK_comment_account">
+      <End Role="account" EntitySet="account" />
+      <End Role="comment" EntitySet="comment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_idea_account" Association="Self.FK_idea_account">
+      <End Role="account" EntitySet="account" />
+      <End Role="idea" EntitySet="idea" />
+    </AssociationSet>
+    <AssociationSet Name="FK_reaction_account" Association="Self.FK_reaction_account">
+      <End Role="account" EntitySet="account" />
+      <End Role="reaction" EntitySet="reaction" />
+    </AssociationSet>
+    <AssociationSet Name="FK_idea_category" Association="Self.FK_idea_category">
+      <End Role="category" EntitySet="category" />
+      <End Role="idea" EntitySet="idea" />
+    </AssociationSet>
+    <AssociationSet Name="FK_comment_idea" Association="Self.FK_comment_idea">
+      <End Role="idea" EntitySet="idea" />
+      <End Role="comment" EntitySet="comment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_file_idea" Association="Self.FK_file_idea">
+      <End Role="idea" EntitySet="idea" />
+      <End Role="file" EntitySet="file" />
+    </AssociationSet>
+    <AssociationSet Name="FK_idea_topic" Association="Self.FK_idea_topic">
+      <End Role="topic" EntitySet="topic" />
+      <End Role="idea" EntitySet="idea" />
+    </AssociationSet>
+    <AssociationSet Name="FK_reaction_idea" Association="Self.FK_reaction_idea">
+      <End Role="idea" EntitySet="idea" />
+      <End Role="reaction" EntitySet="reaction" />
+    </AssociationSet>
+    <EntitySet Name="notification" EntityType="squadnerdModel.notification" />
+    <AssociationSet Name="FK_notification_account" Association="squadnerdModel.FK_notification_account">
+      <End Role="account" EntitySet="account" />
+      <End Role="notification" EntitySet="notification" />
+    </AssociationSet>
+    <AssociationSet Name="FK_notification_comment" Association="squadnerdModel.FK_notification_comment">
+      <End Role="comment" EntitySet="comment" />
+      <End Role="notification" EntitySet="notification" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="notification">
+    <Key>
+      <PropertyRef Name="notification_id" />
+    </Key>
+    <Property Name="notification_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="comment_id" Type="Int32" />
+    <Property Name="state" Type="Boolean" />
+    <Property Name="account_id" Type="Int32" />
+    <NavigationProperty Name="account" Relationship="squadnerdModel.FK_notification_account" FromRole="notification" ToRole="account" />
+    <NavigationProperty Name="comment" Relationship="squadnerdModel.FK_notification_comment" FromRole="notification" ToRole="comment" />
+  </EntityType>
+  <Association Name="FK_notification_account">
+    <End Type="squadnerdModel.account" Role="account" Multiplicity="0..1" />
+    <End Type="squadnerdModel.notification" Role="notification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="account">
+        <PropertyRef Name="account_id" />
+      </Principal>
+      <Dependent Role="notification">
+        <PropertyRef Name="account_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_notification_comment">
+    <End Type="squadnerdModel.comment" Role="comment" Multiplicity="0..1" />
+    <End Type="squadnerdModel.notification" Role="notification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="comment">
+        <PropertyRef Name="comment_id" />
+      </Principal>
+      <Dependent Role="notification">
+        <PropertyRef Name="comment_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

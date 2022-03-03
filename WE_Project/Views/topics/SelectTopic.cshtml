@@ -1,0 +1,10 @@
+﻿@model IEnumerable<WE_Project.Models.topic>
+
+@{
+    ViewBag.Title = "SelectTopic";
+}
+
+@foreach (var item in Model)
+{
+    <a class="collapse-item" href="@Url.Action("Index", "ideas",  new { id= item.topic_id })">@Html.DisplayFor(modelItem => item.topic_name)</a>
+}

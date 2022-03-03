@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="squadnerdModelStoreContainer" CdmEntityContainer="squadnerdEntities">
+    <EntitySetMapping Name="account">
+      <EntityTypeMapping TypeName="squadnerdModel.account">
+        <MappingFragment StoreEntitySet="account">
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="state" ColumnName="state" />
+          <ScalarProperty Name="fname" ColumnName="fname" />
+          <ScalarProperty Name="gender" ColumnName="gender" />
+          <ScalarProperty Name="phone" ColumnName="phone" />
+          <ScalarProperty Name="position" ColumnName="position" />
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="img" ColumnName="img" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="category">
+      <EntityTypeMapping TypeName="squadnerdModel.category">
+        <MappingFragment StoreEntitySet="category">
+          <ScalarProperty Name="category_id" ColumnName="category_id" />
+          <ScalarProperty Name="category_name" ColumnName="category_name" />
+          <ScalarProperty Name="describe" ColumnName="describe" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="comment">
+      <EntityTypeMapping TypeName="squadnerdModel.comment">
+        <MappingFragment StoreEntitySet="comment">
+          <ScalarProperty Name="comment_id" ColumnName="comment_id" />
+          <ScalarProperty Name="comment_content" ColumnName="comment_content" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="idea_id" ColumnName="idea_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="department">
+      <EntityTypeMapping TypeName="squadnerdModel.department">
+        <MappingFragment StoreEntitySet="department">
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="department_name" ColumnName="department_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="file">
+      <EntityTypeMapping TypeName="squadnerdModel.file">
+        <MappingFragment StoreEntitySet="file">
+          <ScalarProperty Name="file_id" ColumnName="file_id" />
+          <ScalarProperty Name="idea_id" ColumnName="idea_id" />
+          <ScalarProperty Name="file_name" ColumnName="file_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="idea">
+      <EntityTypeMapping TypeName="squadnerdModel.idea">
+        <MappingFragment StoreEntitySet="idea">
+          <ScalarProperty Name="idea_id" ColumnName="idea_id" />
+          <ScalarProperty Name="topic_id" ColumnName="topic_id" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="category_id" ColumnName="category_id" />
+          <ScalarProperty Name="idea_content" ColumnName="idea_content" />
+          <ScalarProperty Name="thumbs_up" ColumnName="thumbs_up" />
+          <ScalarProperty Name="thumbs_down" ColumnName="thumbs_down" />
+          <ScalarProperty Name="views" ColumnName="views" />
+          <ScalarProperty Name="idea_date" ColumnName="idea_date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="reaction">
+      <EntityTypeMapping TypeName="squadnerdModel.reaction">
+        <MappingFragment StoreEntitySet="reaction">
+          <ScalarProperty Name="reaction_id" ColumnName="reaction_id" />
+          <ScalarProperty Name="idea_id" ColumnName="idea_id" />
+          <ScalarProperty Name="thumb" ColumnName="thumb" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="topic">
+      <EntityTypeMapping TypeName="squadnerdModel.topic">
+        <MappingFragment StoreEntitySet="topic">
+          <ScalarProperty Name="topic_id" ColumnName="topic_id" />
+          <ScalarProperty Name="topic_name" ColumnName="topic_name" />
+          <ScalarProperty Name="describe" ColumnName="describe" />
+          <ScalarProperty Name="closure_date" ColumnName="closure_date" />
+          <ScalarProperty Name="final_date" ColumnName="final_date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="notification">
+      <EntityTypeMapping TypeName="squadnerdModel.notification">
+        <MappingFragment StoreEntitySet="notification">
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="state" ColumnName="state" />
+          <ScalarProperty Name="comment_id" ColumnName="comment_id" />
+          <ScalarProperty Name="notification_id" ColumnName="notification_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
