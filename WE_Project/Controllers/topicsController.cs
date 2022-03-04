@@ -15,16 +15,12 @@ namespace WE_Project.Controllers
         private squadnerdEntities db = new squadnerdEntities();
 
         // GET: topics
-        public ActionResult Index()
+        public ActionResult Index(int? msg)
         {
+            if (msg == 1)
+                ViewBag.ErrorMessage = "This topic contains idea, which cannot be deleted";
             return View(db.topic.ToList());
         }
-
-        public ActionResult TopicMenu()
-        {
-            return PartialView(db.topic.ToList());
-        }
-
         public ActionResult SelectTopic()
         {
             return PartialView(db.topic.ToList());
@@ -127,7 +123,7 @@ namespace WE_Project.Controllers
                         ViewBag.ErrorMessage = "Closure date cannot be earlier than final date";
                         return View(topic);
                     }
-                    db.Entry(topic).State = EntityState.Modified;
+                    db.Entry(topic).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
@@ -158,7 +154,7 @@ namespace WE_Project.Controllers
                 }
                 else
                 {
-                    ViewBag.ErrorMessage = "This topic contains ideas, which cannot be deleted";
+                    return RedirectToAction("Index", new { msg = 1 });
                 }
                 return RedirectToAction("Index");
             }

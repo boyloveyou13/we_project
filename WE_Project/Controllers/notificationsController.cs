@@ -89,7 +89,7 @@ namespace WE_Project.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(notification).State = EntityState.Modified;
+                db.Entry(notification).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

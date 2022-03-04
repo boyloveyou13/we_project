@@ -119,7 +119,7 @@ namespace WE_Project.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(account).State = EntityState.Modified;
+                db.Entry(account).State = System.Data.Entity.EntityState.Modified;
                 if (account.CurrentPassword != null && account.CurrentPassword != String.Empty)
                 {
 
@@ -157,7 +157,7 @@ namespace WE_Project.Controllers
             }
             if (ModelState.IsValid)
             {
-                db.Entry(account).State = EntityState.Modified;
+                db.Entry(account).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

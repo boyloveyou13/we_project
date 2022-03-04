@@ -86,7 +86,7 @@ namespace WE_Project.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(file).State = EntityState.Modified;
+                db.Entry(file).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

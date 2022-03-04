@@ -15,8 +15,10 @@ namespace WE_Project.Controllers
         private squadnerdEntities db = new squadnerdEntities();
 
         // GET: categories
-        public ActionResult Index()
+        public ActionResult Index(int? msg)
         {
+            if(msg ==1)
+                ViewBag.ErrorMessage = "This category contains ideas, which cannot be deleted";
             return View(db.category.ToList());
         }
 
@@ -99,7 +101,7 @@ namespace WE_Project.Controllers
                 var categoryDB = db.category.Where(t => t.category_name == category.category_name && t.category_id != category.category_id);
                 if (categoryDB.ToList().Count <= 0)
                 {
-                    db.Entry(category).State = EntityState.Modified;
+                    db.Entry(category).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
@@ -132,7 +134,7 @@ namespace WE_Project.Controllers
                     }
                     else
                     {
-                        ViewBag.ErrorMessage = "This category contains ideas, which cannot be deleted";
+                        return RedirectToAction("Index",new { msg = 1 });
                     }
                     return RedirectToAction("Index");
                 }

@@ -60,6 +60,7 @@
     <Property Name="thumbs_down" Type="int" />
     <Property Name="views" Type="int" />
     <Property Name="idea_date" Type="date" />
+    <Property Name="idea_title" Type="nvarchar(max)" />
   </EntityType>
   <EntityType Name="notification">
     <Key>

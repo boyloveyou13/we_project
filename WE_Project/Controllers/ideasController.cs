@@ -22,6 +22,7 @@ namespace WE_Project.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }else
             {
+                ViewBag.id = id;               
                 var idea = db.idea.Include(i => i.account).Include(i => i.category).Include(i => i.topic).Where(i => i.topic_id == id);
                 return View(idea.ToList());
             }
@@ -44,12 +45,13 @@ namespace WE_Project.Controllers
         }
 
         // GET: ideas/Create
-        public ActionResult Create()
+        public ActionResult Create(int? id)
         {
+            ViewBag.idTopic = id;
             ViewBag.account_id = new SelectList(db.account, "account_id", "email");
             ViewBag.category_id = new SelectList(db.category, "category_id", "category_name");
             ViewBag.topic_id = new SelectList(db.topic, "topic_id", "topic_name");
-            return View();
+            return PartialView();
         }
 
         // POST: ideas/Create
@@ -57,13 +59,17 @@ namespace WE_Project.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "idea_id,topic_id,account_id,category_id,idea_content,thumbs_up,thumbs_down,views,idea_date")] idea idea)
+        public ActionResult Create([Bind(Include = "idea_id,topic_id,account_id,category_id,idea_content,thumbs_up,thumbs_down,views,idea_date,idea_title")] idea idea)
         {
+            idea.thumbs_up = 0;
+            idea.thumbs_down = 0;
+            idea.views = 0;
+            idea.idea_date = DateTime.Now.Date;
             if (ModelState.IsValid)
             {
                 db.idea.Add(idea);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index",new { id = idea.topic_id });
             }
 
             ViewBag.account_id = new SelectList(db.account, "account_id", "email", idea.account_id);
@@ -99,7 +105,7 @@ namespace WE_Project.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(idea).State = EntityState.Modified;
+                db.Entry(idea).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

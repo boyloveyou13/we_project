@@ -31,8 +31,8 @@ namespace WE_Project.Models
         public virtual DbSet<department> department { get; set; }
         public virtual DbSet<file> file { get; set; }
         public virtual DbSet<idea> idea { get; set; }
+        public virtual DbSet<notification> notification { get; set; }
         public virtual DbSet<reaction> reaction { get; set; }
         public virtual DbSet<topic> topic { get; set; }
-        public virtual DbSet<notification> notification { get; set; }
     }
 }

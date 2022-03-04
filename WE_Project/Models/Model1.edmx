@@ -65,6 +65,7 @@
           <Property Name="thumbs_down" Type="int" />
           <Property Name="views" Type="int" />
           <Property Name="idea_date" Type="date" />
+          <Property Name="idea_title" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="notification">
           <Key>
@@ -285,6 +286,61 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="squadnerdModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="squadnerdEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="account" EntityType="squadnerdModel.account" />
+          <EntitySet Name="category" EntityType="squadnerdModel.category" />
+          <EntitySet Name="comment" EntityType="squadnerdModel.comment" />
+          <EntitySet Name="department" EntityType="squadnerdModel.department" />
+          <EntitySet Name="file" EntityType="squadnerdModel.file" />
+          <EntitySet Name="idea" EntityType="squadnerdModel.idea" />
+          <EntitySet Name="notification" EntityType="squadnerdModel.notification" />
+          <EntitySet Name="reaction" EntityType="squadnerdModel.reaction" />
+          <EntitySet Name="topic" EntityType="squadnerdModel.topic" />
+          <AssociationSet Name="FK_account_department" Association="squadnerdModel.FK_account_department">
+            <End Role="department" EntitySet="department" />
+            <End Role="account" EntitySet="account" />
+          </AssociationSet>
+          <AssociationSet Name="FK_comment_account" Association="squadnerdModel.FK_comment_account">
+            <End Role="account" EntitySet="account" />
+            <End Role="comment" EntitySet="comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_idea_account" Association="squadnerdModel.FK_idea_account">
+            <End Role="account" EntitySet="account" />
+            <End Role="idea" EntitySet="idea" />
+          </AssociationSet>
+          <AssociationSet Name="FK_notification_account" Association="squadnerdModel.FK_notification_account">
+            <End Role="account" EntitySet="account" />
+            <End Role="notification" EntitySet="notification" />
+          </AssociationSet>
+          <AssociationSet Name="FK_reaction_account" Association="squadnerdModel.FK_reaction_account">
+            <End Role="account" EntitySet="account" />
+            <End Role="reaction" EntitySet="reaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_idea_category" Association="squadnerdModel.FK_idea_category">
+            <End Role="category" EntitySet="category" />
+            <End Role="idea" EntitySet="idea" />
+          </AssociationSet>
+          <AssociationSet Name="FK_comment_idea" Association="squadnerdModel.FK_comment_idea">
+            <End Role="idea" EntitySet="idea" />
+            <End Role="comment" EntitySet="comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_notification_comment" Association="squadnerdModel.FK_notification_comment">
+            <End Role="comment" EntitySet="comment" />
+            <End Role="notification" EntitySet="notification" />
+          </AssociationSet>
+          <AssociationSet Name="FK_file_idea" Association="squadnerdModel.FK_file_idea">
+            <End Role="idea" EntitySet="idea" />
+            <End Role="file" EntitySet="file" />
+          </AssociationSet>
+          <AssociationSet Name="FK_idea_topic" Association="squadnerdModel.FK_idea_topic">
+            <End Role="topic" EntitySet="topic" />
+            <End Role="idea" EntitySet="idea" />
+          </AssociationSet>
+          <AssociationSet Name="FK_reaction_idea" Association="squadnerdModel.FK_reaction_idea">
+            <End Role="idea" EntitySet="idea" />
+            <End Role="reaction" EntitySet="reaction" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="account">
           <Key>
             <PropertyRef Name="account_id" />
@@ -299,11 +355,11 @@
           <Property Name="position" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="department_id" Type="Int32" />
           <Property Name="img" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <NavigationProperty Name="department" Relationship="Self.FK_account_department" FromRole="account" ToRole="department" />
-          <NavigationProperty Name="comment" Relationship="Self.FK_comment_account" FromRole="account" ToRole="comment" />
-          <NavigationProperty Name="idea" Relationship="Self.FK_idea_account" FromRole="account" ToRole="idea" />
-          <NavigationProperty Name="reaction" Relationship="Self.FK_reaction_account" FromRole="account" ToRole="reaction" />
+          <NavigationProperty Name="department" Relationship="squadnerdModel.FK_account_department" FromRole="account" ToRole="department" />
+          <NavigationProperty Name="comment" Relationship="squadnerdModel.FK_comment_account" FromRole="account" ToRole="comment" />
+          <NavigationProperty Name="idea" Relationship="squadnerdModel.FK_idea_account" FromRole="account" ToRole="idea" />
           <NavigationProperty Name="notification" Relationship="squadnerdModel.FK_notification_account" FromRole="account" ToRole="notification" />
+          <NavigationProperty Name="reaction" Relationship="squadnerdModel.FK_reaction_account" FromRole="account" ToRole="reaction" />
         </EntityType>
         <EntityType Name="category">
           <Key>
@@ -312,7 +368,7 @@
           <Property Name="category_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="category_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="describe" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="idea" Relationship="Self.FK_idea_category" FromRole="category" ToRole="idea" />
+          <NavigationProperty Name="idea" Relationship="squadnerdModel.FK_idea_category" FromRole="category" ToRole="idea" />
         </EntityType>
         <EntityType Name="comment">
           <Key>
@@ -322,8 +378,8 @@
           <Property Name="comment_content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="account_id" Type="Int32" />
           <Property Name="idea_id" Type="Int32" />
-          <NavigationProperty Name="account" Relationship="Self.FK_comment_account" FromRole="comment" ToRole="account" />
-          <NavigationProperty Name="idea" Relationship="Self.FK_comment_idea" FromRole="comment" ToRole="idea" />
+          <NavigationProperty Name="account" Relationship="squadnerdModel.FK_comment_account" FromRole="comment" ToRole="account" />
+          <NavigationProperty Name="idea" Relationship="squadnerdModel.FK_comment_idea" FromRole="comment" ToRole="idea" />
           <NavigationProperty Name="notification" Relationship="squadnerdModel.FK_notification_comment" FromRole="comment" ToRole="notification" />
         </EntityType>
         <EntityType Name="department">
@@ -332,7 +388,7 @@
           </Key>
           <Property Name="department_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="department_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="account" Relationship="Self.FK_account_department" FromRole="department" ToRole="account" />
+          <NavigationProperty Name="account" Relationship="squadnerdModel.FK_account_department" FromRole="department" ToRole="account" />
         </EntityType>
         <EntityType Name="file">
           <Key>
@@ -341,7 +397,7 @@
           <Property Name="file_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="idea_id" Type="Int32" />
           <Property Name="file_name" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <NavigationProperty Name="idea" Relationship="Self.FK_file_idea" FromRole="file" ToRole="idea" />
+          <NavigationProperty Name="idea" Relationship="squadnerdModel.FK_file_idea" FromRole="file" ToRole="idea" />
         </EntityType>
         <EntityType Name="idea">
           <Key>
@@ -356,198 +412,14 @@
           <Property Name="thumbs_down" Type="Int32" />
           <Property Name="views" Type="Int32" />
           <Property Name="idea_date" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="account" Relationship="Self.FK_idea_account" FromRole="idea" ToRole="account" />
-          <NavigationProperty Name="category" Relationship="Self.FK_idea_category" FromRole="idea" ToRole="category" />
-          <NavigationProperty Name="comment" Relationship="Self.FK_comment_idea" FromRole="idea" ToRole="comment" />
-          <NavigationProperty Name="file" Relationship="Self.FK_file_idea" FromRole="idea" ToRole="file" />
-          <NavigationProperty Name="topic" Relationship="Self.FK_idea_topic" FromRole="idea" ToRole="topic" />
-          <NavigationProperty Name="reaction" Relationship="Self.FK_reaction_idea" FromRole="idea" ToRole="reaction" />
+          <Property Name="idea_title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="account" Relationship="squadnerdModel.FK_idea_account" FromRole="idea" ToRole="account" />
+          <NavigationProperty Name="category" Relationship="squadnerdModel.FK_idea_category" FromRole="idea" ToRole="category" />
+          <NavigationProperty Name="comment" Relationship="squadnerdModel.FK_comment_idea" FromRole="idea" ToRole="comment" />
+          <NavigationProperty Name="file" Relationship="squadnerdModel.FK_file_idea" FromRole="idea" ToRole="file" />
+          <NavigationProperty Name="topic" Relationship="squadnerdModel.FK_idea_topic" FromRole="idea" ToRole="topic" />
+          <NavigationProperty Name="reaction" Relationship="squadnerdModel.FK_reaction_idea" FromRole="idea" ToRole="reaction" />
         </EntityType>
-        <EntityType Name="reaction">
-          <Key>
-            <PropertyRef Name="reaction_id" />
-          </Key>
-          <Property Name="reaction_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="idea_id" Type="Int32" />
-          <Property Name="thumb" Type="Int32" />
-          <Property Name="account_id" Type="Int32" />
-          <NavigationProperty Name="account" Relationship="Self.FK_reaction_account" FromRole="reaction" ToRole="account" />
-          <NavigationProperty Name="idea" Relationship="Self.FK_reaction_idea" FromRole="reaction" ToRole="idea" />
-        </EntityType>
-        <EntityType Name="topic">
-          <Key>
-            <PropertyRef Name="topic_id" />
-          </Key>
-          <Property Name="topic_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="topic_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="describe" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="closure_date" Type="DateTime" Precision="0" />
-          <Property Name="final_date" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="idea" Relationship="Self.FK_idea_topic" FromRole="topic" ToRole="idea" />
-        </EntityType>
-        <Association Name="FK_account_department">
-          <End Role="department" Type="Self.department" Multiplicity="0..1" />
-          <End Role="account" Type="Self.account" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="department">
-              <PropertyRef Name="department_id" />
-            </Principal>
-            <Dependent Role="account">
-              <PropertyRef Name="department_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_comment_account">
-          <End Role="account" Type="Self.account" Multiplicity="0..1" />
-          <End Role="comment" Type="Self.comment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="account">
-              <PropertyRef Name="account_id" />
-            </Principal>
-            <Dependent Role="comment">
-              <PropertyRef Name="account_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_idea_account">
-          <End Role="account" Type="Self.account" Multiplicity="0..1" />
-          <End Role="idea" Type="Self.idea" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="account">
-              <PropertyRef Name="account_id" />
-            </Principal>
-            <Dependent Role="idea">
-              <PropertyRef Name="account_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_reaction_account">
-          <End Role="account" Type="Self.account" Multiplicity="0..1" />
-          <End Role="reaction" Type="Self.reaction" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="account">
-              <PropertyRef Name="account_id" />
-            </Principal>
-            <Dependent Role="reaction">
-              <PropertyRef Name="account_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_idea_category">
-          <End Role="category" Type="Self.category" Multiplicity="0..1" />
-          <End Role="idea" Type="Self.idea" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="category">
-              <PropertyRef Name="category_id" />
-            </Principal>
-            <Dependent Role="idea">
-              <PropertyRef Name="category_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_comment_idea">
-          <End Role="idea" Type="Self.idea" Multiplicity="0..1" />
-          <End Role="comment" Type="Self.comment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="idea">
-              <PropertyRef Name="idea_id" />
-            </Principal>
-            <Dependent Role="comment">
-              <PropertyRef Name="idea_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_file_idea">
-          <End Role="idea" Type="Self.idea" Multiplicity="0..1" />
-          <End Role="file" Type="Self.file" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="idea">
-              <PropertyRef Name="idea_id" />
-            </Principal>
-            <Dependent Role="file">
-              <PropertyRef Name="idea_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_idea_topic">
-          <End Role="topic" Type="Self.topic" Multiplicity="0..1" />
-          <End Role="idea" Type="Self.idea" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="topic">
-              <PropertyRef Name="topic_id" />
-            </Principal>
-            <Dependent Role="idea">
-              <PropertyRef Name="topic_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_reaction_idea">
-          <End Role="idea" Type="Self.idea" Multiplicity="0..1" />
-          <End Role="reaction" Type="Self.reaction" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="idea">
-              <PropertyRef Name="idea_id" />
-            </Principal>
-            <Dependent Role="reaction">
-              <PropertyRef Name="idea_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityContainer Name="squadnerdEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="account" EntityType="Self.account" />
-          <EntitySet Name="category" EntityType="Self.category" />
-          <EntitySet Name="comment" EntityType="Self.comment" />
-          <EntitySet Name="department" EntityType="Self.department" />
-          <EntitySet Name="file" EntityType="Self.file" />
-          <EntitySet Name="idea" EntityType="Self.idea" />
-          <EntitySet Name="reaction" EntityType="Self.reaction" />
-          <EntitySet Name="topic" EntityType="Self.topic" />
-          <AssociationSet Name="FK_account_department" Association="Self.FK_account_department">
-            <End Role="department" EntitySet="department" />
-            <End Role="account" EntitySet="account" />
-          </AssociationSet>
-          <AssociationSet Name="FK_comment_account" Association="Self.FK_comment_account">
-            <End Role="account" EntitySet="account" />
-            <End Role="comment" EntitySet="comment" />
-          </AssociationSet>
-          <AssociationSet Name="FK_idea_account" Association="Self.FK_idea_account">
-            <End Role="account" EntitySet="account" />
-            <End Role="idea" EntitySet="idea" />
-          </AssociationSet>
-          <AssociationSet Name="FK_reaction_account" Association="Self.FK_reaction_account">
-            <End Role="account" EntitySet="account" />
-            <End Role="reaction" EntitySet="reaction" />
-          </AssociationSet>
-          <AssociationSet Name="FK_idea_category" Association="Self.FK_idea_category">
-            <End Role="category" EntitySet="category" />
-            <End Role="idea" EntitySet="idea" />
-          </AssociationSet>
-          <AssociationSet Name="FK_comment_idea" Association="Self.FK_comment_idea">
-            <End Role="idea" EntitySet="idea" />
-            <End Role="comment" EntitySet="comment" />
-          </AssociationSet>
-          <AssociationSet Name="FK_file_idea" Association="Self.FK_file_idea">
-            <End Role="idea" EntitySet="idea" />
-            <End Role="file" EntitySet="file" />
-          </AssociationSet>
-          <AssociationSet Name="FK_idea_topic" Association="Self.FK_idea_topic">
-            <End Role="topic" EntitySet="topic" />
-            <End Role="idea" EntitySet="idea" />
-          </AssociationSet>
-          <AssociationSet Name="FK_reaction_idea" Association="Self.FK_reaction_idea">
-            <End Role="idea" EntitySet="idea" />
-            <End Role="reaction" EntitySet="reaction" />
-          </AssociationSet>
-          <EntitySet Name="notification" EntityType="squadnerdModel.notification" />
-          <AssociationSet Name="FK_notification_account" Association="squadnerdModel.FK_notification_account">
-            <End Role="account" EntitySet="account" />
-            <End Role="notification" EntitySet="notification" />
-          </AssociationSet>
-          <AssociationSet Name="FK_notification_comment" Association="squadnerdModel.FK_notification_comment">
-            <End Role="comment" EntitySet="comment" />
-            <End Role="notification" EntitySet="notification" />
-          </AssociationSet>
-        </EntityContainer>
         <EntityType Name="notification">
           <Key>
             <PropertyRef Name="notification_id" />
@@ -559,6 +431,64 @@
           <NavigationProperty Name="account" Relationship="squadnerdModel.FK_notification_account" FromRole="notification" ToRole="account" />
           <NavigationProperty Name="comment" Relationship="squadnerdModel.FK_notification_comment" FromRole="notification" ToRole="comment" />
         </EntityType>
+        <EntityType Name="reaction">
+          <Key>
+            <PropertyRef Name="reaction_id" />
+          </Key>
+          <Property Name="reaction_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idea_id" Type="Int32" />
+          <Property Name="thumb" Type="Int32" />
+          <Property Name="account_id" Type="Int32" />
+          <NavigationProperty Name="account" Relationship="squadnerdModel.FK_reaction_account" FromRole="reaction" ToRole="account" />
+          <NavigationProperty Name="idea" Relationship="squadnerdModel.FK_reaction_idea" FromRole="reaction" ToRole="idea" />
+        </EntityType>
+        <EntityType Name="topic">
+          <Key>
+            <PropertyRef Name="topic_id" />
+          </Key>
+          <Property Name="topic_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="topic_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="describe" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="closure_date" Type="DateTime" Precision="0" />
+          <Property Name="final_date" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="idea" Relationship="squadnerdModel.FK_idea_topic" FromRole="topic" ToRole="idea" />
+        </EntityType>
+        <Association Name="FK_account_department">
+          <End Type="squadnerdModel.department" Role="department" Multiplicity="0..1" />
+          <End Type="squadnerdModel.account" Role="account" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="department">
+              <PropertyRef Name="department_id" />
+            </Principal>
+            <Dependent Role="account">
+              <PropertyRef Name="department_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_comment_account">
+          <End Type="squadnerdModel.account" Role="account" Multiplicity="0..1" />
+          <End Type="squadnerdModel.comment" Role="comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="account">
+              <PropertyRef Name="account_id" />
+            </Principal>
+            <Dependent Role="comment">
+              <PropertyRef Name="account_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_idea_account">
+          <End Type="squadnerdModel.account" Role="account" Multiplicity="0..1" />
+          <End Type="squadnerdModel.idea" Role="idea" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="account">
+              <PropertyRef Name="account_id" />
+            </Principal>
+            <Dependent Role="idea">
+              <PropertyRef Name="account_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_notification_account">
           <End Type="squadnerdModel.account" Role="account" Multiplicity="0..1" />
           <End Type="squadnerdModel.notification" Role="notification" Multiplicity="*" />
@@ -568,6 +498,42 @@
             </Principal>
             <Dependent Role="notification">
               <PropertyRef Name="account_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_reaction_account">
+          <End Type="squadnerdModel.account" Role="account" Multiplicity="0..1" />
+          <End Type="squadnerdModel.reaction" Role="reaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="account">
+              <PropertyRef Name="account_id" />
+            </Principal>
+            <Dependent Role="reaction">
+              <PropertyRef Name="account_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_idea_category">
+          <End Type="squadnerdModel.category" Role="category" Multiplicity="0..1" />
+          <End Type="squadnerdModel.idea" Role="idea" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="category">
+              <PropertyRef Name="category_id" />
+            </Principal>
+            <Dependent Role="idea">
+              <PropertyRef Name="category_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_comment_idea">
+          <End Type="squadnerdModel.idea" Role="idea" Multiplicity="0..1" />
+          <End Type="squadnerdModel.comment" Role="comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="idea">
+              <PropertyRef Name="idea_id" />
+            </Principal>
+            <Dependent Role="comment">
+              <PropertyRef Name="idea_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -583,6 +549,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_file_idea">
+          <End Type="squadnerdModel.idea" Role="idea" Multiplicity="0..1" />
+          <End Type="squadnerdModel.file" Role="file" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="idea">
+              <PropertyRef Name="idea_id" />
+            </Principal>
+            <Dependent Role="file">
+              <PropertyRef Name="idea_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_idea_topic">
+          <End Type="squadnerdModel.topic" Role="topic" Multiplicity="0..1" />
+          <End Type="squadnerdModel.idea" Role="idea" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="topic">
+              <PropertyRef Name="topic_id" />
+            </Principal>
+            <Dependent Role="idea">
+              <PropertyRef Name="topic_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_reaction_idea">
+          <End Type="squadnerdModel.idea" Role="idea" Multiplicity="0..1" />
+          <End Type="squadnerdModel.reaction" Role="reaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="idea">
+              <PropertyRef Name="idea_id" />
+            </Principal>
+            <Dependent Role="reaction">
+              <PropertyRef Name="idea_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -592,88 +594,68 @@
           <EntitySetMapping Name="account">
             <EntityTypeMapping TypeName="squadnerdModel.account">
               <MappingFragment StoreEntitySet="account">
-                <ScalarProperty Name="account_id" ColumnName="account_id" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="password" ColumnName="password" />
-                <ScalarProperty Name="state" ColumnName="state" />
-                <ScalarProperty Name="fname" ColumnName="fname" />
-                <ScalarProperty Name="gender" ColumnName="gender" />
-                <ScalarProperty Name="phone" ColumnName="phone" />
-                <ScalarProperty Name="position" ColumnName="position" />
-                <ScalarProperty Name="department_id" ColumnName="department_id" />
                 <ScalarProperty Name="img" ColumnName="img" />
+                <ScalarProperty Name="department_id" ColumnName="department_id" />
+                <ScalarProperty Name="position" ColumnName="position" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="fname" ColumnName="fname" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="account_id" ColumnName="account_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="category">
             <EntityTypeMapping TypeName="squadnerdModel.category">
               <MappingFragment StoreEntitySet="category">
-                <ScalarProperty Name="category_id" ColumnName="category_id" />
-                <ScalarProperty Name="category_name" ColumnName="category_name" />
                 <ScalarProperty Name="describe" ColumnName="describe" />
+                <ScalarProperty Name="category_name" ColumnName="category_name" />
+                <ScalarProperty Name="category_id" ColumnName="category_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="comment">
             <EntityTypeMapping TypeName="squadnerdModel.comment">
               <MappingFragment StoreEntitySet="comment">
-                <ScalarProperty Name="comment_id" ColumnName="comment_id" />
-                <ScalarProperty Name="comment_content" ColumnName="comment_content" />
-                <ScalarProperty Name="account_id" ColumnName="account_id" />
                 <ScalarProperty Name="idea_id" ColumnName="idea_id" />
+                <ScalarProperty Name="account_id" ColumnName="account_id" />
+                <ScalarProperty Name="comment_content" ColumnName="comment_content" />
+                <ScalarProperty Name="comment_id" ColumnName="comment_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="department">
             <EntityTypeMapping TypeName="squadnerdModel.department">
               <MappingFragment StoreEntitySet="department">
-                <ScalarProperty Name="department_id" ColumnName="department_id" />
                 <ScalarProperty Name="department_name" ColumnName="department_name" />
+                <ScalarProperty Name="department_id" ColumnName="department_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="file">
             <EntityTypeMapping TypeName="squadnerdModel.file">
               <MappingFragment StoreEntitySet="file">
-                <ScalarProperty Name="file_id" ColumnName="file_id" />
-                <ScalarProperty Name="idea_id" ColumnName="idea_id" />
                 <ScalarProperty Name="file_name" ColumnName="file_name" />
+                <ScalarProperty Name="idea_id" ColumnName="idea_id" />
+                <ScalarProperty Name="file_id" ColumnName="file_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="idea">
             <EntityTypeMapping TypeName="squadnerdModel.idea">
               <MappingFragment StoreEntitySet="idea">
-                <ScalarProperty Name="idea_id" ColumnName="idea_id" />
-                <ScalarProperty Name="topic_id" ColumnName="topic_id" />
-                <ScalarProperty Name="account_id" ColumnName="account_id" />
-                <ScalarProperty Name="category_id" ColumnName="category_id" />
-                <ScalarProperty Name="idea_content" ColumnName="idea_content" />
-                <ScalarProperty Name="thumbs_up" ColumnName="thumbs_up" />
-                <ScalarProperty Name="thumbs_down" ColumnName="thumbs_down" />
-                <ScalarProperty Name="views" ColumnName="views" />
+                <ScalarProperty Name="idea_title" ColumnName="idea_title" />
                 <ScalarProperty Name="idea_date" ColumnName="idea_date" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="reaction">
-            <EntityTypeMapping TypeName="squadnerdModel.reaction">
-              <MappingFragment StoreEntitySet="reaction">
-                <ScalarProperty Name="reaction_id" ColumnName="reaction_id" />
-                <ScalarProperty Name="idea_id" ColumnName="idea_id" />
-                <ScalarProperty Name="thumb" ColumnName="thumb" />
+                <ScalarProperty Name="views" ColumnName="views" />
+                <ScalarProperty Name="thumbs_down" ColumnName="thumbs_down" />
+                <ScalarProperty Name="thumbs_up" ColumnName="thumbs_up" />
+                <ScalarProperty Name="idea_content" ColumnName="idea_content" />
+                <ScalarProperty Name="category_id" ColumnName="category_id" />
                 <ScalarProperty Name="account_id" ColumnName="account_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="topic">
-            <EntityTypeMapping TypeName="squadnerdModel.topic">
-              <MappingFragment StoreEntitySet="topic">
                 <ScalarProperty Name="topic_id" ColumnName="topic_id" />
-                <ScalarProperty Name="topic_name" ColumnName="topic_name" />
-                <ScalarProperty Name="describe" ColumnName="describe" />
-                <ScalarProperty Name="closure_date" ColumnName="closure_date" />
-                <ScalarProperty Name="final_date" ColumnName="final_date" />
+                <ScalarProperty Name="idea_id" ColumnName="idea_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -684,6 +666,27 @@
                 <ScalarProperty Name="state" ColumnName="state" />
                 <ScalarProperty Name="comment_id" ColumnName="comment_id" />
                 <ScalarProperty Name="notification_id" ColumnName="notification_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="reaction">
+            <EntityTypeMapping TypeName="squadnerdModel.reaction">
+              <MappingFragment StoreEntitySet="reaction">
+                <ScalarProperty Name="account_id" ColumnName="account_id" />
+                <ScalarProperty Name="thumb" ColumnName="thumb" />
+                <ScalarProperty Name="idea_id" ColumnName="idea_id" />
+                <ScalarProperty Name="reaction_id" ColumnName="reaction_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="topic">
+            <EntityTypeMapping TypeName="squadnerdModel.topic">
+              <MappingFragment StoreEntitySet="topic">
+                <ScalarProperty Name="final_date" ColumnName="final_date" />
+                <ScalarProperty Name="closure_date" ColumnName="closure_date" />
+                <ScalarProperty Name="describe" ColumnName="describe" />
+                <ScalarProperty Name="topic_name" ColumnName="topic_name" />
+                <ScalarProperty Name="topic_id" ColumnName="topic_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

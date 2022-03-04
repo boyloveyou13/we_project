@@ -21,8 +21,8 @@ namespace WE_Project.Models
         {
             this.comment = new HashSet<comment>();
             this.idea = new HashSet<idea>();
-            this.reaction = new HashSet<reaction>();
             this.notification = new HashSet<notification>();
+            this.reaction = new HashSet<reaction>();
         }
     
         public int account_id { get; set; }
@@ -52,8 +52,9 @@ namespace WE_Project.Models
         public Nullable<int> state { get; set; }
 
         [DisplayName("Role")]
-        public string status {
-            get { return state == 2 ? "QA Manager" : state == 3 ? "QA coordinator " : state == 4 ? "Staff": "Admin"; }
+        public string status
+        {
+            get { return state == 2 ? "QA Manager" : state == 3 ? "QA coordinator " : state == 4 ? "Staff" : "Admin"; }
         }
 
         [DisplayName("Full name")]
@@ -75,15 +76,15 @@ namespace WE_Project.Models
 
         [DisplayName("Avatar")]
         public byte[] img { get; set; }
-    
+
         public virtual department department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<comment> comment { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<idea> idea { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<reaction> reaction { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<notification> notification { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<reaction> reaction { get; set; }
     }
 }

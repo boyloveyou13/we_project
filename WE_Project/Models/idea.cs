@@ -11,7 +11,9 @@ namespace WE_Project.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+
     public partial class idea
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -26,11 +28,26 @@ namespace WE_Project.Models
         public Nullable<int> topic_id { get; set; }
         public Nullable<int> account_id { get; set; }
         public Nullable<int> category_id { get; set; }
+        [DisplayName("Content")]
+        [Required(ErrorMessage = "Content is required.")]
+        [MaxLength(2000, ErrorMessage = "The number of characters has been exceeded, the limit is 100 characters")]
+        [DataType(DataType.MultilineText)]
         public string idea_content { get; set; }
+
+        [DisplayName("Like")]
         public Nullable<int> thumbs_up { get; set; }
+
+        [DisplayName("Dislike")]
         public Nullable<int> thumbs_down { get; set; }
         public Nullable<int> views { get; set; }
+
+        [DataType(DataType.Date)]
         public Nullable<System.DateTime> idea_date { get; set; }
+
+        [DisplayName("Title")]
+        [Required(ErrorMessage = "Title is required.")]
+        [MaxLength(100, ErrorMessage = "The number of characters has been exceeded, the limit is 100 characters")]
+        public string idea_title { get; set; }
     
         public virtual account account { get; set; }
         public virtual category category { get; set; }

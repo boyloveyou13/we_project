@@ -15,11 +15,15 @@ namespace WE_Project.Controllers
         private squadnerdEntities db = new squadnerdEntities();
 
         // GET: departments
-        public ActionResult Index()
+
+
+        public ActionResult Index(int? msg)
         {
+            if(msg == 1)
+                ViewBag.ErrorMessage = "This department contains account, which cannot be deleted";
             return View(db.department.ToList());
         }
-        
+
         // GET: departments/Create
         public ActionResult Create()
         {
@@ -80,7 +84,7 @@ namespace WE_Project.Controllers
                 var departmentDB = db.department.Where(t => t.department_name == department.department_name && t.department_id != department.department_id);
                 if (departmentDB.ToList().Count == 0)
                 {
-                    db.Entry(department).State = EntityState.Modified;
+                    db.Entry(department).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
@@ -108,26 +112,16 @@ namespace WE_Project.Controllers
                 {
                     db.department.Remove(department);
                     db.SaveChanges();
+                    return RedirectToAction("Index");
                 }
                 else
-                {
-                    ViewBag.ErrorMessage = "This category contains ideas, which cannot be deleted";
+                {                 
+                    return RedirectToAction("Index", new { msg = 1});
                 }
-                return RedirectToAction("Index");
             }
-            return View(department);
-        }
-
-        // POST: departments/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            department department = db.department.Find(id);
-            db.department.Remove(department);
-            db.SaveChanges();
             return RedirectToAction("Index");
         }
+        
 
         protected override void Dispose(bool disposing)
         {
