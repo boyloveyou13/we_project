@@ -66,6 +66,7 @@
           <Property Name="views" Type="int" />
           <Property Name="idea_date" Type="date" />
           <Property Name="idea_title" Type="nvarchar(max)" />
+          <Property Name="idea_trigger" Type="bit" />
         </EntityType>
         <EntityType Name="notification">
           <Key>
@@ -419,6 +420,7 @@
           <NavigationProperty Name="file" Relationship="squadnerdModel.FK_file_idea" FromRole="idea" ToRole="file" />
           <NavigationProperty Name="topic" Relationship="squadnerdModel.FK_idea_topic" FromRole="idea" ToRole="topic" />
           <NavigationProperty Name="reaction" Relationship="squadnerdModel.FK_reaction_idea" FromRole="idea" ToRole="reaction" />
+          <Property Name="idea_trigger" Type="Boolean" />
         </EntityType>
         <EntityType Name="notification">
           <Key>
@@ -646,6 +648,7 @@
           <EntitySetMapping Name="idea">
             <EntityTypeMapping TypeName="squadnerdModel.idea">
               <MappingFragment StoreEntitySet="idea">
+                <ScalarProperty Name="idea_trigger" ColumnName="idea_trigger" />
                 <ScalarProperty Name="idea_title" ColumnName="idea_title" />
                 <ScalarProperty Name="idea_date" ColumnName="idea_date" />
                 <ScalarProperty Name="views" ColumnName="views" />

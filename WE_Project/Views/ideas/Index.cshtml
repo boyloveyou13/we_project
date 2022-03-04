@@ -1,51 +1,90 @@
 ﻿@model IEnumerable<WE_Project.Models.idea>
 
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="col-lg-12">
-    <p>
-        @Html.ActionLink("Create idea", "Create", new { id = ViewBag.id })
-    </p>
     <div class="card mb-4">
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">Ideas</h6>
+            <h5 class="col-lg-10 m-0 font-weight-bold text-primary">@ViewBag.name</h5>
+            <div class="col-lg-2">
+                <a class="btn btn-primary" href="@Url.Action("Create", "ideas", new { id = ViewBag.id })">Post an idea</a>
+            </div>
         </div>
-        @Html.Action("Create", "ideas")
         <div class="col-lg-12">
-            @foreach (var item in Model)
-            {
-                <div class="form-group">
-                    <hr />
-                    <label style="font-weight: bold;font-size: 20px; margin-top: -10px;" for="exampleFormControlTextarea1">@Html.DisplayFor(modelItem => item.idea_title) <hr style="background-color: #fc544b; margin-top: 3px;" /></label>
-                    <div style="margin-bottom:15px; margin-top: -12px;">
-                        <span style="font-weight: bold;">Maman Ketoprak</span>
-                        <div>
-                            <p>Position, Department </p>
-                        </div>
-                    </div>
-                    <p style="  font-size: 14px;
-                                line-height: 24px;
-                                overflow: hidden;
-                                text-overflow: ellipsis;
-                                display: -webkit-box;
-                                -webkit-line-clamp: 2;
-                                -webkit-box-orient: vertical;
-                                margin-bottom: 5px;
-                                margin-top: -7px;">
-
-                        @Html.DisplayFor(modelItem => item.idea_content)
-                    </p>
-                    <div style="display: inline; font-size: 12px;">
-                        <span>@Html.DisplayFor(modelItem => item.idea_date) -</span>
-                        <span>@Html.DisplayFor(modelItem => item.views) View  </span>
-                        <span>@Html.DisplayFor(modelItem => item.thumbs_up) Like  </span>
-                        <span>@Html.DisplayFor(modelItem => item.thumbs_down) Dislike</span>
-                    </div>
+            <div class="card mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Idea List</h6>
                 </div>
-            }
+            
+                
+                <div class="table-responsive p-3">
+                    <table class="table align-items-center table-flush table-hover" id="dataTableHover">
+                        <thead>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <a style="text-decoration:none; color:inherit" href="@Url.Action("Details", "ideas", new { id = item.idea_id})">
+                                            <div class="form-group">
+                                                <hr />
+                                                <label style="font-weight: bold;font-size: 20px; margin-top: -10px;" for="exampleFormControlTextarea1">@Html.DisplayFor(modelItem => item.idea_title) <hr style="background-color: #fc544b; margin-top: 3px;" /></label>
+                                                <div style="margin-bottom:15px; margin-top: -12px;">
+                                                    @if (!item.idea_trigger)
+                                                    {
+                                                        <span style="font-weight: bold;">@Html.DisplayFor(modelItem => item.account.fname)</span>
+                                                        <div>
+                                                            <p style="font-size: 12px;">@Html.DisplayFor(modelItem => item.account.position), @Html.DisplayFor(modelItem => item.account.department.department_name) </p>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span style="font-weight: bold;">Anonymous</span>
+                                                    }
+
+                                                </div>
+                                                <p style="  font-size: 14px;
+                                                                            line-height: 24px;
+                                                                            overflow: hidden;
+                                                                            text-overflow: ellipsis;
+                                                                            display: -webkit-box;
+                                                                            -webkit-line-clamp: 2;
+                                                                            -webkit-box-orient: vertical;
+                                                                            margin-bottom: 5px;
+                                                                            margin-top: -7px;">
+
+                                                    @Html.DisplayFor(modelItem => item.idea_content)
+                                                </p>
+                                                <div style="display: inline; font-size: 12px;">
+                                                    <span>@Html.DisplayFor(modelItem => item.idea_date) -</span>
+                                                    <span>@Html.DisplayFor(modelItem => item.views) View  </span>
+                                                    <span>@Html.DisplayFor(modelItem => item.thumbs_up) Like  </span>
+                                                    <span>@Html.DisplayFor(modelItem => item.thumbs_down) Dislike</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("Delete", "ideas", new { id = item.idea_id})" onclick="return confirm('Are you sure to delete this idea?')">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            </div>
         </div>
     </div>
-</div>

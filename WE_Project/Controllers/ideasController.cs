@@ -24,13 +24,15 @@ namespace WE_Project.Controllers
             {
                 ViewBag.id = id;               
                 var idea = db.idea.Include(i => i.account).Include(i => i.category).Include(i => i.topic).Where(i => i.topic_id == id);
+                ViewBag.name = idea.First().topic.topic_name;
                 return View(idea.ToList());
             }
             
         }
 
-        // GET: ideas/Details/5
-        public ActionResult Details(int? id)
+
+            // GET: ideas/Details/5
+            public ActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -51,7 +53,7 @@ namespace WE_Project.Controllers
             ViewBag.account_id = new SelectList(db.account, "account_id", "email");
             ViewBag.category_id = new SelectList(db.category, "category_id", "category_name");
             ViewBag.topic_id = new SelectList(db.topic, "topic_id", "topic_name");
-            return PartialView();
+            return View();
         }
 
         // POST: ideas/Create
@@ -59,7 +61,7 @@ namespace WE_Project.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "idea_id,topic_id,account_id,category_id,idea_content,thumbs_up,thumbs_down,views,idea_date,idea_title")] idea idea)
+        public ActionResult Create([Bind(Include = "idea_id,topic_id,account_id,category_id,idea_content,thumbs_up,thumbs_down,views,idea_date,idea_title,idea_trigger")] idea idea)
         {
             idea.thumbs_up = 0;
             idea.thumbs_down = 0;
@@ -69,7 +71,8 @@ namespace WE_Project.Controllers
             {
                 db.idea.Add(idea);
                 db.SaveChanges();
-                return RedirectToAction("Index",new { id = idea.topic_id });
+                return RedirectToAction("Details", new { id = idea.idea_id });
+
             }
 
             ViewBag.account_id = new SelectList(db.account, "account_id", "email", idea.account_id);
@@ -123,23 +126,17 @@ namespace WE_Project.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             idea idea = db.idea.Find(id);
-            if (idea == null)
+
+            if (idea != null)
             {
-                return HttpNotFound();
+                ViewBag.id = idea.topic_id;
+                db.idea.Remove(idea);
+                db.SaveChanges();
+                return RedirectToAction("Index", "ideas", new { id = ViewBag.id });
             }
             return View(idea);
         }
 
-        // POST: ideas/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            idea idea = db.idea.Find(id);
-            db.idea.Remove(idea);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
 
         protected override void Dispose(bool disposing)
         {

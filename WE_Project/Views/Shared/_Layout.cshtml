@@ -347,6 +347,21 @@
         $(document).ready(function () {
             $('#dataTableHover').DataTable(); // ID From dataTable with Hover
         });
+
+        $(function () {
+            $('#submits').attr('disabled', true);
+            $('#exampleInputEmail1, #exampleFormControlTextarea1, #customCheck2 ').change(function () {
+                if ($('#exampleInputEmail1').val() != '' && $('#exampleFormControlTextarea1').val() != '' && $('#customCheck2').is(':checked')) {
+                    $('#submits').attr('disabled', false);
+                } else {
+                    $('#submits').attr('disabled', true);
+                }
+            });
+        });
+
+
+
+
     </script>
     <script>
         function UserCheck() {

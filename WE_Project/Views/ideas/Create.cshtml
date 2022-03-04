@@ -2,88 +2,103 @@
 
 @{
     ViewBag.Title = "Create";
-    //Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 @using (Html.BeginForm())
 {
+
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.ValidationMessageFor(model => model.idea_id, "", new { @class = "text-danger" })
-    <div class="card-body">
-        <form>
-            <div class="form-group" >
-                <lable>Category</lable>
-                @Html.TextBoxFor(model => model.topic_id, new { @Value = ViewBag.idTopic })
-                @Html.ValidationMessageFor(model => model.topic_id, "", new { @class = "text-danger" })
-            </div>
-
-            <!-- Title -->
-            <div class="form-group">
-                <label for="exampleInputEmail1"> @Html.DisplayNameFor(model => model.idea_title)</label>
-                @Html.EditorFor(model => model.idea_title, new { htmlAttributes = new { @class = "form-control", @id = "exampleInputEmail1", @placeholder = "Enter Title" } })
-                @Html.ValidationMessageFor(model => model.idea_content, "", new { @class = "text-danger" })
-            </div>
-            <!-- Content -->
-            <div class="form-group">
-                <label for="exampleFormControlTextarea1">Content</label>
-                @Html.EditorFor(model => model.idea_content, new { htmlAttributes = new { @class = "form-control", @id = "exampleFormControlTextarea1" } })
-                @Html.ValidationMessageFor(model => model.idea_content, "", new { @class = "text-danger" })
-            </div>
-            <!-- Select Box -->
-            <div class="form-group">
-                <lable>Category</lable>
-                @Html.DropDownList("category_id", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.category_id, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group" hidden>
-                <lable>account</lable>
-                @Html.DropDownList("account_id", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.account_id, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group" hidden>
-                <label for="exampleFormControlTextarea1">date</label>
-                @Html.EditorFor(model => model.idea_date, new { htmlAttributes = new { @class = "form-control", @id = "exampleFormControlTextarea1" } })
-                @Html.ValidationMessageFor(model => model.idea_date, "", new { @class = "text-danger" })
-            </div>
-
-            <div class="form-group" hidden>
-                <label for="exampleFormControlTextarea1">down</label>
-                @Html.EditorFor(model => model.thumbs_down, new { htmlAttributes = new { @class = "form-control", @id = "exampleFormControlTextarea1" } })
-                @Html.ValidationMessageFor(model => model.thumbs_down, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group" hidden>
-                <label for="exampleFormControlTextarea1">up</label>
-                @Html.EditorFor(model => model.thumbs_up, new { htmlAttributes = new { @class = "form-control", @id = "exampleFormControlTextarea1" } })
-                @Html.ValidationMessageFor(model => model.thumbs_up, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group" hidden>
-                <label for="exampleFormControlTextarea1">views</label>
-                @Html.EditorFor(model => model.views, new { htmlAttributes = new { @class = "form-control", @id = "exampleFormControlTextarea1" } })
-                @Html.ValidationMessageFor(model => model.views, "", new { @class = "text-danger" })
-            </div>
-            <!-- Choose file -->
-            <div class="form-group">
-                <input type="file" id="files" name="files">
-                @Html.ValidationMessageFor(model => model.file, "", new { @class = "text-danger" })
-                @*<div class="custom-file">
-                <input type="file" class="custom-file-input" id="avatar" name="avatar">
-                <label class="custom-file-label" for="customFile">Choose file</label>
-            </div>*@
-            </div>
-            <!-- Check box -->
-            <div class="form-group">
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="customCheck2">
-                    <label class="custom-control-label" for="customCheck2">Agree to Terms and Conditions</label>
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-6">
+            <!-- Form Basic -->
+            <div class="card mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Create new account</h6>
+                    @if (ViewBag.ErrorMessage != null && ViewBag.ErrorMessage != "")
+                    {
+                        <div class="text-danger">@ViewBag.ErrorMessage</div>
+                    }
                 </div>
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="customCheck3">
-                    <label class="custom-control-label" for="customCheck3">Anonymous</label>
+                <div class="card-body">
+                    <form>
+                        <div class="form-group">
+                            <lable>Category</lable>
+                            @Html.TextBoxFor(model => model.topic_id, new { @Value = ViewBag.idTopic })
+                            @Html.ValidationMessageFor(model => model.topic_id, "", new { @class = "text-danger" })
+                        </div>
+
+                        <!-- Title -->
+                        <div class="form-group">
+                            <label for="exampleInputEmail1"> @Html.DisplayNameFor(model => model.idea_title)</label>
+                            @Html.EditorFor(model => model.idea_title, new { htmlAttributes = new { @class = "form-control", @id = "exampleInputEmail1", @placeholder = "Enter Title" } })
+                            @Html.ValidationMessageFor(model => model.idea_content, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.CheckBoxFor(model => model.idea_trigger)
+                            <label for="customCheck3">Anonymous</label>
+                        </div>
+                        <!-- Content -->
+
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1">Content</label>
+                            @Html.EditorFor(model => model.idea_content, new { htmlAttributes = new { @class = "form-control", @id = "exampleFormControlTextarea1", @style = "height: 300px; resize:none" } })
+                            @Html.ValidationMessageFor(model => model.idea_content, "", new { @class = "text-danger" })
+                        </div>
+                        <!-- Select Box -->
+                        <div class="form-group">
+                            <lable>Category</lable>
+                            @Html.DropDownList("category_id", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.category_id, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group" hidden>
+                            <lable>account</lable>
+                            @Html.DropDownList("account_id", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.account_id, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group" hidden>
+                            <label for="exampleFormControlTextarea1">date</label>
+                            @Html.EditorFor(model => model.idea_date, new { htmlAttributes = new { @class = "form-control", @id = "exampleFormControlTextarea1" } })
+                            @Html.ValidationMessageFor(model => model.idea_date, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group" hidden>
+                            <label for="exampleFormControlTextarea1">down</label>
+                            @Html.EditorFor(model => model.thumbs_down, new { htmlAttributes = new { @class = "form-control", @id = "exampleFormControlTextarea1" } })
+                            @Html.ValidationMessageFor(model => model.thumbs_down, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group" hidden>
+                            <label for="exampleFormControlTextarea1">up</label>
+                            @Html.EditorFor(model => model.thumbs_up, new { htmlAttributes = new { @class = "form-control", @id = "exampleFormControlTextarea1" } })
+                            @Html.ValidationMessageFor(model => model.thumbs_up, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group" hidden>
+                            <label for="exampleFormControlTextarea1">views</label>
+                            @Html.EditorFor(model => model.views, new { htmlAttributes = new { @class = "form-control", @id = "exampleFormControlTextarea1" } })
+                            @Html.ValidationMessageFor(model => model.views, "", new { @class = "text-danger" })
+                        </div>
+                        <!-- Choose file -->
+                        <div class="form-group">
+                            <input type="file" id="files" name="files" multiple>
+                            @Html.ValidationMessageFor(model => model.file, "", new { @class = "text-danger" })
+
+                        </div>
+                        <!-- Check box -->
+                        <div class="form-group">
+                            <input type="checkbox" id="customCheck2">
+                            <label for="customCheck2">Agree to Terms and Conditions</label>
+                        </div>
+                        <!-- Submit -->
+                        <button type="submit" id="submits" class="btn btn-primary">Submit</button>
+                    </form>
                 </div>
             </div>
-            <!-- Submit -->
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+        </div>
     </div>
 }
+
+
+

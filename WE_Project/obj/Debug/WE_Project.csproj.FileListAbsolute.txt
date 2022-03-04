@@ -365,3 +365,39 @@ C:\Users\lenovo\OneDrive\Máy tính\Web\Git\we_project\WE_Project\obj\Debug\WE_P
 C:\Users\lenovo\OneDrive\Máy tính\Web\Git\we_project\WE_Project\obj\Debug\WE_Project.csproj.CopyComplete
 C:\Users\lenovo\OneDrive\Máy tính\Web\Git\we_project\WE_Project\obj\Debug\WE_Project.dll
 C:\Users\lenovo\OneDrive\Máy tính\Web\Git\we_project\WE_Project\obj\Debug\WE_Project.pdb
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.AspNet.Scaffolding.EntityFramework.12.0.dll
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\EnvDTE.dll
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\EnvDTE80.dll
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.AspNet.Scaffolding.12.0.dll
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\VSLangProj.dll
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\stdole.dll
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.VisualStudio.Shell.Interop.dll
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.VisualStudio.Shell.Design.dll
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.VisualStudio.TextManager.Interop.dll
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.VisualStudio.TextTemplating.Interfaces.11.0.dll
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.VisualStudio.TextTemplating.Interfaces.10.0.dll
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.VisualStudio.Shell.Framework.dll
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.VisualStudio.ComponentModelHost.dll
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.VisualStudio.Shell.15.0.dll
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.VisualStudio.OLE.Interop.dll
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.VisualStudio.Shell.Interop.10.0.dll
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.VisualStudio.Shell.Interop.8.0.dll
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.VisualStudio.Telemetry.dll
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.VisualStudio.GraphModel.dll
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.VisualStudio.Shell.Interop.9.0.dll
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.Build.Framework.dll
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.VisualStudio.VSHelp.dll
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.VisualStudio.RpcContracts.dll
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\System.Collections.Immutable.dll
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.VisualStudio.TextManager.Interop.8.0.dll
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.VisualStudio.ProjectAggregator.dll
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.VisualStudio.RemoteControl.dll
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.VisualStudio.Utilities.Internal.dll
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\System.Memory.dll
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\System.IO.Pipelines.dll
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.Bcl.AsyncInterfaces.dll
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.MSXML.dll
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\System.Buffers.dll
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.AspNet.Scaffolding.EntityFramework.12.0.xml
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.AspNet.Scaffolding.12.0.xml
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.VisualStudio.GraphModel.xml

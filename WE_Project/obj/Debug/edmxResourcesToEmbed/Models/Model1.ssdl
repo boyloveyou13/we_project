@@ -61,6 +61,7 @@
     <Property Name="views" Type="int" />
     <Property Name="idea_date" Type="date" />
     <Property Name="idea_title" Type="nvarchar(max)" />
+    <Property Name="idea_trigger" Type="bit" />
   </EntityType>
   <EntityType Name="notification">
     <Key>

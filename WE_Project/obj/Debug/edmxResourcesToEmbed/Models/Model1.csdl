@@ -133,6 +133,7 @@
     <NavigationProperty Name="file" Relationship="squadnerdModel.FK_file_idea" FromRole="idea" ToRole="file" />
     <NavigationProperty Name="topic" Relationship="squadnerdModel.FK_idea_topic" FromRole="idea" ToRole="topic" />
     <NavigationProperty Name="reaction" Relationship="squadnerdModel.FK_reaction_idea" FromRole="idea" ToRole="reaction" />
+    <Property Name="idea_trigger" Type="Boolean" />
   </EntityType>
   <EntityType Name="notification">
     <Key>
