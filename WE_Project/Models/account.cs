@@ -24,7 +24,7 @@ namespace WE_Project.Models
             this.notification = new HashSet<notification>();
             this.reaction = new HashSet<reaction>();
         }
-
+    
         public int account_id { get; set; }
         [DisplayName("E-mail")]
         [Required(ErrorMessage = "E-mail is required.")]
@@ -76,7 +76,8 @@ namespace WE_Project.Models
 
         [DisplayName("Avatar")]
         public byte[] img { get; set; }
-
+        public Nullable<bool> isActive { get; set; }
+    
         public virtual department department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<comment> comment { get; set; }

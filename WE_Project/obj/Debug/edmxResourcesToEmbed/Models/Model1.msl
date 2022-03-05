@@ -4,6 +4,7 @@
     <EntitySetMapping Name="account">
       <EntityTypeMapping TypeName="squadnerdModel.account">
         <MappingFragment StoreEntitySet="account">
+          <ScalarProperty Name="isActive" ColumnName="isActive" />
           <ScalarProperty Name="img" ColumnName="img" />
           <ScalarProperty Name="department_id" ColumnName="department_id" />
           <ScalarProperty Name="position" ColumnName="position" />
@@ -29,6 +30,8 @@
     <EntitySetMapping Name="comment">
       <EntityTypeMapping TypeName="squadnerdModel.comment">
         <MappingFragment StoreEntitySet="comment">
+          <ScalarProperty Name="comment_status" ColumnName="comment_status" />
+          <ScalarProperty Name="comment_date" ColumnName="comment_date" />
           <ScalarProperty Name="idea_id" ColumnName="idea_id" />
           <ScalarProperty Name="account_id" ColumnName="account_id" />
           <ScalarProperty Name="comment_content" ColumnName="comment_content" />
@@ -48,6 +51,8 @@
       <EntityTypeMapping TypeName="squadnerdModel.file">
         <MappingFragment StoreEntitySet="file">
           <ScalarProperty Name="file_name" ColumnName="file_name" />
+          <ScalarProperty Name="file_type" ColumnName="file_type" />
+          <ScalarProperty Name="file_content" ColumnName="file_content" />
           <ScalarProperty Name="idea_id" ColumnName="idea_id" />
           <ScalarProperty Name="file_id" ColumnName="file_id" />
         </MappingFragment>

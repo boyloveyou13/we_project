@@ -360,6 +360,8 @@
         });
 
 
+        $('#thumbsupButton').click(function (e) { e.preventDefault(); $('#thumbsup').val(parseInt($('#thumbsup').val())+1); return false; })
+        $('#thumbsdownButton').click(function (e) { e.preventDefault(); $('#thumbsdown').val(Math.abs($('#thumbsdown').val() - 1)); return false; })
 
 
     </script>

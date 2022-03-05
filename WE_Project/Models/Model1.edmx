@@ -19,6 +19,7 @@
           <Property Name="position" Type="nvarchar" MaxLength="50" />
           <Property Name="department_id" Type="int" />
           <Property Name="img" Type="varbinary(max)" />
+          <Property Name="isActive" Type="bit" />
         </EntityType>
         <EntityType Name="category">
           <Key>
@@ -36,6 +37,8 @@
           <Property Name="comment_content" Type="nvarchar(max)" />
           <Property Name="account_id" Type="int" />
           <Property Name="idea_id" Type="int" />
+          <Property Name="comment_date" Type="date" />
+          <Property Name="comment_status" Type="bit" />
         </EntityType>
         <EntityType Name="department">
           <Key>
@@ -50,7 +53,9 @@
           </Key>
           <Property Name="file_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="idea_id" Type="int" />
-          <Property Name="file_name" Type="varbinary(max)" />
+          <Property Name="file_content" Type="varbinary(max)" />
+          <Property Name="file_type" Type="nvarchar" MaxLength="50" />
+          <Property Name="file_name" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="idea">
           <Key>
@@ -356,6 +361,7 @@
           <Property Name="position" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="department_id" Type="Int32" />
           <Property Name="img" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="isActive" Type="Boolean" />
           <NavigationProperty Name="department" Relationship="squadnerdModel.FK_account_department" FromRole="account" ToRole="department" />
           <NavigationProperty Name="comment" Relationship="squadnerdModel.FK_comment_account" FromRole="account" ToRole="comment" />
           <NavigationProperty Name="idea" Relationship="squadnerdModel.FK_idea_account" FromRole="account" ToRole="idea" />
@@ -379,6 +385,8 @@
           <Property Name="comment_content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="account_id" Type="Int32" />
           <Property Name="idea_id" Type="Int32" />
+          <Property Name="comment_date" Type="DateTime" Precision="0" />
+          <Property Name="comment_status" Type="Boolean" />
           <NavigationProperty Name="account" Relationship="squadnerdModel.FK_comment_account" FromRole="comment" ToRole="account" />
           <NavigationProperty Name="idea" Relationship="squadnerdModel.FK_comment_idea" FromRole="comment" ToRole="idea" />
           <NavigationProperty Name="notification" Relationship="squadnerdModel.FK_notification_comment" FromRole="comment" ToRole="notification" />
@@ -397,7 +405,9 @@
           </Key>
           <Property Name="file_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="idea_id" Type="Int32" />
-          <Property Name="file_name" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="file_content" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="file_type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="file_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="idea" Relationship="squadnerdModel.FK_file_idea" FromRole="file" ToRole="idea" />
         </EntityType>
         <EntityType Name="idea">
@@ -414,13 +424,13 @@
           <Property Name="views" Type="Int32" />
           <Property Name="idea_date" Type="DateTime" Precision="0" />
           <Property Name="idea_title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="idea_trigger" Type="Boolean" />
           <NavigationProperty Name="account" Relationship="squadnerdModel.FK_idea_account" FromRole="idea" ToRole="account" />
           <NavigationProperty Name="category" Relationship="squadnerdModel.FK_idea_category" FromRole="idea" ToRole="category" />
           <NavigationProperty Name="comment" Relationship="squadnerdModel.FK_comment_idea" FromRole="idea" ToRole="comment" />
           <NavigationProperty Name="file" Relationship="squadnerdModel.FK_file_idea" FromRole="idea" ToRole="file" />
           <NavigationProperty Name="topic" Relationship="squadnerdModel.FK_idea_topic" FromRole="idea" ToRole="topic" />
           <NavigationProperty Name="reaction" Relationship="squadnerdModel.FK_reaction_idea" FromRole="idea" ToRole="reaction" />
-          <Property Name="idea_trigger" Type="Boolean" />
         </EntityType>
         <EntityType Name="notification">
           <Key>
@@ -587,7 +597,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -596,6 +606,7 @@
           <EntitySetMapping Name="account">
             <EntityTypeMapping TypeName="squadnerdModel.account">
               <MappingFragment StoreEntitySet="account">
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
                 <ScalarProperty Name="img" ColumnName="img" />
                 <ScalarProperty Name="department_id" ColumnName="department_id" />
                 <ScalarProperty Name="position" ColumnName="position" />
@@ -621,6 +632,8 @@
           <EntitySetMapping Name="comment">
             <EntityTypeMapping TypeName="squadnerdModel.comment">
               <MappingFragment StoreEntitySet="comment">
+                <ScalarProperty Name="comment_status" ColumnName="comment_status" />
+                <ScalarProperty Name="comment_date" ColumnName="comment_date" />
                 <ScalarProperty Name="idea_id" ColumnName="idea_id" />
                 <ScalarProperty Name="account_id" ColumnName="account_id" />
                 <ScalarProperty Name="comment_content" ColumnName="comment_content" />
@@ -640,6 +653,8 @@
             <EntityTypeMapping TypeName="squadnerdModel.file">
               <MappingFragment StoreEntitySet="file">
                 <ScalarProperty Name="file_name" ColumnName="file_name" />
+                <ScalarProperty Name="file_type" ColumnName="file_type" />
+                <ScalarProperty Name="file_content" ColumnName="file_content" />
                 <ScalarProperty Name="idea_id" ColumnName="idea_id" />
                 <ScalarProperty Name="file_id" ColumnName="file_id" />
               </MappingFragment>

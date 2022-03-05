@@ -16,7 +16,9 @@ namespace WE_Project.Models
     {
         public int file_id { get; set; }
         public Nullable<int> idea_id { get; set; }
-        public byte[] file_name { get; set; }
+        public byte[] file_content { get; set; }
+        public string file_type { get; set; }
+        public string file_name { get; set; }
     
         public virtual idea idea { get; set; }
     }

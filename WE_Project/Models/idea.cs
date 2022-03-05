@@ -49,8 +49,8 @@ namespace WE_Project.Models
         [MaxLength(100, ErrorMessage = "The number of characters has been exceeded, the limit is 100 characters")]
         public string idea_title { get; set; }
 
-        public  bool idea_trigger { get; set; } = false;
-    
+        public bool idea_trigger { get; set; } = false;
+
         public virtual account account { get; set; }
         public virtual category category { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

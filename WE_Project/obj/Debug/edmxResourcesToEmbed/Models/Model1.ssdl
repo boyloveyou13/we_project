@@ -14,6 +14,7 @@
     <Property Name="position" Type="nvarchar" MaxLength="50" />
     <Property Name="department_id" Type="int" />
     <Property Name="img" Type="varbinary(max)" />
+    <Property Name="isActive" Type="bit" />
   </EntityType>
   <EntityType Name="category">
     <Key>
@@ -31,6 +32,8 @@
     <Property Name="comment_content" Type="nvarchar(max)" />
     <Property Name="account_id" Type="int" />
     <Property Name="idea_id" Type="int" />
+    <Property Name="comment_date" Type="date" />
+    <Property Name="comment_status" Type="bit" />
   </EntityType>
   <EntityType Name="department">
     <Key>
@@ -45,7 +48,9 @@
     </Key>
     <Property Name="file_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="idea_id" Type="int" />
-    <Property Name="file_name" Type="varbinary(max)" />
+    <Property Name="file_content" Type="varbinary(max)" />
+    <Property Name="file_type" Type="nvarchar" MaxLength="50" />
+    <Property Name="file_name" Type="nvarchar(max)" />
   </EntityType>
   <EntityType Name="idea">
     <Key>

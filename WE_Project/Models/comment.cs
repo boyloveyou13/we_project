@@ -24,6 +24,8 @@ namespace WE_Project.Models
         public string comment_content { get; set; }
         public Nullable<int> account_id { get; set; }
         public Nullable<int> idea_id { get; set; }
+        public Nullable<System.DateTime> comment_date { get; set; }
+        public Nullable<bool> comment_status { get; set; }
     
         public virtual account account { get; set; }
         public virtual idea idea { get; set; }

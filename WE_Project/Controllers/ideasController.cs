@@ -82,21 +82,21 @@ namespace WE_Project.Controllers
         }
 
         // GET: ideas/Edit/5
-        public ActionResult Edit(int? id)
+        public PartialViewResult Edit(int? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                
             }
             idea idea = db.idea.Find(id);
             if (idea == null)
             {
-                return HttpNotFound();
+                
             }
             ViewBag.account_id = new SelectList(db.account, "account_id", "email", idea.account_id);
             ViewBag.category_id = new SelectList(db.category, "category_id", "category_name", idea.category_id);
             ViewBag.topic_id = new SelectList(db.topic, "topic_id", "topic_name", idea.topic_id);
-            return View(idea);
+            return PartialView(idea);
         }
 
         // POST: ideas/Edit/5

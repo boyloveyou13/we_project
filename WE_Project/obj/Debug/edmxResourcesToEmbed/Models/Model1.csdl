@@ -69,6 +69,7 @@
     <Property Name="position" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="department_id" Type="Int32" />
     <Property Name="img" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="isActive" Type="Boolean" />
     <NavigationProperty Name="department" Relationship="squadnerdModel.FK_account_department" FromRole="account" ToRole="department" />
     <NavigationProperty Name="comment" Relationship="squadnerdModel.FK_comment_account" FromRole="account" ToRole="comment" />
     <NavigationProperty Name="idea" Relationship="squadnerdModel.FK_idea_account" FromRole="account" ToRole="idea" />
@@ -92,6 +93,8 @@
     <Property Name="comment_content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="account_id" Type="Int32" />
     <Property Name="idea_id" Type="Int32" />
+    <Property Name="comment_date" Type="DateTime" Precision="0" />
+    <Property Name="comment_status" Type="Boolean" />
     <NavigationProperty Name="account" Relationship="squadnerdModel.FK_comment_account" FromRole="comment" ToRole="account" />
     <NavigationProperty Name="idea" Relationship="squadnerdModel.FK_comment_idea" FromRole="comment" ToRole="idea" />
     <NavigationProperty Name="notification" Relationship="squadnerdModel.FK_notification_comment" FromRole="comment" ToRole="notification" />
@@ -110,7 +113,9 @@
     </Key>
     <Property Name="file_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="idea_id" Type="Int32" />
-    <Property Name="file_name" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="file_content" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="file_type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="file_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="idea" Relationship="squadnerdModel.FK_file_idea" FromRole="file" ToRole="idea" />
   </EntityType>
   <EntityType Name="idea">
@@ -127,13 +132,13 @@
     <Property Name="views" Type="Int32" />
     <Property Name="idea_date" Type="DateTime" Precision="0" />
     <Property Name="idea_title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="idea_trigger" Type="Boolean" />
     <NavigationProperty Name="account" Relationship="squadnerdModel.FK_idea_account" FromRole="idea" ToRole="account" />
     <NavigationProperty Name="category" Relationship="squadnerdModel.FK_idea_category" FromRole="idea" ToRole="category" />
     <NavigationProperty Name="comment" Relationship="squadnerdModel.FK_comment_idea" FromRole="idea" ToRole="comment" />
     <NavigationProperty Name="file" Relationship="squadnerdModel.FK_file_idea" FromRole="idea" ToRole="file" />
     <NavigationProperty Name="topic" Relationship="squadnerdModel.FK_idea_topic" FromRole="idea" ToRole="topic" />
     <NavigationProperty Name="reaction" Relationship="squadnerdModel.FK_reaction_idea" FromRole="idea" ToRole="reaction" />
-    <Property Name="idea_trigger" Type="Boolean" />
   </EntityType>
   <EntityType Name="notification">
     <Key>

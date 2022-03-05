@@ -19,7 +19,21 @@ namespace WE_Project.Controllers
         {
             if (msg == 1)
                 ViewBag.ErrorMessage = "This topic contains idea, which cannot be deleted";
-            return View(db.topic.ToList());
+            var topic = db.topic.ToList();
+            foreach(var item in topic)
+            {
+                item.idea_count = db.idea.Where(t => t.topic_id == item.topic_id).Count();
+                if(item.closure_date != null && item.final_date != null)
+                {
+                    item.status = DateTime.Compare((DateTime)item.closure_date, DateTime.Now.Date) >= 0 ? "Opening" :
+                  DateTime.Compare((DateTime)item.final_date, DateTime.Now.Date) >= 0 ? "Closing" : "Disable";
+                }else
+                {
+                    item.status = "Opening";
+                }
+              
+            }
+            return View(topic);
         }
         public ActionResult SelectTopic()
         {

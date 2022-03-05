@@ -21,7 +21,7 @@ namespace WE_Project.Models
         {
             this.idea = new HashSet<idea>();
         }
-
+    
         public int category_id { get; set; }
         [DisplayName("Category Name")]
         [Required(ErrorMessage = "Category name is required.")]

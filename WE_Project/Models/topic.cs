@@ -32,6 +32,10 @@ namespace WE_Project.Models
         [MaxLength(200, ErrorMessage = "The number of characters has been exceeded, the limit is 200 characters")]
         public string describe { get; set; }
 
+        public string status { get; set; }
+
+        [DisplayName("Number of Ideas")]
+        public int idea_count { get; set; }
         [DisplayName("Closure Date")]
         [DataType(DataType.Date)]
         public Nullable<System.DateTime> closure_date { get; set; }
