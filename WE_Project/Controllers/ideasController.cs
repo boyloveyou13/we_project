@@ -49,11 +49,20 @@ namespace WE_Project.Controllers
         // GET: ideas/Create
         public ActionResult Create(int? id)
         {
-            ViewBag.idTopic = id;
-            ViewBag.account_id = new SelectList(db.account, "account_id", "email");
-            ViewBag.category_id = new SelectList(db.category, "category_id", "category_name");
-            ViewBag.topic_id = new SelectList(db.topic, "topic_id", "topic_name");
-            return View();
+            var topic = db.topic.Where(t => t.topic_id == id).ToList();
+            if(topic.Count >0)
+            {
+                if (topic.FirstOrDefault().closure_date == null || DateTime.Compare(DateTime.Now.Date, (DateTime)topic.FirstOrDefault().closure_date) <= 0)
+                {
+                    ViewBag.idTopic = id;
+                    ViewBag.account_id = new SelectList(db.account, "account_id", "email");
+                    ViewBag.category_id = new SelectList(db.category, "category_id", "category_name");
+                    ViewBag.topic_id = new SelectList(db.topic, "topic_id", "topic_name");
+                    return View();
+                }
+            }
+                return RedirectToAction("Index",new { id = id });
+
         }
 
         // POST: ideas/Create

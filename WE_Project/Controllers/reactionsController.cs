@@ -98,6 +98,8 @@ namespace WE_Project.Controllers
             return View(reaction);
         }
 
+
+
         // GET: reactions/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -131,6 +133,45 @@ namespace WE_Project.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+
+
+        [HttpPost]
+        public ActionResult AddThumb(int ID, int Status)
+        {
+            reaction reaction = new reaction();
+            reaction.idea_id = ID;
+            reaction.thumb = Status;
+            reaction.account_id = Convert.ToInt32(Session["id"]);
+            db.reaction.Add(reaction);
+            db.SaveChanges();
+            return Json(true);
+        }
+
+        [HttpPost]
+        public ActionResult EditThumb(int ID, int Status)
+        {
+            int account_id = Convert.ToInt32(Session["id"]);
+            var list = db.reaction.Where(t => t.idea_id == ID && t.account_id == account_id).ToList();
+            reaction reaction = list.First();
+            reaction.thumb = Status;
+            db.Entry(reaction).State = System.Data.Entity.EntityState.Modified;
+            db.SaveChanges();
+            return Json(true);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteThumb(int ID)
+        {
+            int account_id = Convert.ToInt32(Session["id"]);
+            var list = db.reaction.Where(t => t.idea_id == ID && t.account_id == account_id).ToList();
+            foreach(var l in list)
+            {
+                db.reaction.Remove(l);
+            }
+            db.SaveChanges();
+            return Json(true);
         }
     }
 }

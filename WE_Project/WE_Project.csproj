@@ -154,6 +154,7 @@
     <Compile Include="Controllers\filesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ideasController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\notificationsController.cs" />
     <Compile Include="Controllers\reactionsController.cs" />
     <Compile Include="Controllers\topicsController.cs" />
@@ -2404,6 +2405,7 @@
     <Content Include="Views\accounts\ChangePassword.cshtml" />
     <Content Include="Views\categories\CategoryMenu.cshtml" />
     <Content Include="Views\topics\SelectTopic.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

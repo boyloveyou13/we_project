@@ -24,7 +24,7 @@
                 </div>
                 <div class="card-body">
                     <form>
-                        <div class="form-group">
+                        <div class="form-group" hidden>
                             <lable>Category</lable>
                             @Html.TextBoxFor(model => model.topic_id, new { @Value = ViewBag.idTopic })
                             @Html.ValidationMessageFor(model => model.topic_id, "", new { @class = "text-danger" })
@@ -45,11 +45,11 @@
 
                         <div class="form-group">
                             <label for="exampleFormControlTextarea1">Content</label>
-                            @Html.EditorFor(model => model.idea_content, new { htmlAttributes = new { @class = "form-control", @id = "exampleFormControlTextarea1", @style = "height: 300px; resize:none" } })
+                            @Html.EditorFor(model => model.idea_content, new { htmlAttributes = new { @class = "form-control", @id = "exampleFormControlTextarea1", @style = "height: 278px; resize:none" } })
                             @Html.ValidationMessageFor(model => model.idea_content, "", new { @class = "text-danger" })
                         </div>
                         <!-- Select Box -->
-                        <div class="form-group">
+                        <div class="form-group" >
                             <lable>Category</lable>
                             @Html.DropDownList("category_id", null, htmlAttributes: new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.category_id, "", new { @class = "text-danger" })

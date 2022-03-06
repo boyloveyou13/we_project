@@ -23,7 +23,7 @@
                            aria-describedby="basic-addon1" readonly value="@Html.DisplayFor(model => model.idea_title)">
                 </div>
                 <div style="margin-bottom:15px;">
-                    <img class="img-profile rounded-circle" src="~/img/boy.png" style="max-width: 60px">
+                    <img class="img-profile rounded-circle" src="~/img/boy.png" style="max-width: 60px; border:1px solid ">
                     <span style="font-weight: bold;">
                         @if (Model.idea_trigger == true)
                         {
@@ -38,17 +38,17 @@
                             </span>
                         }
 
-                    @if (Model.idea_trigger == false)
-                    {
-                        <div style="width:300px; margin-left: 65px;">
-                            <p>@Html.DisplayFor(model => model.account.position), @Html.DisplayFor(model => model.account.department)</p>
-                            <p>@Html.DisplayFor(model => model.idea_date)</p>
-                        </div>
-                    }
+                        @if (Model.idea_trigger == false)
+                        {
+                            <div style="width:300px; margin-left: 65px;">
+                                <p>@Html.DisplayFor(model => model.account.position), @Html.DisplayFor(model => model.account.department)</p>
+                                <p>@Html.DisplayFor(model => model.idea_date)</p>
+                            </div>
+                        }
                 </div>
                 <!-- Content -->
                 <div class="form-group">
-                    <hr />               
+                    <hr />
 
                     <p>
                         @Html.DisplayFor(model => model.idea_content)
@@ -56,10 +56,13 @@
                     <hr />
                 </div>
 
-                @Html.Action("Edit","ideas",new { id = Model.idea_id }))
+                <button  id="thumbsupButton" onclick="var idea_id = parseInt(@Model.idea_id) ; checkClass($('#thumbsupButton'), idea_id); " class="btn btn-outline-primary">
+                    <i class="fa-solid fa-thumbs-up" style="font-size:20px"></i>
+                </button>
+                <button id="thumbsdownButton" onclick="var idea_id =  parseInt(@Model.idea_id);checkClass($('#thumbsdownButton'),idea_id);" class="btn btn-outline-primary">
+                    <i class="fa-solid fa-thumbs-down" style="font-size:20px"></i>
 
-                <button style="margin-top: 4px;" type="button" class="btn btn-primary mb-1">Primary</button>
-
+                </button>
                 <a href="#" class="btn btn-primary">
                     <i class="fa-solid fa-square-share-nodes"></i>
                 </a>
@@ -71,89 +74,3 @@
     </div>
 </div>
 }
-
-
-
-
-
-
-
-
-
-
-                <h2>Details</h2>
-
-                <div>
-                    <h4>idea</h4>
-                    <hr />
-                    <dl class="dl-horizontal">
-                        <dt>
-                            @Html.DisplayNameFor(model => model.idea_content)
-                        </dt>
-
-                        <dd>
-                            @Html.DisplayFor(model => model.idea_content)
-                        </dd>
-
-                        <dt>
-                            @Html.DisplayNameFor(model => model.thumbs_up)
-                        </dt>
-
-                        <dd>
-                            @Html.DisplayFor(model => model.thumbs_up)
-                        </dd>
-
-                        <dt>
-                            @Html.DisplayNameFor(model => model.thumbs_down)
-                        </dt>
-
-                        <dd>
-                            @Html.DisplayFor(model => model.thumbs_down)
-                        </dd>
-
-                        <dt>
-                            @Html.DisplayNameFor(model => model.views)
-                        </dt>
-
-                        <dd>
-                            @Html.DisplayFor(model => model.views)
-                        </dd>
-
-                        <dt>
-                            @Html.DisplayNameFor(model => model.idea_date)
-                        </dt>
-
-                        <dd>
-                            @Html.DisplayFor(model => model.idea_date)
-                        </dd>
-
-                        <dt>
-                            @Html.DisplayNameFor(model => model.account.email)
-                        </dt>
-
-                        <dd>
-                            @Html.DisplayFor(model => model.account.email)
-                        </dd>
-
-                        <dt>
-                            @Html.DisplayNameFor(model => model.category.category_name)
-                        </dt>
-
-                        <dd>
-                            @Html.DisplayFor(model => model.category.category_name)
-                        </dd>
-
-                        <dt>
-                            @Html.DisplayNameFor(model => model.topic.topic_name)
-                        </dt>
-
-                        <dd>
-                            @Html.DisplayFor(model => model.topic.topic_name)
-                        </dd>
-
-                    </dl>
-                </div>
-                <p>
-                    @Html.ActionLink("Edit", "Edit", new { id = Model.idea_id }) |
-                    @Html.ActionLink("Back to List", "Index", new { id = Model.topic_id })
-                </p>
