@@ -80,7 +80,7 @@
         <MappingFragment StoreEntitySet="notification">
           <ScalarProperty Name="account_id" ColumnName="account_id" />
           <ScalarProperty Name="state" ColumnName="state" />
-          <ScalarProperty Name="comment_id" ColumnName="comment_id" />
+          <ScalarProperty Name="idea_id" ColumnName="idea_id" />
           <ScalarProperty Name="notification_id" ColumnName="notification_id" />
         </MappingFragment>
       </EntityTypeMapping>

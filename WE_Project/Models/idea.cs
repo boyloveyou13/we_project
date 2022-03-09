@@ -21,6 +21,7 @@ namespace WE_Project.Models
         {
             this.comment = new HashSet<comment>();
             this.file = new HashSet<file>();
+            this.notification = new HashSet<notification>();
             this.reaction = new HashSet<reaction>();
         }
     
@@ -28,6 +29,7 @@ namespace WE_Project.Models
         public Nullable<int> topic_id { get; set; }
         public Nullable<int> account_id { get; set; }
         public Nullable<int> category_id { get; set; }
+
         [DisplayName("Content")]
         [Required(ErrorMessage = "Content is required.")]
         [MaxLength(2000, ErrorMessage = "The number of characters has been exceeded, the limit is 100 characters")]
@@ -39,6 +41,8 @@ namespace WE_Project.Models
 
         [DisplayName("Dislike")]
         public Nullable<int> thumbs_down { get; set; }
+
+
         public Nullable<int> views { get; set; }
 
         [DataType(DataType.Date)]
@@ -49,8 +53,8 @@ namespace WE_Project.Models
         [MaxLength(100, ErrorMessage = "The number of characters has been exceeded, the limit is 100 characters")]
         public string idea_title { get; set; }
 
-        public bool idea_trigger { get; set; } = false;
-
+        public Nullable<bool> idea_trigger { get; set; }
+    
         public virtual account account { get; set; }
         public virtual category category { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -58,6 +62,8 @@ namespace WE_Project.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<file> file { get; set; }
         public virtual topic topic { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<notification> notification { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<reaction> reaction { get; set; }
     }

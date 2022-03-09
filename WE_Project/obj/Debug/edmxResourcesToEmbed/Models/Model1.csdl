@@ -38,10 +38,6 @@
       <End Role="idea" EntitySet="idea" />
       <End Role="comment" EntitySet="comment" />
     </AssociationSet>
-    <AssociationSet Name="FK_notification_comment" Association="squadnerdModel.FK_notification_comment">
-      <End Role="comment" EntitySet="comment" />
-      <End Role="notification" EntitySet="notification" />
-    </AssociationSet>
     <AssociationSet Name="FK_file_idea" Association="squadnerdModel.FK_file_idea">
       <End Role="idea" EntitySet="idea" />
       <End Role="file" EntitySet="file" />
@@ -49,6 +45,10 @@
     <AssociationSet Name="FK_idea_topic" Association="squadnerdModel.FK_idea_topic">
       <End Role="topic" EntitySet="topic" />
       <End Role="idea" EntitySet="idea" />
+    </AssociationSet>
+    <AssociationSet Name="FK_notification_idea" Association="squadnerdModel.FK_notification_idea">
+      <End Role="idea" EntitySet="idea" />
+      <End Role="notification" EntitySet="notification" />
     </AssociationSet>
     <AssociationSet Name="FK_reaction_idea" Association="squadnerdModel.FK_reaction_idea">
       <End Role="idea" EntitySet="idea" />
@@ -97,7 +97,6 @@
     <Property Name="comment_status" Type="Boolean" />
     <NavigationProperty Name="account" Relationship="squadnerdModel.FK_comment_account" FromRole="comment" ToRole="account" />
     <NavigationProperty Name="idea" Relationship="squadnerdModel.FK_comment_idea" FromRole="comment" ToRole="idea" />
-    <NavigationProperty Name="notification" Relationship="squadnerdModel.FK_notification_comment" FromRole="comment" ToRole="notification" />
   </EntityType>
   <EntityType Name="department">
     <Key>
@@ -138,6 +137,7 @@
     <NavigationProperty Name="comment" Relationship="squadnerdModel.FK_comment_idea" FromRole="idea" ToRole="comment" />
     <NavigationProperty Name="file" Relationship="squadnerdModel.FK_file_idea" FromRole="idea" ToRole="file" />
     <NavigationProperty Name="topic" Relationship="squadnerdModel.FK_idea_topic" FromRole="idea" ToRole="topic" />
+    <NavigationProperty Name="notification" Relationship="squadnerdModel.FK_notification_idea" FromRole="idea" ToRole="notification" />
     <NavigationProperty Name="reaction" Relationship="squadnerdModel.FK_reaction_idea" FromRole="idea" ToRole="reaction" />
   </EntityType>
   <EntityType Name="notification">
@@ -145,11 +145,11 @@
       <PropertyRef Name="notification_id" />
     </Key>
     <Property Name="notification_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="comment_id" Type="Int32" />
+    <Property Name="idea_id" Type="Int32" />
     <Property Name="state" Type="Boolean" />
     <Property Name="account_id" Type="Int32" />
     <NavigationProperty Name="account" Relationship="squadnerdModel.FK_notification_account" FromRole="notification" ToRole="account" />
-    <NavigationProperty Name="comment" Relationship="squadnerdModel.FK_notification_comment" FromRole="notification" ToRole="comment" />
+    <NavigationProperty Name="idea" Relationship="squadnerdModel.FK_notification_idea" FromRole="notification" ToRole="idea" />
   </EntityType>
   <EntityType Name="reaction">
     <Key>
@@ -257,18 +257,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_notification_comment">
-    <End Type="squadnerdModel.comment" Role="comment" Multiplicity="0..1" />
-    <End Type="squadnerdModel.notification" Role="notification" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="comment">
-        <PropertyRef Name="comment_id" />
-      </Principal>
-      <Dependent Role="notification">
-        <PropertyRef Name="comment_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_file_idea">
     <End Type="squadnerdModel.idea" Role="idea" Multiplicity="0..1" />
     <End Type="squadnerdModel.file" Role="file" Multiplicity="*" />
@@ -290,6 +278,18 @@
       </Principal>
       <Dependent Role="idea">
         <PropertyRef Name="topic_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_notification_idea">
+    <End Type="squadnerdModel.idea" Role="idea" Multiplicity="0..1" />
+    <End Type="squadnerdModel.notification" Role="notification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="idea">
+        <PropertyRef Name="idea_id" />
+      </Principal>
+      <Dependent Role="notification">
+        <PropertyRef Name="idea_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

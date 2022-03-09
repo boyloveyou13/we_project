@@ -145,6 +145,13 @@ namespace WE_Project.Controllers
             reaction.thumb = Status;
             reaction.account_id = Convert.ToInt32(Session["id"]);
             db.reaction.Add(reaction);
+
+            idea idea = db.idea.Find(ID);
+            if (Status < 0)
+                idea.thumbs_down++;
+            else
+                idea.thumbs_up++;
+            db.Entry(idea).State = System.Data.Entity.EntityState.Modified;
             db.SaveChanges();
             return Json(true);
         }
@@ -157,6 +164,20 @@ namespace WE_Project.Controllers
             reaction reaction = list.First();
             reaction.thumb = Status;
             db.Entry(reaction).State = System.Data.Entity.EntityState.Modified;
+
+            idea idea = db.idea.Find(ID);
+            if (Status < 0)
+            {
+                idea.thumbs_down++;
+                idea.thumbs_up--;
+            }
+            else
+            {
+                idea.thumbs_up++;
+                idea.thumbs_down--;
+            }
+            db.Entry(idea).State = System.Data.Entity.EntityState.Modified;
+
             db.SaveChanges();
             return Json(true);
         }
@@ -166,10 +187,14 @@ namespace WE_Project.Controllers
         {
             int account_id = Convert.ToInt32(Session["id"]);
             var list = db.reaction.Where(t => t.idea_id == ID && t.account_id == account_id).ToList();
-            foreach(var l in list)
-            {
-                db.reaction.Remove(l);
-            }
+              
+            idea idea = db.idea.Find(ID);
+            if (list.FirstOrDefault().thumb < 0)
+                idea.thumbs_down--;
+            else
+                idea.thumbs_up--;
+            db.Entry(idea).State = System.Data.Entity.EntityState.Modified;
+            db.reaction.Remove(list.FirstOrDefault());
             db.SaveChanges();
             return Json(true);
         }

@@ -15,11 +15,11 @@ namespace WE_Project.Models
     public partial class notification
     {
         public int notification_id { get; set; }
-        public Nullable<int> comment_id { get; set; }
+        public Nullable<int> idea_id { get; set; }
         public Nullable<bool> state { get; set; }
         public Nullable<int> account_id { get; set; }
     
         public virtual account account { get; set; }
-        public virtual comment comment { get; set; }
+        public virtual idea idea { get; set; }
     }
 }

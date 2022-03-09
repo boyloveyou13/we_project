@@ -26,51 +26,33 @@ namespace WE_Project.Models
         }
     
         public int account_id { get; set; }
+
         [DisplayName("E-mail")]
         [Required(ErrorMessage = "E-mail is required.")]
         [MaxLength(50, ErrorMessage = "The number of characters has been exceeded, the limit is 50 characters")]
         [DataType(DataType.EmailAddress, ErrorMessage = "E-mail is not valid.")]
         public string email { get; set; }
 
-
-        [DisplayName("Confirm password")]
-        [Required(ErrorMessage = "Current password is required.")]
-        public string CurrentPassword { get; set; }
-
         [DisplayName("Password")]
         [Required(ErrorMessage = "Password is required.")]
-        [MaxLength(20, ErrorMessage = "The number of characters has been exceeded, the limit is 20 characters")]
         public string password { get; set; }
-
-        [Required(ErrorMessage = "Confirmation Password is required.")]
-        [Compare("password", ErrorMessage = "Confirm password doesn't match, Type again !")]
-        [DisplayName("Confirm password")]
-        public string ConfirmPassword { get; set; }
-
 
         [DisplayName("Role")]
         public Nullable<int> state { get; set; }
 
-        [DisplayName("Role")]
-        public string status
-        {
-            get { return state == 2 ? "QA Manager" : state == 3 ? "QA coordinator " : state == 4 ? "Staff" : "Admin"; }
-        }
-
         [DisplayName("Full name")]
         [MaxLength(50, ErrorMessage = "The number of characters has been exceeded, the limit is 50 characters")]
         public string fname { get; set; }
+
         [DisplayName("Gender")]
         public Nullable<bool> gender { get; set; }
-        [DisplayName("Gender")]
-        public string _gender
-        {
-            get { return gender == true ? "Male" : "Female"; }
-        }
+
         [DisplayName("Phone")]
         public Nullable<int> phone { get; set; }
+
         [DisplayName("Position")]
         public string position { get; set; }
+
         [DisplayName("Department")]
         public Nullable<int> department_id { get; set; }
 

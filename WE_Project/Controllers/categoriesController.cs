@@ -17,7 +17,11 @@ namespace WE_Project.Controllers
         // GET: categories
         public ActionResult Index(int? msg)
         {
-            if(msg ==1)
+            if (Session["us"] == null || Convert.ToInt32(Session["state"]) > 2)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            if (msg ==1)
                 ViewBag.ErrorMessage = "This category contains ideas, which cannot be deleted";
             return View(db.category.ToList());
         }
@@ -30,6 +34,10 @@ namespace WE_Project.Controllers
         // GET: categories/Details/5
         public ActionResult Details(int? id)
         {
+            if (Session["us"] == null || Convert.ToInt32(Session["state"]) > 2)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -55,6 +63,10 @@ namespace WE_Project.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "category_id,category_name,describe")] category category)
         {
+            if (Session["us"] == null || Convert.ToInt32(Session["state"]) > 2)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             if (ModelState.IsValid)
             {
                 var categoryDB = db.category.Where(t => t.category_name == category.category_name);
@@ -77,6 +89,10 @@ namespace WE_Project.Controllers
         // GET: categories/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (Session["us"] == null || Convert.ToInt32(Session["state"]) > 2)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -96,6 +112,10 @@ namespace WE_Project.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "category_id,category_name,describe")] category category)
         {
+            if (Session["us"] == null || Convert.ToInt32(Session["state"]) > 2)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             if (ModelState.IsValid)
             {
                 var categoryDB = db.category.Where(t => t.category_name == category.category_name && t.category_id != category.category_id);
@@ -117,6 +137,10 @@ namespace WE_Project.Controllers
         // GET: categories/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (Session["us"] == null || Convert.ToInt32(Session["state"]) > 2)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             try
             {
                 if (id == null)

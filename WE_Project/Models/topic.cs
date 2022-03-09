@@ -23,6 +23,7 @@ namespace WE_Project.Models
         }
     
         public int topic_id { get; set; }
+
         [DisplayName("Topic name")]
         [Required(ErrorMessage = "Topic name is required.")]
         [MaxLength(100, ErrorMessage = "The number of characters has been exceeded, the limit is 100 characters")]
@@ -32,10 +33,7 @@ namespace WE_Project.Models
         [MaxLength(200, ErrorMessage = "The number of characters has been exceeded, the limit is 200 characters")]
         public string describe { get; set; }
 
-        public string status { get; set; }
 
-        [DisplayName("Number of Ideas")]
-        public int idea_count { get; set; }
         [DisplayName("Closure Date")]
         [DataType(DataType.Date)]
         public Nullable<System.DateTime> closure_date { get; set; }
@@ -43,7 +41,7 @@ namespace WE_Project.Models
         [DisplayName("Final Date")]
         [DataType(DataType.Date)]
         public Nullable<System.DateTime> final_date { get; set; }
-
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<idea> idea { get; set; }
     }

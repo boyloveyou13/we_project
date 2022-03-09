@@ -3,7 +3,7 @@
 
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
 
 <div class="col-lg-12">
@@ -12,8 +12,76 @@
             <h5 class="col-lg-10 m-0 font-weight-bold text-primary">@ViewBag.name</h5>
             @if (Model.FirstOrDefault().topic.closure_date == null || DateTime.Compare(DateTime.Now.Date, (DateTime)Model.FirstOrDefault().topic.closure_date) <= 0)
             {
-                <div class="col-lg-2">
-                    <a class="btn btn-primary" href="@Url.Action("Create", "ideas", new { id = ViewBag.id })">Post an idea</a>
+                <button type="button" class="btn btn-primary" data-toggle="modal"
+                        data-target="#exampleModalScrollable" id="#modalScroll">
+                    Post an idea
+                </button>
+
+                <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog"
+                     aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-scrollable" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalScrollableTitle">Modal scrollable title</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+
+                                    @if (ViewBag.ErrorMessage != null && ViewBag.ErrorMessage != "")
+                                    {
+                                        <div class="text-danger">@ViewBag.ErrorMessage</div>
+                                    }
+
+                            <form>
+                                <div class="form-group" hidden>
+                                    <lable>Category</lable>
+                                    <input class="form-control" type="text" value="@ViewBag.id" id="idea_topic_id" />
+                                </div>
+
+                                <!-- Title -->
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1"> Title</label>
+                                    <input type="text"  class="form-control" placeholder="Enter Title" id="idea_title" />
+                                </div>
+                                <div class="form-group">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="idea_enonymous">
+                                        <label class="custom-control-label" for="idea_enonymous">Enonymous</label>
+                                    </div>
+                                </div>
+                                    <!-- Content -->
+
+                                    <div class="form-group">
+                                        <label for="exampleFormControlTextarea1">Content</label>
+                                        <textarea class="form-control" id="idea_content" style="resize:none;height:278px" contenteditable="inherit" placeholder="Write your idea here" ></textarea>      
+                                    </div>
+                                    <!-- Select Box -->
+                                    <div class="form-group">
+                                        <lable>Category</lable>
+                                        @Html.DropDownList("category_id", null, htmlAttributes: new { @class = "form-control", @id = "idea_category_id" })
+                                    </div>
+
+
+                                    <!-- Choose file -->
+                                    <div class="form-group">
+                                        <label for="exampleFormControlTextarea1">Supported: IMAGE/WORD/PDF/EXCEL/TXT File (Up to 3Mb)</label>
+                                        <input type="file" id="files" name="files" multiple>
+                                    </div>
+                                    <!-- Check box -->
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck2">
+                                        <label class="custom-control-label" for="customCheck2">Agree to Terms and Conditions</label>
+                                    </div>
+
+                                </form>  
+                            </div>
+                            <div class="modal-footer">
+                                <button id="submits" name="submits" onclick="postIdea()" class="btn btn-primary">Post</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             }
         </div>
@@ -42,11 +110,14 @@
                                                 <hr />
                                                 <label style="font-weight: bold;font-size: 20px; margin-top: -10px;" for="exampleFormControlTextarea1">@Html.DisplayFor(modelItem => item.idea_title) <hr style="background-color: #fc544b; margin-top: 3px;" /></label>
                                                 <div style="margin-bottom:15px; margin-top: -12px;">
-                                                    @if (!item.idea_trigger)
+                                                    @if (item.idea_trigger == false)
                                                     {
                                                         <span style="font-weight: bold;">@Html.DisplayFor(modelItem => item.account.fname)</span>
                                                         <div>
-                                                            <p style="font-size: 12px;">@Html.DisplayFor(modelItem => item.account.position), @Html.DisplayFor(modelItem => item.account.department.department_name) </p>
+                                                            @if (item.account.position != null)
+                                                            { 
+                                                                <p style="font-size: 12px;">@Html.DisplayFor(modelItem => item.account.position), @Html.DisplayFor(modelItem => item.account.department.department_name) </p>
+                                                            } 
                                                         </div>
                                                     }
                                                     else

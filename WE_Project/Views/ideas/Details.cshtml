@@ -1,76 +1,99 @@
 ﻿@model WE_Project.Models.idea
-
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.ValidationMessageFor(model => model.idea_id, "", new { @account = "text-danger" })
-<div class="row">
-    <div class="col-lg-2"></div>
-    <div class="col-lg-6">
-        <div class="card mb-4">
-            <div class="card-body">
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="input-group mb-3">
 
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span style="background-color: #3abaf4; border-color: #3abaf4;" class="input-group-text" id="basic-addon1">Title</span>
+                        <div class="input-group-prepend">
+                            <span style="background-color: #3abaf4; border-color: #3abaf4;" class="input-group-text" id="basic-addon1">Title</span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Title" aria-label="Username"
+                               aria-describedby="basic-addon1" readonly value="@Html.DisplayFor(model => model.idea_title)">
                     </div>
-                    <input type="text" class="form-control" placeholder="Title" aria-label="Username"
-                           aria-describedby="basic-addon1" readonly value="@Html.DisplayFor(model => model.idea_title)">
-                </div>
-                <div style="margin-bottom:15px;">
-                    <img class="img-profile rounded-circle" src="~/img/boy.png" style="max-width: 60px; border:1px solid ">
-                    <span style="font-weight: bold;">
+                    <div style="margin-bottom:15px;">
+                        <img class="img-profile rounded-circle" src="~/img/boy.png" style="max-width: 60px; float:left; border:1px solid ">
                         @if (Model.idea_trigger == true)
                         {
-                            <span style="font-weight: bold;">
+                            <p style="font-weight: bold; font-size: 22px;margin-left:70px;">
                                 Anonymous
-                            </span>
+                            </p>
                         }
                         else
                         {
-                            <span style="font-weight: bold;">
-                                @Html.DisplayFor(model => model.account.fname)
-                            </span>
+                            <p style="font-weight: bold; font-size: 22px; margin-left: 70px;">@Html.DisplayFor(model => model.account.fname)</p>
+                            if (Model.account.position != null)
+                            {
+                                <p style="font-weight: bold; font-size: 16px;margin-top:-20px;margin-left:70px;">@Html.DisplayFor(model => model.account.position), @Html.DisplayFor(model => model.account.department.department_name)</p>
+                            }
+
+
                         }
 
-                        @if (Model.idea_trigger == false)
-                        {
-                            <div style="width:300px; margin-left: 65px;">
-                                <p>@Html.DisplayFor(model => model.account.position), @Html.DisplayFor(model => model.account.department)</p>
-                                <p>@Html.DisplayFor(model => model.idea_date)</p>
-                            </div>
-                        }
+                    </div>
+                    <!-- Content -->
+                    <div class="form-group" style="margin-top:40px">
+                        <hr />
+
+                        <p>
+                            @Html.DisplayFor(model => model.idea_content)
+                            <br />
+                            @Html.Action("Index", "files")
+                        </p>
+
+                        <hr />
+                    </div>
+                    <p style="font-size:12px;font-weight:bold">@Html.DisplayFor(model => model.idea_date)</p>
+
+
+                    @if (ViewBag.thumb != null && ViewBag.thumb < 0)
+                    {
+                        <button id="thumbsupButton" onclick="var idea_id = parseInt(@Model.idea_id) ; checkClass($('#thumbsupButton'), idea_id); " class="btn btn-outline-primary">
+                            <i class="fa-solid fa-thumbs-up" style="font-size:20px"></i>
+                        </button>
+                        <button id="thumbsdownButton" onclick="var idea_id =  parseInt(@Model.idea_id);checkClass($('#thumbsdownButton'),idea_id);" class="btn btn-primary">
+                            <i class="fa-solid fa-thumbs-down" style="font-size:20px"></i>
+                        </button>
+                    }
+                    else if (ViewBag.thumb != null && ViewBag.thumb > 0)
+                    {
+                        <button id="thumbsupButton" onclick="var idea_id = parseInt(@Model.idea_id) ; checkClass($('#thumbsupButton'), idea_id); " class="btn btn-primary">
+                            <i class="fa-solid fa-thumbs-up" style="font-size:20px"></i>
+                        </button>
+                        <button id="thumbsdownButton" onclick="var idea_id =  parseInt(@Model.idea_id);checkClass($('#thumbsdownButton'),idea_id);" class="btn btn-outline-primary">
+                            <i class="fa-solid fa-thumbs-down" style="font-size:20px"></i>
+                        </button>
+                    }
+                    else
+                    {
+                        <button id="thumbsupButton" onclick="var idea_id = parseInt(@Model.idea_id) ; checkClass($('#thumbsupButton'), idea_id); " class="btn btn-outline-primary">
+                            <i class="fa-solid fa-thumbs-up" style="font-size:20px"></i>
+                        </button>
+                        <button id="thumbsdownButton" onclick="var idea_id =  parseInt(@Model.idea_id);checkClass($('#thumbsdownButton'),idea_id);" class="btn btn-outline-primary">
+                            <i class="fa-solid fa-thumbs-down" style="font-size:20px"></i>
+                        </button>
+                    }
+
+
+                    @*<a href="#" class="btn btn-outline-primary">
+                        <i class="fa-solid fa-square-share-nodes" style="font-size:20px"></i>
+                    </a>*@
+
+
+
                 </div>
-                <!-- Content -->
-                <div class="form-group">
-                    <hr />
-
-                    <p>
-                        @Html.DisplayFor(model => model.idea_content)
-                    </p>
-                    <hr />
-                </div>
-
-                <button  id="thumbsupButton" onclick="var idea_id = parseInt(@Model.idea_id) ; checkClass($('#thumbsupButton'), idea_id); " class="btn btn-outline-primary">
-                    <i class="fa-solid fa-thumbs-up" style="font-size:20px"></i>
-                </button>
-                <button id="thumbsdownButton" onclick="var idea_id =  parseInt(@Model.idea_id);checkClass($('#thumbsdownButton'),idea_id);" class="btn btn-outline-primary">
-                    <i class="fa-solid fa-thumbs-down" style="font-size:20px"></i>
-
-                </button>
-                <a href="#" class="btn btn-primary">
-                    <i class="fa-solid fa-square-share-nodes"></i>
-                </a>
-
-
-
             </div>
         </div>
     </div>
-</div>
 }

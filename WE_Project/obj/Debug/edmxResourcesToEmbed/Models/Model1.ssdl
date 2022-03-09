@@ -73,7 +73,7 @@
       <PropertyRef Name="notification_id" />
     </Key>
     <Property Name="notification_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="comment_id" Type="int" />
+    <Property Name="idea_id" Type="int" />
     <Property Name="state" Type="bit" />
     <Property Name="account_id" Type="int" />
   </EntityType>
@@ -192,15 +192,15 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_notification_comment">
-    <End Role="comment" Type="Self.comment" Multiplicity="0..1" />
+  <Association Name="FK_notification_idea">
+    <End Role="idea" Type="Self.idea" Multiplicity="0..1" />
     <End Role="notification" Type="Self.notification" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="comment">
-        <PropertyRef Name="comment_id" />
+      <Principal Role="idea">
+        <PropertyRef Name="idea_id" />
       </Principal>
       <Dependent Role="notification">
-        <PropertyRef Name="comment_id" />
+        <PropertyRef Name="idea_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -270,8 +270,8 @@
       <End Role="account" EntitySet="account" />
       <End Role="notification" EntitySet="notification" />
     </AssociationSet>
-    <AssociationSet Name="FK_notification_comment" Association="Self.FK_notification_comment">
-      <End Role="comment" EntitySet="comment" />
+    <AssociationSet Name="FK_notification_idea" Association="Self.FK_notification_idea">
+      <End Role="idea" EntitySet="idea" />
       <End Role="notification" EntitySet="notification" />
     </AssociationSet>
     <AssociationSet Name="FK_reaction_account" Association="Self.FK_reaction_account">

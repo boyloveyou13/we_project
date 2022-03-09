@@ -24,10 +24,7 @@
                             @Html.DisplayNameFor(model => model.topic_name)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.idea_count)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.status)
+                            Status
                         </th>
                         <th></th>
                     </tr>
@@ -35,16 +32,70 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
+
                     <tr>
                         <td>
                             @Html.DisplayFor(modelItem => item.topic_name)
                         </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.idea_count)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.status)
-                        </td>
+
+                        @if (item.closure_date != null && item.final_date != null)
+                        {
+                            if (DateTime.Compare((DateTime)item.closure_date, DateTime.Now.Date) >= 0)
+                            {
+                                <td>
+                                    Opening
+                                </td>
+                            }
+                            else if (DateTime.Compare((DateTime)item.final_date, DateTime.Now.Date) >= 0)
+                            {
+                                <td>
+                                    Closing
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    Disable
+                                </td>
+                            }
+                        }
+                        else if (item.closure_date != null && item.final_date == null)
+                        {
+                            if (DateTime.Compare((DateTime)item.closure_date, DateTime.Now.Date) >= 0)
+                            {
+                                <td>
+                                    Opening
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    Closing
+                                </td>
+                            }
+                        }
+                        else if (item.final_date != null && item.closure_date == null)
+                        {
+                            if (DateTime.Compare((DateTime)item.final_date, DateTime.Now.Date) >= 0)
+                            {
+                                <td>
+                                    Opening
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    Disable
+                                </td>
+                            }
+                        }
+                        else
+                        {
+                            <td>
+                                Opening
+                            </td>
+                        }
+
                         <td>
                             <div></div>
                             <a href="@Url.Action("Edit", "topics", new { id = item.topic_id})">

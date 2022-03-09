@@ -17,8 +17,10 @@ namespace WE_Project.Controllers
         // GET: notifications
         public ActionResult Index()
         {
-            var notification = db.notification.Include(n => n.account).Include(n => n.comment);
-            return View(notification.ToList());
+            var id = Convert.ToInt32(Session["id"].ToString());
+            var notification = db.notification.Include(n => n.account).Include(n => n.idea).Where(t => t.account_id == id && t.state == false);
+            ViewBag.count = notification.ToList().Count;
+            return PartialView(notification.ToList());
         }
 
         // GET: notifications/Details/5
@@ -59,7 +61,7 @@ namespace WE_Project.Controllers
             }
 
             ViewBag.account_id = new SelectList(db.account, "account_id", "email", notification.account_id);
-            ViewBag.comment_id = new SelectList(db.comment, "comment_id", "comment_content", notification.comment_id);
+            ViewBag.idea_id = new SelectList(db.comment, "idea_id", "idea_title", notification.idea_id);
             return View(notification);
         }
 
@@ -76,7 +78,7 @@ namespace WE_Project.Controllers
                 return HttpNotFound();
             }
             ViewBag.account_id = new SelectList(db.account, "account_id", "email", notification.account_id);
-            ViewBag.comment_id = new SelectList(db.comment, "comment_id", "comment_content", notification.comment_id);
+            ViewBag.idea_id = new SelectList(db.comment, "idea_id", "idea_title", notification.idea_id);
             return View(notification);
         }
 
@@ -94,7 +96,7 @@ namespace WE_Project.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.account_id = new SelectList(db.account, "account_id", "email", notification.account_id);
-            ViewBag.comment_id = new SelectList(db.comment, "comment_id", "comment_content", notification.comment_id);
+            ViewBag.idea_id = new SelectList(db.comment, "idea_id", "idea_title", notification.idea_id);
             return View(notification);
         }
 

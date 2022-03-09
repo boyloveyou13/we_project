@@ -14,12 +14,6 @@ namespace WE_Project.Models
     
     public partial class comment
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public comment()
-        {
-            this.notification = new HashSet<notification>();
-        }
-    
         public int comment_id { get; set; }
         public string comment_content { get; set; }
         public Nullable<int> account_id { get; set; }
@@ -29,7 +23,5 @@ namespace WE_Project.Models
     
         public virtual account account { get; set; }
         public virtual idea idea { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<notification> notification { get; set; }
     }
 }

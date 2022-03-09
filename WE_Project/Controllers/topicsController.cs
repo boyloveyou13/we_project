@@ -17,22 +17,13 @@ namespace WE_Project.Controllers
         // GET: topics
         public ActionResult Index(int? msg)
         {
+            if (Session["us"] == null || Convert.ToInt32(Session["state"]) > 2)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             if (msg == 1)
                 ViewBag.ErrorMessage = "This topic contains idea, which cannot be deleted";
             var topic = db.topic.ToList();
-            foreach(var item in topic)
-            {
-                item.idea_count = db.idea.Where(t => t.topic_id == item.topic_id).Count();
-                if(item.closure_date != null && item.final_date != null)
-                {
-                    item.status = DateTime.Compare((DateTime)item.closure_date, DateTime.Now.Date) >= 0 ? "Opening" :
-                  DateTime.Compare((DateTime)item.final_date, DateTime.Now.Date) >= 0 ? "Closing" : "Disable";
-                }else
-                {
-                    item.status = "Opening";
-                }
-              
-            }
             return View(topic);
         }
         public ActionResult SelectTopic()
@@ -43,6 +34,10 @@ namespace WE_Project.Controllers
         // GET: topics/Details/5
         public ActionResult Details(int? id)
         {
+            if (Session["us"] == null || Convert.ToInt32(Session["state"]) > 2)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -68,6 +63,10 @@ namespace WE_Project.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "topic_id,topic_name,describe,closure_date,final_date")] topic topic)
         {
+            if (Session["us"] == null || Convert.ToInt32(Session["state"]) > 2)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             if (ModelState.IsValid)
             {
                 var topicDB = db.topic.Where(t => t.topic_name == topic.topic_name);
@@ -102,6 +101,10 @@ namespace WE_Project.Controllers
         // GET: topics/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (Session["us"] == null || Convert.ToInt32(Session["state"]) > 2)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -121,6 +124,10 @@ namespace WE_Project.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "topic_id,topic_name,describe,closure_date,final_date")] topic topic)
         {
+            if (Session["us"] == null || Convert.ToInt32(Session["state"]) > 2)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             if (ModelState.IsValid)
             {
 
@@ -153,6 +160,10 @@ namespace WE_Project.Controllers
         // GET: topics/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (Session["us"] == null || Convert.ToInt32(Session["state"]) > 2)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

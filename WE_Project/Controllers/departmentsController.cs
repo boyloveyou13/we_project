@@ -19,7 +19,11 @@ namespace WE_Project.Controllers
 
         public ActionResult Index(int? msg)
         {
-            if(msg == 1)
+            if (Session["us"] == null || Convert.ToInt32(Session["state"]) != 1)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            if (msg == 1)
                 ViewBag.ErrorMessage = "This department contains account, which cannot be deleted";
             return View(db.department.ToList());
         }
@@ -37,6 +41,10 @@ namespace WE_Project.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "department_id,department_name")] department department)
         {
+            if (Session["us"] == null || Convert.ToInt32(Session["state"]) != 1)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             if (ModelState.IsValid)
             {
                 var departmentDB = db.department.Where(t => t.department_name == department.department_name);
@@ -60,6 +68,10 @@ namespace WE_Project.Controllers
         // GET: departments/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (Session["us"] == null || Convert.ToInt32(Session["state"]) != 1)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -79,6 +91,10 @@ namespace WE_Project.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "department_id,department_name")] department department)
         {
+            if (Session["us"] == null || Convert.ToInt32(Session["state"]) != 1)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             if (ModelState.IsValid)
             {
                 var departmentDB = db.department.Where(t => t.department_name == department.department_name && t.department_id != department.department_id);
@@ -100,6 +116,10 @@ namespace WE_Project.Controllers
         // GET: departments/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (Session["us"] == null || Convert.ToInt32(Session["state"]) != 1)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

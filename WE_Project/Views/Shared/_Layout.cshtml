@@ -125,59 +125,24 @@
                     <ul class="navbar-nav ml-auto">
                         @if (Session["us"] != null)
                         {
-                            <li class="nav-item dropdown no-arrow mx-1">
-                                <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown"
-                                   aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-bell fa-fw"></i>
-                                    <span class="badge badge-danger badge-counter">3+</span>
-                                </a>
-                                <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                     aria-labelledby="alertsDropdown">
-                                    <h6 class="dropdown-header">
-                                        Alerts Center
-                                    </h6>
-                                    <a class="dropdown-item d-flex align-items-center" href="#">
-                                        <div class="mr-3">
-                                            <div class="icon-circle bg-primary">
-                                                <i class="fas fa-file-alt text-white"></i>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div class="small text-gray-500">December 12, 2019</div>
-                                            <span class="font-weight-bold">A new monthly report is ready to download!</span>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item d-flex align-items-center" href="#">
-                                        <div class="mr-3">
-                                            <div class="icon-circle bg-success">
-                                                <i class="fas fa-donate text-white"></i>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div class="small text-gray-500">December 7, 2019</div>
-                                            $290.29 has been deposited into your account!
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item d-flex align-items-center" href="#">
-                                        <div class="mr-3">
-                                            <div class="icon-circle bg-warning">
-                                                <i class="fas fa-exclamation-triangle text-white"></i>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div class="small text-gray-500">December 2, 2019</div>
-                                            Spending Alert: We've noticed unusually high spending for your account.
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
-                                </div>
-                            </li>
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            @Html.Action("Index", "notifications")
+                        </li>
 
                             <div class="topbar-divider d-none d-sm-block"></div>
                             <li class="nav-item dropdown no-arrow">
                                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                                    aria-haspopup="true" aria-expanded="false">
-                                    <img class="img-profile rounded-circle" src="~/img/boy.png" style="max-width: 60px">
+                                    @if ((bool)Session["isImage"] == true)
+                                    {
+                                        <img class="img-profile rounded-circle" src="@Url.Action("show", "accounts", new { id = Session["id"].ToString() })" style="max-width: 60px">
+                                    }
+                                    else
+                                    {
+                                        <img class="img-profile rounded-circle" src="~/img/boy.png" style="max-width: 60px">
+                                    }
+                                    
+
                                     <span class="ml-2 d-none d-lg-inline text-white small">@Session["us"]</span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -229,9 +194,9 @@
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
                         <span>
-                            copyright &copy;
-                            <script>document.write(new Date().getFullYear());</script> - developed by
-                            <b><a href="https://indrijunanda.gitlab.io/" target="_blank">indrijunanda</a></b>
+                            Copyrighted &copy;
+                            <script>document.write(new Date().getFullYear());</script> - Developed by <span style="font-weight:bold">SquadNerd</span>
+
                         </span>
                     </div>
                 </div>
@@ -264,8 +229,8 @@
 
         $(function () {
             $('#submits').attr('disabled', true);
-            $('#exampleInputEmail1, #exampleFormControlTextarea1, #customCheck2 ').change(function () {
-                if ($('#exampleInputEmail1').val() != '' && $('#exampleFormControlTextarea1').val() != '' && $('#customCheck2').is(':checked')) {
+            $('#idea_content, #idea_title, #customCheck2 ').change(function () {
+                if ($('#idea_content').val() != '' && $('#idea_title').val() != '' && $('#customCheck2').is(':checked')) {
                     $('#submits').attr('disabled', false);
                 } else {
                     $('#submits').attr('disabled', true);
@@ -273,11 +238,73 @@
             });
         });
 
+        function postIdea()
+        {
+            var category = parseInt(document.getElementById("idea_category_id").value);
+            var topic = parseInt(document.getElementById("idea_topic_id").value);
+            var title = document.getElementById("idea_title").value;
+
+            if (document.getElementById("idea_enonymous").checked)
+                var enonymous = true;
+            else  var enonymous = false;
+            var content = document.getElementById("idea_content").value;
+            var files = document.getElementById("files");
+            var formdata = new FormData();
+
+            formdata.append("Category", category);
+            formdata.append("Topic_id", topic);
+            formdata.append("Title", title);
+            formdata.append("Enonymous", enonymous);
+            formdata.append("Content", content);
+            for (var i = 0; i < files.files.length; i++)
+            {
+                var sfileName = files.files[i].name;
+                formdata.append(sfileName, files.files[i]);
+            }
+            $.ajax({
+                url: '@Url.Action("postIdea", "ideas")',
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: formdata,
+                async: false,
+                success: function (result) {window.location.href = result.Url;}
+            });
+        }
+
+        function createAccount()
+        {
+            var email = document.getElementById("Username").value;
+            var pass = document.getElementById("Pass").value;
+            var confirm = document.getElementById("Confirm").value;
+            var state = document.getElementById("addStatus").value;
+            var department_id = document.getElementById("departmentID").value;
+            $.post('@Url.Action("Create", "accounts")', { Email: email, Password: pass, Confirm: confirm, State: state, Department_id: department_id },
+                function (result) {window.location.href = result.Url});
+        }
+
+        function changePass()
+        {
+            var id = parseInt(document.getElementById("accountID").value);
+            var current = document.getElementById("Current").value;
+            var pass = document.getElementById("Pass1").value;
+            var confirm = document.getElementById("Confirm1").value;
+
+            $.post('@Url.Action("ChangePassword", "accounts")', { ID: id ,CurrentPassword: current, Password: pass, Confirm: confirm},
+                function (result) {window.location.href = result.Url});
+        }
+
+        function downloadFile(file_id) {
+            preventDefault();
+            $.post('@Url.Action("DownloadFile", "files")', { ID: file_id})
+        }
+
+
         $('#thumbsupButton').click(function (e) { e.preventDefault(); return false;  })
         $('#thumbsdownButton').click(function (e) {e.preventDefault();return false; })
 
         function checkClass(id1, idea_id) {
-            
+
             var status = 0;
             if (id1.is($('#thumbsupButton'))) {
                 var id2 = $('#thumbsdownButton')
@@ -314,7 +341,7 @@
                 setTimeout(() => { id1.disabled = false; id2.disabled = false; }, 1000)
                 $.post('@Url.Action("DeleteThumb", "reactions")', { ID: idea_id})
             }
-            
+
         }
 
 
@@ -362,6 +389,23 @@
             });
         }
 
+         function PassCheck1() {
+        $.post("@Url.Action("CheckPasswordAvailability", "Home")",
+            {
+                pass: $("#Pass1").val(),
+                confirm: $("#Confirm1").val(),
+            },
+        function(data) {
+            if (data == 0) {
+                $("#Confirm1").css("border-color", "Green");
+                $("#Pass1").css("border-color", "Green");
+            } else {
+                $("#Confirm1").css("border-color", "Red");
+                $("#Pass1").css("border-color", "Red");
+            }
+            });
+        }
+
 
         // Bootstrap Date Picker
         $('#simple-date1 .input-group.date').datepicker({
@@ -381,5 +425,6 @@
 </body>
 
 </html>
+@RenderSection("JavaScript", required: false)
 
 
