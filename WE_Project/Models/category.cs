@@ -30,7 +30,7 @@ namespace WE_Project.Models
 
         [DisplayName("Discription")]
         public string describe { get; set; }
-    
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<idea> idea { get; set; }
     }

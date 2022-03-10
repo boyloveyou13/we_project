@@ -37,7 +37,7 @@
           <Property Name="comment_content" Type="nvarchar(max)" />
           <Property Name="account_id" Type="int" />
           <Property Name="idea_id" Type="int" />
-          <Property Name="comment_date" Type="date" />
+          <Property Name="comment_date" Type="datetime" />
           <Property Name="comment_status" Type="bit" />
         </EntityType>
         <EntityType Name="department">
@@ -69,9 +69,10 @@
           <Property Name="thumbs_up" Type="int" />
           <Property Name="thumbs_down" Type="int" />
           <Property Name="views" Type="int" />
-          <Property Name="idea_date" Type="date" />
+          <Property Name="idea_date" Type="datetime" />
           <Property Name="idea_title" Type="nvarchar(max)" />
           <Property Name="idea_trigger" Type="bit" />
+          <Property Name="idea_recent" Type="datetime" />
         </EntityType>
         <EntityType Name="notification">
           <Key>
@@ -385,7 +386,7 @@
           <Property Name="comment_content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="account_id" Type="Int32" />
           <Property Name="idea_id" Type="Int32" />
-          <Property Name="comment_date" Type="DateTime" Precision="0" />
+          <Property Name="comment_date" Type="DateTime" Precision="3" />
           <Property Name="comment_status" Type="Boolean" />
           <NavigationProperty Name="account" Relationship="squadnerdModel.FK_comment_account" FromRole="comment" ToRole="account" />
           <NavigationProperty Name="idea" Relationship="squadnerdModel.FK_comment_idea" FromRole="comment" ToRole="idea" />
@@ -421,7 +422,7 @@
           <Property Name="thumbs_up" Type="Int32" />
           <Property Name="thumbs_down" Type="Int32" />
           <Property Name="views" Type="Int32" />
-          <Property Name="idea_date" Type="DateTime" Precision="0" />
+          <Property Name="idea_date" Type="DateTime" Precision="3" />
           <Property Name="idea_title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="idea_trigger" Type="Boolean" />
           <NavigationProperty Name="account" Relationship="squadnerdModel.FK_idea_account" FromRole="idea" ToRole="account" />
@@ -431,6 +432,7 @@
           <NavigationProperty Name="topic" Relationship="squadnerdModel.FK_idea_topic" FromRole="idea" ToRole="topic" />
           <NavigationProperty Name="notification" Relationship="squadnerdModel.FK_notification_idea" FromRole="idea" ToRole="notification" />
           <NavigationProperty Name="reaction" Relationship="squadnerdModel.FK_reaction_idea" FromRole="idea" ToRole="reaction" />
+          <Property Name="idea_recent" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="notification">
           <Key>
@@ -663,6 +665,7 @@
           <EntitySetMapping Name="idea">
             <EntityTypeMapping TypeName="squadnerdModel.idea">
               <MappingFragment StoreEntitySet="idea">
+                <ScalarProperty Name="idea_recent" ColumnName="idea_recent" />
                 <ScalarProperty Name="idea_trigger" ColumnName="idea_trigger" />
                 <ScalarProperty Name="idea_title" ColumnName="idea_title" />
                 <ScalarProperty Name="idea_date" ColumnName="idea_date" />

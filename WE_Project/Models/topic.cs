@@ -41,7 +41,7 @@ namespace WE_Project.Models
         [DisplayName("Final Date")]
         [DataType(DataType.Date)]
         public Nullable<System.DateTime> final_date { get; set; }
-    
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<idea> idea { get; set; }
     }

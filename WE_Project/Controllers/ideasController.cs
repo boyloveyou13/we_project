@@ -16,7 +16,7 @@ namespace WE_Project.Controllers
         private squadnerdEntities db = new squadnerdEntities();
 
         // GET: ideas
-        public ActionResult Index(int? id)
+        public ActionResult Index(int? id, int? sort)
         {
             if (Session["us"] == null)
             {
@@ -27,8 +27,27 @@ namespace WE_Project.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }else
             {
+                var idea = db.idea.Include(i => i.account).Include(i => i.category).Include(i => i.topic).Where(i => i.topic_id == id).OrderByDescending(i=>i.idea_id);
                 ViewBag.id = id;               
-                var idea = db.idea.Include(i => i.account).Include(i => i.category).Include(i => i.topic).Where(i => i.topic_id == id);
+                switch(sort)
+                {
+                    case 1:
+                        ViewBag.sort = "Latest";
+                        break;
+                    case 2:
+                        ViewBag.sort = "Most Popular";
+                        idea = idea.OrderByDescending(t => t.thumbs_up - t.thumbs_down);
+                        break;
+                    case 3:
+                        ViewBag.sort = "Most Viewed";
+                        idea = idea.OrderByDescending(i => i.views);
+                        break;
+                    case 4:
+                        ViewBag.sort = "Latest Comments";
+                        idea = idea.OrderByDescending(i => i.idea_recent);
+                        break;
+                }
+
                 ViewBag.name = idea.First().topic.topic_name;
                 ViewBag.category_id = new SelectList(db.category, "category_id", "category_name");
                 return View(idea.ToList());
@@ -155,7 +174,7 @@ namespace WE_Project.Controllers
             idea.thumbs_up = 0;
             idea.thumbs_down = 0;
             idea.views = 0;
-            idea.idea_date = DateTime.Now.Date;
+            idea.idea_date = DateTime.Now;
             string enon = Request["Enonymous"];
             if(enon == "true")
             {

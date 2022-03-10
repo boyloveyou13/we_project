@@ -61,6 +61,7 @@
     <EntitySetMapping Name="idea">
       <EntityTypeMapping TypeName="squadnerdModel.idea">
         <MappingFragment StoreEntitySet="idea">
+          <ScalarProperty Name="idea_recent" ColumnName="idea_recent" />
           <ScalarProperty Name="idea_trigger" ColumnName="idea_trigger" />
           <ScalarProperty Name="idea_title" ColumnName="idea_title" />
           <ScalarProperty Name="idea_date" ColumnName="idea_date" />

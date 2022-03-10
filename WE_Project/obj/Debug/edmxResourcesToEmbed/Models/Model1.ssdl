@@ -32,7 +32,7 @@
     <Property Name="comment_content" Type="nvarchar(max)" />
     <Property Name="account_id" Type="int" />
     <Property Name="idea_id" Type="int" />
-    <Property Name="comment_date" Type="date" />
+    <Property Name="comment_date" Type="datetime" />
     <Property Name="comment_status" Type="bit" />
   </EntityType>
   <EntityType Name="department">
@@ -64,9 +64,10 @@
     <Property Name="thumbs_up" Type="int" />
     <Property Name="thumbs_down" Type="int" />
     <Property Name="views" Type="int" />
-    <Property Name="idea_date" Type="date" />
+    <Property Name="idea_date" Type="datetime" />
     <Property Name="idea_title" Type="nvarchar(max)" />
     <Property Name="idea_trigger" Type="bit" />
+    <Property Name="idea_recent" Type="datetime" />
   </EntityType>
   <EntityType Name="notification">
     <Key>

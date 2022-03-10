@@ -28,7 +28,7 @@ namespace WE_Project.Models
         [Required(ErrorMessage = "Department name is required.")]
         [MaxLength(100, ErrorMessage = "The number of characters has been exceeded, the limit is 100 characters")]
         public string department_name { get; set; }
-    
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<account> account { get; set; }
     }
