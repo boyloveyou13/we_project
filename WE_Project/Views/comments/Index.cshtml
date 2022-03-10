@@ -4,42 +4,61 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<style>
+    .comments {
+        margin-top: 5%;
+        margin-left: 20px
+    }
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.comment_content)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.account.email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.idea.idea_content)
-        </th>
-        <th></th>
-    </tr>
+    .comment {
+        box-shadow: 0px 4px 8px 0px rgba(64,64,64,0.5);
+        background-color: #F8F8F8;
+        float: left;
+        border-radius: 5px;
+        padding-left: 40px;
+        padding-right: 30px;
+        padding-top: 10px
+    }
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.comment_content)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.account.email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.idea.idea_content)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.comment_id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.comment_id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.comment_id })
-        </td>
-    </tr>
+    .comment h4,
+    .comment span
+    {
+        display: inline
+    }
+
+    .comment p,
+    .comment span
+    {
+        color: dimgrey;
+    }
+</style>
+
+@foreach (var item in Model)
+{
+    if (item.comment_status == false)
+    {
+
+    <div class="comment mt-4 text-justify col-lg-12">
+        @if (item.account.img != null)
+        {
+            <img src="@Url.Action("show", "accounts", new { id = item.account_id })" alt="" class="rounded-circle" width="40" height="40">
+        }
+        else
+        {
+            <img src="~/img/boy.png" alt="" class="rounded-circle" width="40" height="40">
+        }
+        <h4 style="font-size:15px; font-weight:bold">@Html.DisplayFor(modelItem => item.account.email)</h4> <span>- @Html.Action("CalCulateTime", "Home", new { date = item.comment_date })</span> <br>
+        <p style="color: dimgrey; margin-top: 10px; margin-left: 10px;text-align:justify">@Html.DisplayFor(modelItem => item.comment_content)</p>
+    </div>
+    }
+    else
+    {
+    <div class="comment mt-4 text-justify col-lg-12">
+        <img src="~/img/boy.png" alt="" class="rounded-circle" width="40" height="40">
+        <h4 style="font-size: 15px; font-weight: bold">Enonymous</h4> <span>- @Html.Action("CalCulateTime", "Home", new { date = item.comment_date })</span> <br>
+        <p style="color: dimgrey; margin-top: 10px; margin-left: 10px;">@Html.DisplayFor(modelItem => item.comment_content)</p>
+    </div>
+    }
+
 }
 
-</table>

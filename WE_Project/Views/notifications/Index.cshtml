@@ -38,8 +38,8 @@
                     </div>
                 </div>
                 <div>
-                    <div class="small text-gray-500">@Html.DisplayFor(modelItem => item.idea.idea_date)</div>
-                    @if (Convert.ToInt32(Session["state"]) == 3)
+                    <div class="small text-gray-500">@Html.Action("CalCulateTime", "Home", new { date = item.idea.idea_recent })</div>
+                    @if (item.account.state == 3)
                     {
                         <span class="font-weight-bold">
                             @Html.DisplayFor(modelItem => item.idea.account.fname) posted an idea!

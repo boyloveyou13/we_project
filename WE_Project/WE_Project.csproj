@@ -2190,10 +2190,6 @@
     <Content Include="Views\categories\Details.cshtml" />
     <Content Include="Views\categories\Edit.cshtml" />
     <Content Include="Views\categories\Index.cshtml" />
-    <Content Include="Views\comments\Create.cshtml" />
-    <Content Include="Views\comments\Delete.cshtml" />
-    <Content Include="Views\comments\Details.cshtml" />
-    <Content Include="Views\comments\Edit.cshtml" />
     <Content Include="Views\comments\Index.cshtml" />
     <Content Include="Views\departments\Create.cshtml" />
     <Content Include="Views\departments\Edit.cshtml" />
@@ -2393,10 +2389,6 @@
     <Content Include="vendor\select2\src\scss\_dropdown.scss" />
     <Content Include="vendor\select2\src\scss\_multiple.scss" />
     <Content Include="vendor\select2\src\scss\_single.scss" />
-    <Content Include="Views\notifications\Create.cshtml" />
-    <Content Include="Views\notifications\Delete.cshtml" />
-    <Content Include="Views\notifications\Details.cshtml" />
-    <Content Include="Views\notifications\Edit.cshtml" />
     <Content Include="Views\notifications\Index.cshtml" />
     <Content Include="Views\accounts\ChangePassword.cshtml" />
     <Content Include="Views\categories\CategoryMenu.cshtml" />

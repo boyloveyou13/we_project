@@ -3,7 +3,7 @@ using Microsoft.AspNet.SignalR.Hubs;
 
 namespace WE_Project.Hubs
 {
-    [HubName("accountHub")]
+    [HubName("ideaHub")]
     public class IdeaHub : Hub
     {
        public static void BroadcastData()

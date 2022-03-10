@@ -9,7 +9,7 @@
 <div class="col-lg-12">
     <div class="card mb-4">
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h5 class="col-lg-10 m-0 font-weight-bold text-primary" style="font-size:25px">Topic: @ViewBag.name</h5>
+            <h5 class="col-lg-10 m-0 font-weight-bold text-primary" style="font-size:25px">Topic: @Model.First().topic.topic_name</h5>
             @if (Model.FirstOrDefault().topic.closure_date == null || DateTime.Compare(DateTime.Now.Date, (DateTime)Model.FirstOrDefault().topic.closure_date) <= 0)
             {
                 <button type="button" class="btn btn-primary" data-toggle="modal"
@@ -103,42 +103,49 @@
                         <div class="bg-white py-2 collapse-inner rounded">
                             <a class="collapse-item" href="@Url.Action("Index", "ideas",  new { id= Model.First().topic_id, sort=1 })">Latest </a>&emsp;
                             <a class="collapse-item" href="@Url.Action("Index", "ideas",  new { id= Model.First().topic_id, sort=2 })">Most Popular </a>&emsp;
-                            <a class="collapse-item" href="@Url.Action("Index", "ideas",  new { id= Model.First().topic_id, sort=3 })">Most Viewed</a>
-                            <a class="collapse-item" hidden href="@Url.Action("Index", "ideas",  new { id= Model.First().topic_id, sort=4 })">Latest Comments</a>
+                            <a class="collapse-item" href="@Url.Action("Index", "ideas",  new { id= Model.First().topic_id, sort=3 })">Most Viewed</a>&emsp;
+                            <a class="collapse-item" href="@Url.Action("Index", "ideas",  new { id= Model.First().topic_id, sort=4 })">Latest Comments</a>
                         </div>
                     </div>
                 </div>
 
                 <div class="table-responsive p-3">
                     <table class="table align-items-center table-flush table-hover" id="dataTableHover">
-
-
-                        @foreach (var item in Model)
-                        {
+                        <thead hidden>
                             <tr>
-                                <td>
-                                    <a style="text-decoration:none; color:inherit" href="@Url.Action("Details", "ideas", new { id = item.idea_id})">
-                                        <div class="form-group">
-                                            <hr />
-                                            <label style="font-weight: bold;font-size: 20px; margin-top: -10px;" for="exampleFormControlTextarea1">@Html.DisplayFor(modelItem => item.idea_title) <hr style="background-color: #fc544b; margin-top: 3px;" /></label>
-                                            <div style="margin-bottom:15px; margin-top: -12px;">
-                                                @if (item.idea_trigger == false)
-                                                {
-                                                    <span style="font-weight: bold;">@Html.DisplayFor(modelItem => item.account.fname)</span>
-                                                    <div>
-                                                        @if (item.account.position != null)
-                                                        {
-                                                            <p style="font-size: 12px;">@Html.DisplayFor(modelItem => item.account.position), @Html.DisplayFor(modelItem => item.account.department.department_name) </p>
-                                                        }
-                                                    </div>
-                                                }
-                                                else
-                                                {
-                                                    <span style="font-weight: bold;">Anonymous</span>
-                                                }
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td hidden></td>
+                                    <td>
+                                        <a style="text-decoration:none; color:inherit" href="@Url.Action("Details", "ideas", new { id = item.idea_id})">
+                                            <div class="form-group">
+                                                <hr />
+                                                <label style="font-weight: bold;font-size: 20px; margin-top: -10px;" for="exampleFormControlTextarea1">@Html.DisplayFor(modelItem => item.idea_title) <hr style="background-color: #fc544b; margin-top: 3px;" /></label>
+                                                <div style="margin-bottom:15px; margin-top: -12px;">
+                                                    @if (item.idea_trigger == false)
+                                                    {
+                                                        <span style="font-weight: bold;">@Html.DisplayFor(modelItem => item.account.fname)</span>
+                                                        <div>
+                                                            @if (item.account.position != null)
+                                                            {
+                                                                <p style="font-size: 12px;">@Html.DisplayFor(modelItem => item.account.position), @Html.DisplayFor(modelItem => item.account.department.department_name) </p>
+                                                            }
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span style="font-weight: bold;">Anonymous</span>
+                                                    }
 
-                                            </div>
-                                            <p style="  font-size: 14px;
+                                                </div>
+                                                <p style="  font-size: 14px;
                                                                             line-height: 24px;
                                                                             overflow: hidden;
                                                                             text-overflow: ellipsis;
@@ -148,26 +155,26 @@
                                                                             margin-bottom: 5px;
                                                                             margin-top: -7px;">
 
-                                                @Html.DisplayFor(modelItem => item.idea_content)
-                                            </p>
-                                            <div style="display: inline; font-size: 12px;">
-                                                <span>@Html.DisplayFor(modelItem => item.idea_date)  &emsp;  &nbsp;</span>
-                                                <span>@Html.DisplayFor(modelItem => item.views) <i class="fa-solid fa-eye"></i> &emsp;  &nbsp;</span>
-                                                <span>@Html.DisplayFor(modelItem => item.thumbs_up) <i class="fa-solid fa-thumbs-up"></i> &emsp;&nbsp; </span>
-                                                <span>@Html.DisplayFor(modelItem => item.thumbs_down) <i class="fa-solid fa-thumbs-down"></i></span>
+                                                    @Html.DisplayFor(modelItem => item.idea_content)
+                                                </p>
+                                                <div style="display: inline; font-size: 12px;">
+                                                    <span>@Html.Action("CalCulateTime","Home",new {date = item.idea_date }) @*@Html.DisplayFor(modelItem => item.idea_date)*@  &emsp;  &nbsp;</span>
+                                                    <span>@Html.DisplayFor(modelItem => item.views) <i class="fa-solid fa-eye"></i> &emsp;  &nbsp;</span>
+                                                    <span>@Html.DisplayFor(modelItem => item.thumbs_up) <i class="fa-solid fa-thumbs-up"></i> &emsp;&nbsp; </span>
+                                                    <span>@Html.DisplayFor(modelItem => item.thumbs_down) <i class="fa-solid fa-thumbs-down"></i></span>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="@Url.Action("Delete", "ideas", new { id = item.idea_id})" onclick="return confirm('Are you sure to delete this idea?')">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
-                                </td>
-                            </tr>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("Delete", "ideas", new { id = item.idea_id})" onclick="return confirm('Are you sure to delete this idea?')">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
 
-                        }
-
+                            }
+                        </tbody>
                     </table>
                 </div>
             </div>

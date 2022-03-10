@@ -48,7 +48,6 @@ namespace WE_Project.Controllers
                         break;
                 }
 
-                ViewBag.name = idea.First().topic.topic_name;
                 ViewBag.category_id = new SelectList(db.category, "category_id", "category_name");
                 return View(idea.ToList());
             }

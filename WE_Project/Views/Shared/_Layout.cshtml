@@ -90,7 +90,7 @@
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTopic" aria-expanded="true"
                        aria-controls="collapseTopic">
                         <i class="fa-solid fa-file-lines"></i>
-                        <span>Topics</span>
+                        <span>Ideas</span>
                     </a>
                     <div id="collapseTopic" class="collapse" aria-labelledby="headingTable" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
@@ -125,9 +125,9 @@
                     <ul class="navbar-nav ml-auto">
                         @if (Session["us"] != null)
                         {
-                        <li class="nav-item dropdown no-arrow mx-1">
-                            @Html.Action("Index", "notifications")
-                        </li>
+                            <li class="nav-item dropdown no-arrow mx-1">
+                                @Html.Action("Index", "notifications")
+                            </li>
 
                             <div class="topbar-divider d-none d-sm-block"></div>
                             <li class="nav-item dropdown no-arrow">
@@ -141,7 +141,7 @@
                                     {
                                         <img class="img-profile rounded-circle" src="~/img/boy.png" style="max-width: 60px">
                                     }
-                                    
+
 
                                     <span class="ml-2 d-none d-lg-inline text-white small">@Session["us"]</span>
                                 </a>
@@ -181,7 +181,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
-                                    <a  href="@Url.Action("Index", "Login")" class="btn btn-primary">Logout</a>
+                                    <a href="@Url.Action("Index", "Login")" class="btn btn-primary">Logout</a>
                                 </div>
                             </div>
                         </div>
@@ -221,8 +221,10 @@
     <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <script src="~/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
-
     <script>
+        
+
+
         $(document).ready(function () {
             $('#dataTableHover').DataTable(); // ID From dataTable with Hover
         });
@@ -236,7 +238,32 @@
                     $('#submits').attr('disabled', true);
                 }
             });
+
         });
+
+        $(function () {
+            $('#submitComment').attr('disabled', true);
+            $('#comment_content').change(function () {
+                if ($('#comment_content').val() != '') {
+                    $('#submitComment').attr('disabled', false);
+                } else {
+                    $('#submitComment').attr('disabled', true);
+                }
+            });
+        });
+
+        function postComment(idea_id)
+        {
+            var comment = document.getElementById("comment_content").value;
+            if (document.getElementById("comment_enonymous").checked) {
+                var enonymous = true;
+            }
+            else {
+                var enonymous = false;
+            }
+            $.post('@Url.Action("Create", "comments")', { ID: idea_id , Comment: comment, Enonymous: enonymous })
+
+        }
 
         function postIdea()
         {
