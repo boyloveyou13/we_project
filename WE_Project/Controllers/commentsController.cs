@@ -6,7 +6,6 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using WE_Project.Hubs;
 using WE_Project.Models;
 
 

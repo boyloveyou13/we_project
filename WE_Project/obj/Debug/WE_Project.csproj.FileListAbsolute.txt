@@ -533,16 +533,10 @@ C:\Users\lenovo\OneDrive\Máy tính\Web\Git\WE_PROJECT\we_project\WE_Project\bin
 C:\Users\lenovo\OneDrive\Máy tính\Web\Git\WE_PROJECT\we_project\WE_Project\obj\Debug\WE_Project.csproj.CopyComplete
 C:\Users\lenovo\OneDrive\Máy tính\Web\Git\WE_PROJECT\we_project\WE_Project\obj\Debug\WE_Project.dll
 C:\Users\lenovo\OneDrive\Máy tính\Web\Git\WE_PROJECT\we_project\WE_Project\obj\Debug\WE_Project.pdb
-D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.AspNet.SignalR.Core.dll
-D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
 D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.Owin.dll
 D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.Owin.Host.SystemWeb.dll
 D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.Owin.Security.dll
 D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Owin.dll
-D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.AspNet.SignalR.Core.pdb
-D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.AspNet.SignalR.Core.xml
-D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.AspNet.SignalR.SystemWeb.pdb
-D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
 D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.Owin.xml
 D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.Owin.Host.SystemWeb.xml
 D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.Owin.Security.xml

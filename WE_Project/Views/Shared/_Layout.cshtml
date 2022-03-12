@@ -15,6 +15,7 @@
     <link href="~/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link href="~/vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 </head>
 
 <body id="page-top">
@@ -222,14 +223,69 @@
     <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <script src="~/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
     <script>
-        
-
 
         $(document).ready(function () {
             $('#dataTableHover').DataTable(); // ID From dataTable with Hover
         });
 
         $(function () {
+
+            if (window.location.href.indexOf("Report") > -1) {
+                var chart = new CanvasJS.Chart("topViews", {
+                    animationEnabled: true,
+                    theme: "light1", // "light1", "light2", "dark1", "dark2"
+                    title: {
+                        text: "Top 10 most viewed idea"
+                    },
+                    axisY: {
+                        title: "Views"
+                    },
+                    data: [{
+                        type: "column",
+                        dataPoints: @Html.Raw(ViewBag.ViewPoints)
+			        }]
+                });
+
+                var chart2 = new CanvasJS.Chart("topPopulars", {
+                    animationEnabled: true,
+                    theme: "light1", // "light1", "light2", "dark1", "dark2"
+                    title: {
+                        text: "Top 10 most popular idea"
+                    },
+                    axisY: {
+                        title: "Popular Points"
+                    },
+                    data: [{
+                        type: "column",
+                        dataPoints: @Html.Raw(ViewBag.PopularPoints)
+			        }]
+                });
+
+                var chart3 = new CanvasJS.Chart("CategoryPoints", {
+	                theme: "light1", // "light1", "light2", "dark1", "dark2"
+	                exportEnabled: true,
+	                animationEnabled: true,
+	                title: {
+                        text: "Idea percentage on category"
+	                },
+	                data: [{
+		                type: "pie",
+		                startAngle: 180,
+		                toolTipContent: "<b>{label}</b>: {y}%",
+		                showInLegend: "true",
+		                legendText: "{label}",
+		                indexLabel: "{label} - {y}%",
+		                dataPoints: @Html.Raw(ViewBag.CategoryPoints)
+	                }]
+                });
+
+                chart.render();
+                chart2.render();
+                chart3.render();
+
+            }
+
+
             $('#submits').attr('disabled', true);
             $('#idea_content, #idea_title, #customCheck2 ').change(function () {
                 if ($('#idea_content').val() != '' && $('#idea_title').val() != '' && $('#customCheck2').is(':checked')) {
@@ -251,6 +307,48 @@
                 }
             });
         });
+
+
+        function successFunc(jsondata) {
+            alert("function1call");
+            var chart = c3.generate({
+                bindto: '#TopViewBarChart',
+                data: {
+                    json: jsondata,
+                    keys: {
+                        value: 'views',
+                    },
+                    columns: 'views',
+                    type: 'bar',
+                },
+                color: {
+                    pattern: ['#1f77b4', '#aec7e8', '#ff7f0e', '#ffbb78', '#2ca02c', '#98df8a', '#d62728', '#ff9896', '#9467bd', '#c5b0d5', '#8c564b', '#c49c94', '#e377c2', '#f7b6d2', '#7f7f7f', '#c7c7c7', '#bcbd22', '#dbdb8d', '#17becf', '#9edae5']
+                },
+            });
+        }
+
+
+        function successFunc1(jsondata) {
+            alert("function2call");
+            var chart = c3.generate({
+                bindto: '#TopPopularBarChart',
+                data: {
+                    json: jsondata,
+                    keys: {
+                        value: ['thumbs_up', 'thumbs_down'],
+                    },
+                    columns: ['thumbs_up', 'thumbs_down'],
+                    type: 'bar',
+                    groups: [
+                        ['thumbs_up', 'thumbs_down']
+                    ]
+                },
+                color: {
+                    pattern: ['#1f77b4', '#aec7e8', '#ff7f0e', '#ffbb78', '#2ca02c', '#98df8a', '#d62728', '#ff9896', '#9467bd', '#c5b0d5', '#8c564b', '#c49c94', '#e377c2', '#f7b6d2', '#7f7f7f', '#c7c7c7', '#bcbd22', '#dbdb8d', '#17becf', '#9edae5']
+                },
+            });
+        }
+
 
         function postComment(idea_id)
         {
