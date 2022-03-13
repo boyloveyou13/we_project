@@ -69,18 +69,42 @@ namespace WE_Project.Controllers
             }
             if (ModelState.IsValid)
             {
+                topic.topic_name = topic.topic_name.Trim();
+                if(topic.describe != null)
+                    topic.describe = topic.describe.Trim();
                 var topicDB = db.topic.Where(t => t.topic_name == topic.topic_name);
                 if (topicDB.ToList().Count == 0)
                 {
-                    //DateTime closure = (DateTime)topic.closure_date;
-                    if ((DateTime.Compare((DateTime)topic.closure_date, DateTime.Now.Date)) < 0)
+                    if (topic.closure_date != null)
                     {
-                        ViewBag.ErrorMessage = "Closure date cannot be earlier than date now";
+                        if ((DateTime.Compare((DateTime)topic.closure_date, DateTime.Now.Date)) < 0)
+                        {
+                            ViewBag.ErrorMessage = "Closure date cannot be earlier than date now";
+                            return View(topic);
+                        }
+                        if (topic.final_date != null)
+                        {
+                            if (DateTime.Compare((DateTime)topic.closure_date, (DateTime)topic.final_date) > 0)
+                            {
+                                ViewBag.ErrorMessage = "Closure date cannot be earlier than final date";
+                                return View(topic);
+                            }
+                        }
+                    }else
+                    {
+                        ViewBag.ErrorMessage = "Closure date cannot be empty";
                         return View(topic);
                     }
-                    if (DateTime.Compare((DateTime)topic.closure_date, (DateTime)topic.final_date) > 0)
+                    if (topic.final_date != null)
                     {
-                        ViewBag.ErrorMessage = "Closure date cannot be earlier than final date";
+                        if ((DateTime.Compare((DateTime)topic.final_date, DateTime.Now.Date)) < 0)
+                        {
+                            ViewBag.ErrorMessage = "Final date cannot be earlier than date now";
+                            return View(topic);
+                        }
+                    }else
+                    {
+                        ViewBag.ErrorMessage = "Final date cannot be empty";
                         return View(topic);
                     }
                     db.topic.Add(topic);
@@ -130,20 +154,47 @@ namespace WE_Project.Controllers
             }
             if (ModelState.IsValid)
             {
-
+                topic.topic_name = topic.topic_name.Trim();
+                if(topic.describe != null)
+                    topic.describe = topic.describe.Trim();
+                var topicID = db.topic.AsNoTracking().Where(t=>t.topic_id == topic.topic_id).ToList();
+                if(topic.closure_date == null)
+                {
+                    topic.closure_date = topicID.First().closure_date;
+                }
+                if(topic.final_date == null)
+                {
+                    topic.final_date = topicID.First().final_date;
+                }
                 var topicDB = db.topic.Where(t => t.topic_name == topic.topic_name && t.topic_id != topic.topic_id);
                 if (topicDB.ToList().Count == 0)
                 {
-                    if((DateTime.Compare((DateTime)topic.closure_date,  DateTime.Now.Date)) < 0)
+                    if(topic.closure_date != null)
                     {
-                        ViewBag.ErrorMessage = "Closure date cannot be earlier than date now";
-                        return View(topic);
+                        if ((DateTime.Compare((DateTime)topic.closure_date, DateTime.Now.Date)) < 0)
+                        {
+                            ViewBag.ErrorMessage = "Closure date cannot be earlier than date now";
+                            return View(topic);
+                        }
+                        if(topic.final_date != null)
+                        {
+                            if (DateTime.Compare((DateTime)topic.closure_date, (DateTime)topic.final_date) > 0)
+                            {
+                                ViewBag.ErrorMessage = "Closure date cannot be earlier than final date";
+                                return View(topic);
+                            }
+                        }
                     }
-                    if(DateTime.Compare((DateTime)topic.closure_date,(DateTime)topic.final_date) >0)
+                    if(topic.final_date != null)
                     {
-                        ViewBag.ErrorMessage = "Closure date cannot be earlier than final date";
-                        return View(topic);
+                        if ((DateTime.Compare((DateTime)topic.final_date, DateTime.Now.Date)) < 0)
+                        {
+                            ViewBag.ErrorMessage = "Final date cannot be earlier than date now";
+                            return View(topic);
+                        }
                     }
+                    
+                    
                     db.Entry(topic).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
                     return RedirectToAction("Index");
@@ -155,6 +206,30 @@ namespace WE_Project.Controllers
                 }
             }
             return View(topic);
+        }
+
+
+        public ActionResult Close(int? id)
+        {
+            topic topic = db.topic.Find(id);
+
+            if (topic.closure_date != null)
+            {
+                if ((DateTime.Compare((DateTime)topic.closure_date, DateTime.Now.Date)) > 0)
+                {
+                    topic.closure_date = DateTime.Now.AddDays(-1);                  
+                }
+            }
+            if (topic.final_date != null)
+            {
+                if ((DateTime.Compare((DateTime)topic.final_date, DateTime.Now.Date)) > 0)
+                {
+                    topic.final_date = DateTime.Now.AddDays(-1);
+                }
+            }
+            db.Entry(topic).State = System.Data.Entity.EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         // GET: topics/Delete/5

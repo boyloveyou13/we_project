@@ -28,27 +28,48 @@ namespace WE_Project.Controllers
             List<DataPoint> topViews = new List<DataPoint>();
             List<DataPoint> categoryReport = new List<DataPoint>();
             var category = db.category.ToList();
-            var topView = db.idea.OrderByDescending(t => t.views).Where(t => t.account.department_id == account.department_id).Take(10);
-            var topPopular = db.idea.OrderByDescending(t => t.thumbs_up - t.thumbs_down).Where(t => t.account.department_id == account.department_id).Take(10);
-            var count = db.idea.Where(t => t.account.department_id == account.department_id).ToList().Count;
-            if (id == null)
+            var topView = db.idea.OrderByDescending(t => t.views).Take(10);
+            var topPopular = db.idea.OrderByDescending(t => t.thumbs_up - t.thumbs_down).Take(10);
+            var count = db.idea.ToList().Count;
+            
+            if (id == 0)
             {
-               
-                foreach (var c in category)
+                if (account.state > 2)
                 {
-                    var _category = c.idea.Where(t => t.account.department_id == account.department_id && t.category_id == c.category_id).ToList().Count;
-                    categoryReport.Add(new DataPoint(c.category_name, (double)_category / (double)count * 100));
-                }
+                    topView = db.idea.OrderByDescending(t => t.views).Where(t => t.account.department_id == account.department_id).Take(10);
+                    topPopular = db.idea.OrderByDescending(t => t.thumbs_up - t.thumbs_down).Where(t => t.account.department_id == account.department_id).Take(10);
+                    count = db.idea.Where(t => t.account.department_id == account.department_id).ToList().Count;
+
+                    foreach (var c in category)
+                    {
+                        var _category = c.idea.Where(t => t.account.department_id == account.department_id && t.category_id == c.category_id).ToList().Count;
+                        categoryReport.Add(new DataPoint(c.category_name, (double)_category / (double)count * 100));
+                    }
+                }else
+                {
+                    foreach (var c in category)
+                    {
+                        var _category = c.idea.Where(t => t.category_id == c.category_id).ToList().Count;
+                        categoryReport.Add(new DataPoint(c.category_name, (double)_category / (double)count * 100));
+                    }
+                }    
             }else
             {
-                topView = db.idea.OrderByDescending(t => t.views).Where(t => t.account.department_id == id).Take(10);
-                topPopular = db.idea.OrderByDescending(t => t.thumbs_up - t.thumbs_down).Where(t => t.account.department_id == id).Take(10);
-                count = db.idea.Where(t => t.account.department_id == id).ToList().Count;
-                foreach (var c in category)
+                if(account.state != 3)
                 {
-                    var _category = c.idea.Where(t => t.account.department_id == id && t.category_id == c.category_id).ToList().Count;
-                    categoryReport.Add(new DataPoint(c.category_name, (double)_category / (double)count * 100));
+                    topView = db.idea.OrderByDescending(t => t.views).Where(t => t.account.department_id == id).Take(10);
+                    topPopular = db.idea.OrderByDescending(t => t.thumbs_up - t.thumbs_down).Where(t => t.account.department_id == id).Take(10);
+                    count = db.idea.Where(t => t.account.department_id == id).ToList().Count;
+                    foreach (var c in category)
+                    {
+                        var _category = c.idea.Where(t => t.account.department_id == id && t.category_id == c.category_id).ToList().Count;
+                        categoryReport.Add(new DataPoint(c.category_name, (double)_category / (double)count * 100));
+                    }
+                }else
+                {
+                    return RedirectToAction("Index","Home");
                 }
+              
 
             }
        

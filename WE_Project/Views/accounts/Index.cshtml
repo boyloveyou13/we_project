@@ -35,6 +35,9 @@
                             <th>
                                 @Html.DisplayNameFor(model => model.department.department_name)
                             </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.isActive)
+                            </th>
                             <th></th>
                         </tr>
                     </thead>
@@ -88,6 +91,20 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.department.department_name)
                             </td>
+
+                            @if (item.isActive == true)
+                            {
+                                <td>
+                                    Active
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    Inactive
+                                </td>
+                            }
+
                             <td>
                                 @*@Html.ActionLink("Edit", "Edit", new { id = item.account_id })*@
                                 <div></div>

@@ -22,7 +22,7 @@
     }
 
 </a>
-<div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+<div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" style="max-height:500px;overflow-y:auto"
      aria-labelledby="alertsDropdown">
     <h6 class="dropdown-header">
         Notification Center
@@ -38,7 +38,15 @@
                     </div>
                 </div>
                 <div>
-                    <div class="small text-gray-500">@Html.Action("CalCulateTime", "Home", new { date = item.idea.idea_recent })</div>
+                    @if (item.idea.idea_recent != null)
+                    {
+                        <div class="small text-gray-500">@Html.Action("CalCulateTime", "Home", new { date = item.idea.idea_recent })</div>
+                    }
+                    else
+                    {
+                <div class="small text-gray-500">@Html.DisplayFor(modelItem => item.idea.idea_date)</div>
+                    }
+
                     @if (item.account.state == 3)
                     {
                         <span class="font-weight-bold">

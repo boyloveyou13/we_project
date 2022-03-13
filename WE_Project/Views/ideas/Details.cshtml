@@ -89,26 +89,36 @@
                     <hr />
                     <br />
                     <br />
-                    <div class="form-group">
-                        <textarea class="form-control" id="comment_content" style="resize:none;height:80px" contenteditable="inherit" placeholder="Comment here"></textarea>
+
+                    @if (Model.topic.final_date != null)
+                    {
+                        if (DateTime.Compare((DateTime)Model.topic.final_date, DateTime.Now.Date) >= 0)
+                        {
+                            <div class="form-group">
+                                <textarea class="form-control" id="comment_content" style="resize:none;height:80px" contenteditable="inherit" placeholder="Comment here"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox" style="margin-top:15px">
+                                    <input type="checkbox" class="custom-control-input" id="comment_enonymous">
+                                    <label class="custom-control-label" for="comment_enonymous">Enonymous</label>
+                                </div>
+                            </div>
+
+                            <button id="submitComment" name="submitComment" onclick="var idea_id = parseInt(@Model.idea_id) ; postComment(idea_id); " class="btn btn-primary">Comment</button>
+
+
+
+                            <br />
+                            <br />
+                        }
+                    }
+
+
+
+                        @Html.Action("Index", "comments", new { id = Model.idea_id })
+
                     </div>
-
-                    <div class="form-group">
-                        <div class="custom-control custom-checkbox" style="margin-top:15px">
-                            <input type="checkbox" class="custom-control-input" id="comment_enonymous">
-                            <label class="custom-control-label" for="comment_enonymous">Enonymous</label>
-                        </div>
-                    </div>
-
-                    <button id="submitComment" name="submitComment" onclick="var idea_id = parseInt(@Model.idea_id) ; postComment(idea_id); " class="btn btn-primary">Comment</button>
-
-
-
-                    <br />
-                    <br />
-                    @Html.Action("Index", "comments", new { id = Model.idea_id })
-
-                </div>
             </div>
         </div>
     </div>

@@ -17,6 +17,10 @@ namespace WE_Project.Controllers
         // GET: files
         public ActionResult Index(int? id)
         {
+            if (Session["us"] == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             var file = db.file.Include(f => f.idea).Where(t=>t.idea_id == id);
             return PartialView(file.ToList());
         }
@@ -32,108 +36,11 @@ namespace WE_Project.Controllers
 
         public FileResult DownloadFile(int ID)
         {
+
             file file = db.file.Find(ID);
             return File(file.file_content, file.file_type, file.file_name);
         }
-
-        // GET: files/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            file file = db.file.Find(id);
-            if (file == null)
-            {
-                return HttpNotFound();
-            }
-            return View(file);
-        }
-
-        // GET: files/Create
-        public ActionResult Create()
-        {
-            ViewBag.idea_id = new SelectList(db.idea, "idea_id", "idea_content");
-            return View();
-        }
-
-        // POST: files/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "file_id,idea_id,file_name")] file file)
-        {
-            if (ModelState.IsValid)
-            {
-                db.file.Add(file);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.idea_id = new SelectList(db.idea, "idea_id", "idea_content", file.idea_id);
-            return View(file);
-        }
-
-        // GET: files/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            file file = db.file.Find(id);
-            if (file == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.idea_id = new SelectList(db.idea, "idea_id", "idea_content", file.idea_id);
-            return View(file);
-        }
-
-        // POST: files/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "file_id,idea_id,file_name")] file file)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(file).State = System.Data.Entity.EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.idea_id = new SelectList(db.idea, "idea_id", "idea_content", file.idea_id);
-            return View(file);
-        }
-
-        // GET: files/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            file file = db.file.Find(id);
-            if (file == null)
-            {
-                return HttpNotFound();
-            }
-            return View(file);
-        }
-
-        // POST: files/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            file file = db.file.Find(id);
-            db.file.Remove(file);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+             
 
         protected override void Dispose(bool disposing)
         {

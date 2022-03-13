@@ -47,6 +47,7 @@ namespace WE_Project.Controllers
             }
             if (ModelState.IsValid)
             {
+                department.department_name = department.department_name.Trim();
                 var departmentDB = db.department.Where(t => t.department_name == department.department_name);
                 if (departmentDB.ToList().Count == 0)
                 {
@@ -97,6 +98,7 @@ namespace WE_Project.Controllers
             }
             if (ModelState.IsValid)
             {
+                department.department_name = department.department_name.Trim();
                 var departmentDB = db.department.Where(t => t.department_name == department.department_name && t.department_id != department.department_id);
                 if (departmentDB.ToList().Count == 0)
                 {

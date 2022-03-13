@@ -26,10 +26,6 @@ namespace WE_Project.Controllers
             return View(db.category.ToList());
         }
 
-        public ActionResult CategoryMenu()
-        {
-            return PartialView(db.category.ToList());
-        }
 
         // GET: categories/Details/5
         public ActionResult Details(int? id)
@@ -72,6 +68,9 @@ namespace WE_Project.Controllers
                 var categoryDB = db.category.Where(t => t.category_name == category.category_name);
                 if (categoryDB.ToList().Count == 0)
                 {
+                    if(category.describe != null)
+                        category.describe = category.describe.Trim();
+                    category.category_name = category.category_name.Trim();
                     db.category.Add(category);
                     db.SaveChanges();
                     return RedirectToAction("Index");
@@ -121,6 +120,9 @@ namespace WE_Project.Controllers
                 var categoryDB = db.category.Where(t => t.category_name == category.category_name && t.category_id != category.category_id);
                 if (categoryDB.ToList().Count <= 0)
                 {
+                    if (category.describe != null)
+                        category.describe = category.describe.Trim();
+                    category.category_name = category.category_name.Trim();
                     db.Entry(category).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
                     return RedirectToAction("Index");

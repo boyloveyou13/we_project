@@ -20,7 +20,7 @@
                         </a>
                         <div id="collapseSort" class="collapse" aria-labelledby="headingTable" data-parent="#accordionSidebar">
                             <div class="bg-white py-2 collapse-inner rounded">
-                                <a class="collapse-item" href="@Url.Action("Index", "Report")">All</a>&emsp;
+                                <a class="collapse-item" href="@Url.Action("Index", "Report",  new { id= 0 })">All</a>&emsp;
                                 @foreach (var item in Model)
                                 {
                                     <a class="collapse-item" href="@Url.Action("Index", "Report",  new { id= item.department_id })">@item.department_name</a> <span>&emsp;</span>

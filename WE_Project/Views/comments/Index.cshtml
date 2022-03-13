@@ -20,17 +20,15 @@
         padding-top: 10px
     }
 
-    .comment h4,
-    .comment span
-    {
-        display: inline
-    }
+        .comment h4,
+        .comment span {
+            display: inline
+        }
 
-    .comment p,
-    .comment span
-    {
-        color: dimgrey;
-    }
+        .comment p,
+        .comment span {
+            color: dimgrey;
+        }
 </style>
 
 @foreach (var item in Model)
@@ -38,27 +36,48 @@
     if (item.comment_status == false)
     {
 
-    <div class="comment mt-4 text-justify col-lg-12">
-        @if (item.account.img != null)
+<div class="comment mt-4 text-justify col-lg-12">
+    @if (item.account.img != null)
+    {
+        <img src="@Url.Action("show", "accounts", new { id = item.account_id })" alt="" class="rounded-circle" width="40" height="40">
+    }
+    else
+    {
+        <img src="~/img/boy.png" alt="" class="rounded-circle" width="40" height="40">
+    }
+    <h4 style="font-size:15px; font-weight:bold">@Html.DisplayFor(modelItem => item.account.email)</h4> <span>- @Html.Action("CalCulateTime", "Home", new { date = item.comment_date })</span>
+    <span style="float:right;">
+        @if (Session["state"].ToString() == "1")
         {
-            <img src="@Url.Action("show", "accounts", new { id = item.account_id })" alt="" class="rounded-circle" width="40" height="40">
+            <a style="float:right" href="@Url.Action("Delete", "comments", new { id = item.comment_id, i = item.idea_id})" onclick="return confirm('Are you sure to delete this comment?')">
+                <i class="fas fa-trash"></i>
+            </a>
         }
-        else
-        {
-            <img src="~/img/boy.png" alt="" class="rounded-circle" width="40" height="40">
-        }
-        <h4 style="font-size:15px; font-weight:bold">@Html.DisplayFor(modelItem => item.account.email)</h4> <span>- @Html.Action("CalCulateTime", "Home", new { date = item.comment_date })</span> <br>
-        <p style="color: dimgrey; margin-top: 10px; margin-left: 10px;text-align:justify">@Html.DisplayFor(modelItem => item.comment_content)</p>
-    </div>
+    </span> <br>
+    <p style="color: dimgrey; margin-top: 10px; margin-left: 10px;text-align:justify">@Html.DisplayFor(modelItem => item.comment_content)</p>
+
+</div>
     }
     else
     {
     <div class="comment mt-4 text-justify col-lg-12">
         <img src="~/img/boy.png" alt="" class="rounded-circle" width="40" height="40">
-        <h4 style="font-size: 15px; font-weight: bold">Enonymous</h4> <span>- @Html.Action("CalCulateTime", "Home", new { date = item.comment_date })</span> <br>
+        <h4 style="font-size: 15px; font-weight: bold">Enonymous</h4> <span>- @Html.Action("CalCulateTime", "Home", new { date = item.comment_date })</span> 
+        <span style="float:right;">
+            @if (Session["state"].ToString() == "1")
+            {
+                <a style="float:right" href="@Url.Action("Delete", "comments", new { id = item.comment_id, i = item.idea_id})" onclick="return confirm('Are you sure to delete this comment?')">
+                    <i class="fas fa-trash"></i>
+                </a>
+            }
+        </span> <br>
         <p style="color: dimgrey; margin-top: 10px; margin-left: 10px;">@Html.DisplayFor(modelItem => item.comment_content)</p>
+       
     </div>
+       
     }
+
+
 
 }
 

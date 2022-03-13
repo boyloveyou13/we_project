@@ -46,7 +46,7 @@
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBootstrap"
                            aria-expanded="true" aria-controls="collapseBootstrap">
                             <i class="fa-solid fa-users"></i>
-                            <span>Manage Account</span>
+                            <span>Manage Accounts</span>
                         </a>
                         <div id="collapseBootstrap" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
                             <div class="bg-white py-2 collapse-inner rounded">
@@ -60,7 +60,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="@Url.Action("Index", "departments")">
                             <i class="fa-solid fa-city"></i>
-                            <span>Manage Department</span>
+                            <span>Manage Departments</span>
                         </a>
                     </li>
                 }
@@ -69,23 +69,25 @@
                     <li class="nav-item">
                         <a class="nav-link" href="@Url.Action("Index", "topics")">
                             <i class="fa-solid fa-folder-open"></i>
-                            <span>Manage Topic</span>
+                            <span>Manage Topics</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCategory" aria-expanded="true"
-                           aria-controls="collapseCategory">
-                            <i class="fa-solid fa-tags"></i>
-                            <span>Categories</span>
+                        <a class="nav-link" href="@Url.Action("Index", "categories")">
+                            <i class="fa-solid fa-city"></i>
+                            <span>Manage Categories</span>
                         </a>
-                        <div id="collapseCategory" class="collapse" aria-labelledby="headingTable" data-parent="#accordionSidebar">
-                            <div class="bg-white py-2 collapse-inner rounded">
-                                <h6 class="collapse-header">Category</h6>
-                                @Html.Action("CategoryMenu", "categories")
-                            </div>
-                        </div>
                     </li>
 
+                }
+                if (Convert.ToInt32(Session["state"]) <= 3)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "Report" , new {id = 0})">
+                            <i class="fa-solid fa-chart-line"></i>
+                            <span>Statistical analysis</span>
+                        </a>
+                    </li>
                 }
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTopic" aria-expanded="true"
@@ -93,8 +95,8 @@
                         <i class="fa-solid fa-file-lines"></i>
                         <span>Ideas</span>
                     </a>
-                    <div id="collapseTopic" class="collapse" aria-labelledby="headingTable" data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
+                    <div id="collapseTopic" class="collapse" aria-labelledby="headingTable" data-parent="#accordionSidebar" style="overflow:hidden">
+                        <div class="bg-white py-2 collapse-inner rounded" style="overflow:hidden">
                             <h6 class="collapse-header">Select topic to view ideas</h6>
                             @Html.Action("SelectTopic", "topics")
                         </div>
@@ -222,70 +224,76 @@
     <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <script src="~/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+
+    @if(Html.Raw(ViewBag.ViewPoints) != null)
+            {
+            <script>
+                    $(function () {
+
+                if (window.location.href.indexOf("Report") > -1) {
+                    var chart = new CanvasJS.Chart("topViews", {
+                        animationEnabled: true,
+                        theme: "light1", // "light1", "light2", "dark1", "dark2"
+                        title: {
+                            text: "Top 10 most viewed idea"
+                        },
+                        axisY: {
+                            title: "Views"
+                        },
+                        data: [{
+                            type: "column",
+                            dataPoints: @Html.Raw(ViewBag.ViewPoints)
+			            }]
+                    });
+
+                    var chart2 = new CanvasJS.Chart("topPopulars", {
+                        animationEnabled: true,
+                        theme: "light1", // "light1", "light2", "dark1", "dark2"
+                        title: {
+                            text: "Top 10 most popular idea"
+                        },
+                        axisY: {
+                            title: "Popular Points"
+                        },
+                        data: [{
+                            type: "column",
+                            dataPoints: @Html.Raw(ViewBag.PopularPoints)
+			            }]
+                    });
+
+                    var chart3 = new CanvasJS.Chart("CategoryPoints", {
+	                    theme: "light1", // "light1", "light2", "dark1", "dark2"
+	                    exportEnabled: true,
+	                    animationEnabled: true,
+	                    title: {
+                            text: "Idea percentage on category"
+	                    },
+	                    data: [{
+		                    type: "pie",
+		                    startAngle: 180,
+		                    toolTipContent: "<b>{label}</b>: {y}%",
+		                    showInLegend: "true",
+		                    legendText: "{label}",
+		                    indexLabel: "{label} - {y}%",
+		                    dataPoints: @Html.Raw(ViewBag.CategoryPoints)
+	                    }]
+                    });
+
+                    chart.render();
+                    chart2.render();
+                    chart3.render();
+
+                }
+            });
+            </script>
+            }
     <script>
 
         $(document).ready(function () {
             $('#dataTableHover').DataTable(); // ID From dataTable with Hover
         });
-
+     
         $(function () {
-
-            if (window.location.href.indexOf("Report") > -1) {
-                var chart = new CanvasJS.Chart("topViews", {
-                    animationEnabled: true,
-                    theme: "light1", // "light1", "light2", "dark1", "dark2"
-                    title: {
-                        text: "Top 10 most viewed idea"
-                    },
-                    axisY: {
-                        title: "Views"
-                    },
-                    data: [{
-                        type: "column",
-                        dataPoints: @Html.Raw(ViewBag.ViewPoints)
-			        }]
-                });
-
-                var chart2 = new CanvasJS.Chart("topPopulars", {
-                    animationEnabled: true,
-                    theme: "light1", // "light1", "light2", "dark1", "dark2"
-                    title: {
-                        text: "Top 10 most popular idea"
-                    },
-                    axisY: {
-                        title: "Popular Points"
-                    },
-                    data: [{
-                        type: "column",
-                        dataPoints: @Html.Raw(ViewBag.PopularPoints)
-			        }]
-                });
-
-                var chart3 = new CanvasJS.Chart("CategoryPoints", {
-	                theme: "light1", // "light1", "light2", "dark1", "dark2"
-	                exportEnabled: true,
-	                animationEnabled: true,
-	                title: {
-                        text: "Idea percentage on category"
-	                },
-	                data: [{
-		                type: "pie",
-		                startAngle: 180,
-		                toolTipContent: "<b>{label}</b>: {y}%",
-		                showInLegend: "true",
-		                legendText: "{label}",
-		                indexLabel: "{label} - {y}%",
-		                dataPoints: @Html.Raw(ViewBag.CategoryPoints)
-	                }]
-                });
-
-                chart.render();
-                chart2.render();
-                chart3.render();
-
-            }
-
-
             $('#submits').attr('disabled', true);
             $('#idea_content, #idea_title, #customCheck2 ').change(function () {
                 if ($('#idea_content').val() != '' && $('#idea_title').val() != '' && $('#customCheck2').is(':checked')) {
@@ -295,9 +303,6 @@
                 }
             });
 
-        });
-
-        $(function () {
             $('#submitComment').attr('disabled', true);
             $('#comment_content').change(function () {
                 if ($('#comment_content').val() != '') {
@@ -349,6 +354,9 @@
             });
         }
 
+        function csvFile(topic_id) {
+            $.post('@Url.Action("ExportCSV", "Export")', { ID: topic_id})
+        }
 
         function postComment(idea_id)
         {
@@ -403,8 +411,8 @@
             var pass = document.getElementById("Pass").value;
             var confirm = document.getElementById("Confirm").value;
             var state = document.getElementById("addStatus").value;
-            var department_id = document.getElementById("departmentID").value;
-            $.post('@Url.Action("Create", "accounts")', { Email: email, Password: pass, Confirm: confirm, State: state, Department_id: department_id },
+
+            $.post('@Url.Action("Create", "accounts")', { Email: email, Password: pass, Confirm: confirm, State: state },
                 function (result) {window.location.href = result.Url});
         }
 

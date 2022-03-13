@@ -24,7 +24,7 @@ namespace WE_Project.Models
     
         public int department_id { get; set; }
 
-        [DisplayName("Department")]
+        [DisplayName("Department Name")]
         [Required(ErrorMessage = "Department name is required.")]
         [MaxLength(100, ErrorMessage = "The number of characters has been exceeded, the limit is 100 characters")]
         public string department_name { get; set; }

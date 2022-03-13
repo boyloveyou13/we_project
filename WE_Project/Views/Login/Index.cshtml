@@ -47,13 +47,13 @@
                                         <div class="form-group">
                                             @*<input type="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address">*@
                                             @Html.LabelFor(m => m.email)
-                                            @Html.TextBoxFor(m => m.email, "", new { @class = "form-control", @Value = "admin@gmail.com" })
+                                            @Html.TextBoxFor(m => m.email, "", new { @class = "form-control"  })
                                             @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="form-group">
                                             @*<input type="password" class="form-control" id="exampleInputPassword" placeholder="Password">*@
                                             @Html.LabelFor(m => m.password)
-                                            @Html.PasswordFor(m => m.password, new { @class = "form-control", Type = "password", @Value = "admin" })
+                                            @Html.PasswordFor(m => m.password, new { @class = "form-control", Type = "password" })
                                             @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
                                         </div>
                                         if (ViewBag.url != null)

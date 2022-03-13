@@ -47,7 +47,12 @@ namespace WE_Project.Controllers
                         idea = idea.OrderByDescending(i => i.idea_recent);
                         break;
                 }
-
+                var topic = db.topic.Find(id);
+                DateTime close = (DateTime)topic.closure_date;
+                DateTime final = (DateTime)topic.final_date;
+                ViewBag.topic_name = topic.topic_name;
+                ViewBag.closure = close.ToString("dd/MM/yy");
+                ViewBag.final = final.ToString("dd/MM/yy");
                 ViewBag.category_id = new SelectList(db.category, "category_id", "category_name");
                 return View(idea.ToList());
             }
@@ -70,6 +75,12 @@ namespace WE_Project.Controllers
             {
                 notification notification = db.notification.Find(idNotification);
                 notification.state = true;
+                var notifyList = db.notification.Where(t => t.state == false && t.idea_id == id && t.account_id == notification.account_id);
+                foreach(var l in notifyList)
+                {
+                    l.state = true;
+                    db.Entry(l).State = System.Data.Entity.EntityState.Modified;
+                }    
                 db.Entry(notification).State = System.Data.Entity.EntityState.Modified;
                 
             }
@@ -113,49 +124,7 @@ namespace WE_Project.Controllers
             return View(idea);
         }
 
-        // GET: ideas/Create
-        public ActionResult Create(int? id)
-        {
-            var topic = db.topic.Where(t => t.topic_id == id).ToList();
-            if(topic.Count >0)
-            {
-                if (topic.FirstOrDefault().closure_date == null || DateTime.Compare(DateTime.Now.Date, (DateTime)topic.FirstOrDefault().closure_date) <= 0)
-                {
-                    ViewBag.idTopic = id;
-                    ViewBag.account_id = new SelectList(db.account, "account_id", "email");
-                    ViewBag.category_id = new SelectList(db.category, "category_id", "category_name");
-                    ViewBag.topic_id = new SelectList(db.topic, "topic_id", "topic_name");
-                    return PartialView();
-                }
-            }
-                return RedirectToAction("Index",new { id = id });
-
-        }
-
-        // POST: ideas/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "idea_id,topic_id,account_id,category_id,idea_content,thumbs_up,thumbs_down,views,idea_date,idea_title,idea_trigger")] idea idea)
-        {
-            idea.thumbs_up = 0;
-            idea.thumbs_down = 0;
-            idea.views = 0;
-            idea.idea_date = DateTime.Now.Date;
-            if (ModelState.IsValid)
-            {
-                db.idea.Add(idea);
-                db.SaveChanges();
-                return RedirectToAction("Details", new { id = idea.idea_id });
-
-            }
-
-            ViewBag.account_id = new SelectList(db.account, "account_id", "email", idea.account_id);
-            ViewBag.category_id = new SelectList(db.category, "category_id", "category_name", idea.category_id);
-            ViewBag.topic_id = new SelectList(db.topic, "topic_id", "topic_name", idea.topic_id);
-            return View(idea);
-        }
+       
 
         [HttpPost]
         public JsonResult postIdea()
@@ -168,12 +137,13 @@ namespace WE_Project.Controllers
             idea.topic_id = Convert.ToInt32(Request["Topic_id"]);
             idea.category_id =Convert.ToInt32(Request["Category"]);
             idea.account_id = _account_id;
-            idea.idea_title = Request["Title"];
-            idea.idea_content = Request["Content"];
+            idea.idea_title = Request["Title"].Trim();
+            idea.idea_content = Request["Content"].Trim();
             idea.thumbs_up = 0;
             idea.thumbs_down = 0;
             idea.views = 0;
             idea.idea_date = DateTime.Now;
+            idea.idea_recent = DateTime.Now;
             string enon = Request["Enonymous"];
             if(enon == "true")
             {
@@ -231,43 +201,6 @@ namespace WE_Project.Controllers
 
 
 
-        // GET: ideas/Edit/5
-        public PartialViewResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                
-            }
-            idea idea = db.idea.Find(id);
-            if (idea == null)
-            {
-                
-            }
-            ViewBag.account_id = new SelectList(db.account, "account_id", "email", idea.account_id);
-            ViewBag.category_id = new SelectList(db.category, "category_id", "category_name", idea.category_id);
-            ViewBag.topic_id = new SelectList(db.topic, "topic_id", "topic_name", idea.topic_id);
-            return PartialView(idea);
-        }
-
-        // POST: ideas/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "idea_id,topic_id,account_id,category_id,idea_content,thumbs_up,thumbs_down,views,idea_date")] idea idea)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(idea).State = System.Data.Entity.EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.account_id = new SelectList(db.account, "account_id", "email", idea.account_id);
-            ViewBag.category_id = new SelectList(db.category, "category_id", "category_name", idea.category_id);
-            ViewBag.topic_id = new SelectList(db.topic, "topic_id", "topic_name", idea.topic_id);
-            return View(idea);
-        }
-
         // GET: ideas/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -278,6 +211,7 @@ namespace WE_Project.Controllers
             idea idea = db.idea.Find(id);
             var list = db.reaction.Where(t => t.idea_id == id);
             var list2 = db.file.Where(t => t.idea_id == id);
+            var list3 = db.notification.Where(t => t.idea_id == id);
             if (idea != null)
             {
                 foreach(var l in list)
@@ -288,6 +222,10 @@ namespace WE_Project.Controllers
                 {
                     db.file.Remove(l);
                 }
+                foreach (var l in list3)
+                {
+                    db.notification.Remove(l);
+                }    
                 ViewBag.id = idea.topic_id;
                 db.idea.Remove(idea);
                 db.SaveChanges();

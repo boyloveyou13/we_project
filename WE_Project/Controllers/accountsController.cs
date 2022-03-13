@@ -28,7 +28,7 @@ namespace WE_Project.Controllers
             if(t != null && t != 0)
             {
                 ViewBag.t = (int)t;
-                account = db.account.Include(a => a.department).Where(g => g.state == t && g.isActive == true);   
+                account = db.account.Include(a => a.department).Where(g => g.state == t);   
             }
             return View(account.ToList());
         }
@@ -84,7 +84,8 @@ namespace WE_Project.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-            ViewBag.t = (int)t;
+            if(t !=null)
+                ViewBag.t = (int)t;
             if(e != null)
             {
                 switch(e)
@@ -107,7 +108,7 @@ namespace WE_Project.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
 
         [HttpPost]
-        public JsonResult Create(string Email, string Password, string Confirm, string State, string Department_id)
+        public JsonResult Create(string Email, string Password, string Confirm, string State)
         {
             if (Session["us"] == null || Session["state"].ToString() != "1")
             {
@@ -119,7 +120,6 @@ namespace WE_Project.Controllers
             account.password = Password;
             account.state = Convert.ToInt32(State);
             account.gender = false;
-            account.department_id = Convert.ToInt32(Department_id);
             account.isActive = true;
             if (ModelState.IsValid)
             {
@@ -133,14 +133,14 @@ namespace WE_Project.Controllers
                         account.password = pass;
                         db.account.Add(account);
                         db.SaveChanges();
-                        var redirectUrl = new UrlHelper(Request.RequestContext).Action("Index", new { t = account.state });
+                        var redirectUrl = new UrlHelper(Request.RequestContext).Action("Index","accounts", new { t = account.state });
                         return Json(new { Url = redirectUrl });
                     }
                     else
                     {
                         ViewBag.ErrorMessage = "Password does not match";
                         ViewBag.department_id = new SelectList(db.department, "department_id", "department_name", account.department_id);
-                        var redirectUrl = new UrlHelper(Request.RequestContext).Action("Create", new { t = account.state, e = 1 });
+                        var redirectUrl = new UrlHelper(Request.RequestContext).Action("Create", "accounts", new { t = account.state, e = 1 });
                         return Json(new { Url = redirectUrl });
                     }
                     
@@ -149,14 +149,14 @@ namespace WE_Project.Controllers
                 {
                     ViewBag.ErrorMessage = "Email is existed";
                     ViewBag.department_id = new SelectList(db.department, "department_id", "department_name", account.department_id);
-                    var redirectUrl = new UrlHelper(Request.RequestContext).Action("Create", new { t = account.state, e = 2 });
+                    var redirectUrl = new UrlHelper(Request.RequestContext).Action("Create", "accounts", new { t = account.state, e = 2 });
                     return Json(new { Url = redirectUrl });
                 }
 
             }else
             {
                 ViewBag.department_id = new SelectList(db.department, "department_id", "department_name", account.department_id);
-                var redirectUrl = new UrlHelper(Request.RequestContext).Action("Create", new { t = account.state });
+                var redirectUrl = new UrlHelper(Request.RequestContext).Action("Create", "accounts", new { t = account.state });
                 return Json(new { Url = redirectUrl });
             }
 
@@ -188,7 +188,7 @@ namespace WE_Project.Controllers
 
         public ActionResult Deactivate(int? id)
         {
-            if (Session["us"] == null)
+            if (Session["us"] == null || Session["state"].ToString() != "1")
             {
                 return RedirectToAction("Index", "Login");
             }
@@ -368,6 +368,7 @@ namespace WE_Project.Controllers
                 account2.department_id = account.department_id;
                 account2.phone = account.phone;
                 account2.position = account.position;
+                account2.isActive = account.isActive;
                 if (ModelState.IsValid)
                 {
                     db.Entry(account2).State = System.Data.Entity.EntityState.Modified;

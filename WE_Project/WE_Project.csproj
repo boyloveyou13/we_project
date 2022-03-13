@@ -145,6 +145,7 @@
     <Compile Include="Controllers\categoriesController.cs" />
     <Compile Include="Controllers\commentsController.cs" />
     <Compile Include="Controllers\departmentsController.cs" />
+    <Compile Include="Controllers\ExportController.cs" />
     <Compile Include="Controllers\filesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ideasController.cs" />
@@ -2196,13 +2197,7 @@
     <Content Include="Views\departments\Index.cshtml" />
     <Content Include="Views\files\Index.cshtml" />
     <Content Include="Views\ideas\Details.cshtml" />
-    <Content Include="Views\ideas\Edit.cshtml" />
     <Content Include="Views\ideas\Index.cshtml" />
-    <Content Include="Views\reactions\Create.cshtml" />
-    <Content Include="Views\reactions\Delete.cshtml" />
-    <Content Include="Views\reactions\Details.cshtml" />
-    <Content Include="Views\reactions\Edit.cshtml" />
-    <Content Include="Views\reactions\Index.cshtml" />
     <Content Include="Views\topics\Create.cshtml" />
     <Content Include="Views\topics\Details.cshtml" />
     <Content Include="Views\topics\Edit.cshtml" />
@@ -2391,11 +2386,11 @@
     <Content Include="vendor\select2\src\scss\_single.scss" />
     <Content Include="Views\notifications\Index.cshtml" />
     <Content Include="Views\accounts\ChangePassword.cshtml" />
-    <Content Include="Views\categories\CategoryMenu.cshtml" />
     <Content Include="Views\topics\SelectTopic.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\accounts\EditAccount.cshtml" />
     <Content Include="Views\Report\Index.cshtml" />
+    <Content Include="Views\Export\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
