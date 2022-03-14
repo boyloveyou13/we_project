@@ -189,11 +189,15 @@ namespace WE_Project.Controllers
 
             notification notify = new notification();
             var list = db.account.Where(t => t.state == 3 && t.department_id == account.department_id).ToList();
-            notify.account_id = list.First().account_id;
-            notify.idea_id = idea.idea_id;
-            notify.state = false;
+            if(list.Count != 0)
+            {
+                notify.account_id = list.First().account_id;
+                notify.idea_id = idea.idea_id;
+                notify.state = false;
 
-            db.notification.Add(notify);
+                db.notification.Add(notify);
+            }    
+            
             db.SaveChanges();
             redirectUrl = new UrlHelper(Request.RequestContext).Action("Details",new { id = idea.idea_id });
             return Json(new {Url = redirectUrl});

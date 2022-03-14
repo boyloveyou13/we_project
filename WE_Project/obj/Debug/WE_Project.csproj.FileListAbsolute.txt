@@ -540,3 +540,6 @@ D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Owin.dll
 D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.Owin.xml
 D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.Owin.Host.SystemWeb.xml
 D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.Owin.Security.xml
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\DotNetZip.dll
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\DotNetZip.pdb
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\DotNetZip.xml

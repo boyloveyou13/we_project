@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Ionic.Zip;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -41,7 +44,7 @@ namespace WE_Project.Controllers
             var list = db.idea.Where(t => t.topic_id == id).ToList();
             var count = list.OrderByDescending(t => t.comment.Count).First().comment.Count;
             StringBuilder file = new StringBuilder();
-            file.Append("Date;Account;Title;Content;Views;Thumbs up;Thumbs down");
+            file.Append("Idea ID;Date;Account;Title;Content;Views;Thumbs up;Thumbs down;Note");
             for(int i =1;i<=count;i++)
             {
                 file.Append(";Comment " + i);
@@ -49,8 +52,16 @@ namespace WE_Project.Controllers
             file.Append("\r\n");
             foreach(var l in list)
             {
-                file.Append(l.idea_date.ToString() + ';' + l.account.email + ';' + l.idea_title.Replace(";",",") + ';' + l.idea_content.Replace(";", ",").Replace("\r","").Replace("\n", ". ") + ';' + l.views.ToString() + ';' + l.thumbs_up.ToString()
-                    + ';' + l.thumbs_down.ToString());
+                if(l.file.Count == 0)
+                {
+                    file.Append(l.idea_id.ToString() + ';' + l.idea_date.ToString() + ';' + l.account.email + ';' + l.idea_title.Replace(";", ",") + ';' + l.idea_content.Replace(";", ",").Replace("\r", "").Replace("\n", ". ") + ';' + l.views.ToString() + ';' + l.thumbs_up.ToString()
+                    + ';' + l.thumbs_down.ToString() + ';');
+                }    else
+                {
+                    file.Append(l.idea_id.ToString() + ';' + l.idea_date.ToString() + ';' + l.account.email + ';' + l.idea_title.Replace(";", ",") + ';' + l.idea_content.Replace(";", ",").Replace("\r", "").Replace("\n", ". ") + ';' + l.views.ToString() + ';' + l.thumbs_up.ToString()
+                    + ';' + l.thumbs_down.ToString() + ';' + "There are " + l.file.Count.ToString() + " files attached");
+                }    
+                
 
                 foreach(var c in l.comment)
                 {
@@ -58,7 +69,31 @@ namespace WE_Project.Controllers
                 }
                 file.Append("\r\n");
             }
-            return File(Encoding.UTF8.GetBytes(file.ToString()), "text/csv",  list.First().topic.topic_name + "Data.csv");
+             string title = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(list.First().topic.topic_name);
+                    title = title.Replace(" ", "");
+            return File(Encoding.UTF8.GetBytes(file.ToString()), "text/csv", title + "Data.csv");
+        }
+
+        [HttpPost]
+        public FileResult ExportZIP(int? id)
+        {
+            using (ZipFile zip = new ZipFile())
+            {
+                zip.AlternateEncodingUsage = ZipOption.AsNecessary;
+                var files = db.file.Where(t => t.idea.topic_id == id).ToList();
+                foreach(var f in files)
+                {
+                    zip.AddEntry("ID"+f.idea_id +"_" +f.file_name,f.file_content);
+                }
+
+                using (MemoryStream m = new MemoryStream())
+                {
+                    string title = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(files.First().idea.topic.topic_name);
+                    title = title.Replace(" ", "");
+                    zip.Save(m);
+                    return File(m.ToArray(), "application/zip", title + "Files.zip");
+                }
+            }
         }
     }
 }
