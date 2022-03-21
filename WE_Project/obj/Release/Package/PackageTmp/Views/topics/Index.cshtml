@@ -1,0 +1,137 @@
+﻿@model IEnumerable<WE_Project.Models.topic>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="col-lg-12">
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <div class="card mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Category</h6>
+            @if (ViewBag.ErrorMessage != null && ViewBag.ErrorMessage != "")
+            {
+                <div class="text-danger">@ViewBag.ErrorMessage</div>
+            }
+        </div>
+        <div class="table-responsive p-3">
+            <table class="table align-items-center table-flush table-hover" id="dataTableHover">
+                <thead class="thead-light">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.topic_name)
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.topic_name)
+                        </td>
+
+                        @if (item.closure_date != null && item.final_date != null)
+                        {
+                            if (DateTime.Compare((DateTime)item.closure_date, DateTime.Now.Date) >= 0)
+                            {
+                                <td>
+                                    Opening
+                                </td>
+                            }
+                            else if (DateTime.Compare((DateTime)item.final_date, DateTime.Now.Date) >= 0)
+                            {
+                                <td>
+                                    Closing
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    Disable
+                                </td>
+                            }
+                        }
+                        else if (item.closure_date != null && item.final_date == null)
+                        {
+                            if (DateTime.Compare((DateTime)item.closure_date, DateTime.Now.Date) >= 0)
+                            {
+                                <td>
+                                    Opening
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    Closing
+                                </td>
+                            }
+                        }
+                        else if (item.final_date != null && item.closure_date == null)
+                        {
+                            if (DateTime.Compare((DateTime)item.final_date, DateTime.Now.Date) >= 0)
+                            {
+                                <td>
+                                    Opening
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    Disable
+                                </td>
+                            }
+                        }
+                        else
+                        {
+                            <td>
+                                Opening
+                            </td>
+                        }
+
+                    <td>
+                        <div></div>
+                        @if (item.final_date != null)
+                        {
+                            if (DateTime.Compare((DateTime)item.final_date, DateTime.Now.Date) < 0)
+                            {
+                                <span>&nbsp; &nbsp;</span>
+                                <a href="@Url.Action("Index", "Export", new { id = item.topic_id })">
+                                    <i class="fa-solid fa-file-export"></i>
+                                </a>
+                            }
+                            else
+                            {
+                                <span>&nbsp; &nbsp;</span>
+                                <a href="@Url.Action("Close", "topics", new { id = item.topic_id})" onclick="return confirm('Are you sure to disable this topic now?')">
+                                    <i class="fa-solid fa-circle-xmark"></i>
+                                </a>
+                            }
+                        }
+                        &nbsp;&nbsp;
+                        <a href="@Url.Action("Edit", "topics", new { id = item.topic_id})">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        &nbsp;&nbsp;
+                        <a href="@Url.Action("Details", "topics", new { id = item.topic_id})">
+                            <i class="fas fa-info-circle"></i>
+                        </a>
+                        &nbsp;&nbsp;
+                        <a href="@Url.Action("Delete", "topics", new { id = item.topic_id})" onclick="return confirm('Are you sure to delete this topic?')">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

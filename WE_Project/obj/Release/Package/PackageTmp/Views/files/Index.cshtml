@@ -1,0 +1,16 @@
+﻿@model IEnumerable<WE_Project.Models.file>
+
+
+@foreach (var item in Model)
+{
+
+    if (item.file_type.Contains("image"))
+    {
+
+        <img src="@Url.Action("show","files", new { id = item.file_id })" style="max-width:100%;border: 1px; border-style: solid; border-color:darkgray; border-radius:10px;margin-bottom:20px">
+    }
+    else
+    {
+        <a href="@Url.Action("DownloadFile","files", new { id = item.file_id })">@Html.DisplayFor(modelItem => item.file_name)</a>
+    }
+}

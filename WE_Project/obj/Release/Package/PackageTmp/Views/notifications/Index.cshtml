@@ -1,0 +1,76 @@
+﻿@model IEnumerable<WE_Project.Models.notification>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown"
+   aria-haspopup="true" aria-expanded="false">
+    <i class="fas fa-bell fa-fw"></i>
+
+    @if (ViewBag.count < 10 && ViewBag.count > 0)
+    {
+        <span class="badge badge-danger badge-counter">
+            @ViewBag.count
+        </span>
+    }
+    else if(ViewBag.count >=10)
+    {
+        <span class="badge badge-danger badge-counter">
+            9+
+        </span>
+    }
+
+</a>
+<div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" style="max-height:500px;overflow-y:auto"
+     aria-labelledby="alertsDropdown">
+    <h6 class="dropdown-header">
+        Notification Center
+    </h6>
+    @if (Model.Count() > 0)
+    {
+        foreach (var item in Model)
+        {
+            <a class="dropdown-item d-flex align-items-center" href="@Url.Action("Details","ideas", new{id = item.idea_id, idNotification = item.notification_id})">
+                <div class="mr-3">
+                    <div class="icon-circle bg-primary">
+                        <i class="fas fa-file-alt text-white"></i>
+                    </div>
+                </div>
+                <div>
+                    @if (item.idea.idea_recent != null)
+                    {
+                        <div class="small text-gray-500">@Html.Action("CalCulateTime", "Home", new { date = item.idea.idea_recent })</div>
+                    }
+                    else
+                    {
+                <div class="small text-gray-500">@Html.DisplayFor(modelItem => item.idea.idea_date)</div>
+                    }
+
+                    @if (item.account.state == 3)
+                    {
+                        <span class="font-weight-bold">
+                            @Html.DisplayFor(modelItem => item.idea.account.fname) posted an idea!
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="font-weight-bold">
+                            Someone commented your idea!
+                        </span>
+                    }
+                </div>
+            </a>
+        }
+    }
+    else
+    {
+        <div>
+            <div class="small text-gray-500"></div>
+                <span class="font-weight-bold">
+                    No new notification!
+                </span>
+        </div>
+    }
+
+</div>

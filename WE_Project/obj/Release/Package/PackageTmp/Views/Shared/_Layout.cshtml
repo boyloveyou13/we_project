@@ -1,0 +1,563 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="~/img/logo/logo.png" rel="icon">
+    <title>WE Project</title>
+    <link href="~/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="~/css/ruang-admin.min.css" rel="stylesheet">
+    <link href="~/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="~/vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="@Url.Action("Index", "Home")">
+                <div class="sidebar-brand-icon">
+                    <img src="~/img/logo/logo.png">
+                </div>
+                <div class="sidebar-brand-text mx-3">SquadNerd</div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            <li class="nav-item active">
+                <a class="nav-link" href="@Url.Action("Index", "Home")">
+                    <span>Home</span>
+                </a>
+            </li>
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">
+                Features
+            </div>
+            @if (Session["us"] != null)
+            {
+                if (Convert.ToInt32(Session["state"]) <= 1)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBootstrap"
+                           aria-expanded="true" aria-controls="collapseBootstrap">
+                            <i class="fa-solid fa-users"></i>
+                            <span>Manage Accounts</span>
+                        </a>
+                        <div id="collapseBootstrap" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <h6 class="collapse-header">Account</h6>
+                                <a class="collapse-item" href="@Url.Action("Index", "accounts", new {t = 2})">QA Manager</a>
+                                <a class="collapse-item" href="@Url.Action("Index", "accounts",new {t = 3})">QA coordinator</a>
+                                <a class="collapse-item" href="@Url.Action("Index", "accounts", new {t = 4})">Staff</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "departments")">
+                            <i class="fa-solid fa-city"></i>
+                            <span>Manage Departments</span>
+                        </a>
+                    </li>
+                }
+                if (Convert.ToInt32(Session["state"]) <= 2)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "topics")">
+                            <i class="fa-solid fa-folder-open"></i>
+                            <span>Manage Topics</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "categories")">
+                            <i class="fa-solid fa-city"></i>
+                            <span>Manage Categories</span>
+                        </a>
+                    </li>
+
+                }
+                if (Convert.ToInt32(Session["state"]) <= 3)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "Report" , new {id = 0})">
+                            <i class="fa-solid fa-chart-line"></i>
+                            <span>Statistical analysis</span>
+                        </a>
+                    </li>
+                }
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTopic" aria-expanded="true"
+                       aria-controls="collapseTopic">
+                        <i class="fa-solid fa-file-lines"></i>
+                        <span>Ideas</span>
+                    </a>
+                    <div id="collapseTopic" class="collapse" aria-labelledby="headingTable" data-parent="#accordionSidebar" style="overflow:hidden">
+                        <div class="bg-white py-2 collapse-inner rounded" style="overflow:hidden">
+                            <h6 class="collapse-header">Select topic to view ideas</h6>
+                            @Html.Action("SelectTopic", "topics")
+                        </div>
+                    </div>
+                </li>
+
+            }
+            else
+            {
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index", "Login")">
+                        <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                        <span>Login</span>
+                    </a>
+                </li>
+            }
+
+            <hr class="sidebar-divider">
+            <div class="version" id="version-ruangadmin"></div>
+        </ul>
+        <!-- Sidebar -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <!-- TopBar -->
+                <nav class="navbar navbar-expand navbar-light bg-navbar topbar mb-4 static-top">
+                    <button id="sidebarToggleTop" class="btn btn-link rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <ul class="navbar-nav ml-auto">
+                        @if (Session["us"] != null)
+                        {
+                            <li class="nav-item dropdown no-arrow mx-1">
+                                @Html.Action("Index", "notifications")
+                            </li>
+
+                            <div class="topbar-divider d-none d-sm-block"></div>
+                            <li class="nav-item dropdown no-arrow">
+                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+                                   aria-haspopup="true" aria-expanded="false">
+                                    @if ((bool)Session["isImage"] == true)
+                                    {
+                                        <img class="img-profile rounded-circle" src="@Url.Action("show", "accounts", new { id = Session["id"].ToString() })" style="max-width: 60px">
+                                    }
+                                    else
+                                    {
+                                        <img class="img-profile rounded-circle" src="~/img/boy.png" style="max-width: 60px">
+                                    }
+
+
+                                    <span class="ml-2 d-none d-lg-inline text-white small">@Session["us"]</span>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                                    <a class="dropdown-item" href="@Url.Action("Details", "accounts", new {id = Convert.ToInt32(Session["id"])})">
+                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Profile
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="javascript:void(0);" data-toggle="modal" data-target="#logoutModal">
+                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Logout
+                                    </a>
+                                </div>
+                            </li>
+                        }
+
+                    </ul>
+                </nav>
+                <!-- Topbar -->
+                <div class="container-fluid" id="container-wrapper">
+                    @RenderBody()
+
+                    <!-- Modal Logout -->
+                    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
+                         aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabelLogout">Ohh No!</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Are you sure you want to logout?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
+                                    <a href="@Url.Action("Index", "Login")" class="btn btn-primary">Logout</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>
+                            Copyrighted &copy;
+                            <script>document.write(new Date().getFullYear());</script> - Developed by <span style="font-weight:bold">SquadNerd</span>
+
+                        </span>
+                    </div>
+                </div>
+            </footer>
+            <!-- Footer -->
+        </div>
+    </div>
+
+    <!-- Scroll to top -->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <script src="~/vendor/jquery/jquery.min.js"></script>
+    <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="~/js/ruang-admin.min.js"></script>
+    <script src="~/vendor/chart.js/Chart.min.js"></script>
+    <script src="~/js/demo/chart-area-demo.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+
+    @if(Html.Raw(ViewBag.ViewPoints) != null)
+            {
+            <script>
+                    $(function () {
+
+                if (window.location.href.indexOf("Report") > -1) {
+                    var chart = new CanvasJS.Chart("topViews", {
+                        animationEnabled: true,
+                        theme: "light1", // "light1", "light2", "dark1", "dark2"
+                        title: {
+                            text: "Top 10 most viewed idea"
+                        },
+                        axisY: {
+                            title: "Views"
+                        },
+                        data: [{
+                            type: "column",
+                            dataPoints: @Html.Raw(ViewBag.ViewPoints)
+			            }]
+                    });
+
+                    var chart2 = new CanvasJS.Chart("topPopulars", {
+                        animationEnabled: true,
+                        theme: "light1", // "light1", "light2", "dark1", "dark2"
+                        title: {
+                            text: "Top 10 most popular idea"
+                        },
+                        axisY: {
+                            title: "Popular Points"
+                        },
+                        data: [{
+                            type: "column",
+                            dataPoints: @Html.Raw(ViewBag.PopularPoints)
+			            }]
+                    });
+
+                    var chart3 = new CanvasJS.Chart("CategoryPoints", {
+	                    theme: "light1", // "light1", "light2", "dark1", "dark2"
+	                    exportEnabled: true,
+	                    animationEnabled: true,
+	                    title: {
+                            text: "Idea percentage on category"
+	                    },
+	                    data: [{
+		                    type: "pie",
+		                    startAngle: 180,
+		                    toolTipContent: "<b>{label}</b>: {y}%",
+		                    showInLegend: "true",
+		                    legendText: "{label}",
+		                    indexLabel: "{label} - {y}%",
+		                    dataPoints: @Html.Raw(ViewBag.CategoryPoints)
+	                    }]
+                    });
+
+                    chart.render();
+                    chart2.render();
+                    chart3.render();
+
+                }
+            });
+            </script>
+            }
+    <script>
+
+        $(document).ready(function () {
+            $('#dataTableHover').DataTable(); // ID From dataTable with Hover
+        });
+     
+        $(function () {
+            $('#submits').attr('disabled', true);
+            $('#idea_content, #idea_title, #customCheck2 ').change(function () {
+                if ($('#idea_content').val() != '' && $('#idea_title').val() != '' && $('#customCheck2').is(':checked')) {
+                    $('#submits').attr('disabled', false);
+                } else {
+                    $('#submits').attr('disabled', true);
+                }
+            });
+
+            $('#submitComment').attr('disabled', true);
+            $('#comment_content').change(function () {
+                if ($('#comment_content').val() != '') {
+                    $('#submitComment').attr('disabled', false);
+                } else {
+                    $('#submitComment').attr('disabled', true);
+                }
+            });
+        });
+
+
+        function successFunc(jsondata) {
+            alert("function1call");
+            var chart = c3.generate({
+                bindto: '#TopViewBarChart',
+                data: {
+                    json: jsondata,
+                    keys: {
+                        value: 'views',
+                    },
+                    columns: 'views',
+                    type: 'bar',
+                },
+                color: {
+                    pattern: ['#1f77b4', '#aec7e8', '#ff7f0e', '#ffbb78', '#2ca02c', '#98df8a', '#d62728', '#ff9896', '#9467bd', '#c5b0d5', '#8c564b', '#c49c94', '#e377c2', '#f7b6d2', '#7f7f7f', '#c7c7c7', '#bcbd22', '#dbdb8d', '#17becf', '#9edae5']
+                },
+            });
+        }
+
+
+        function successFunc1(jsondata) {
+            alert("function2call");
+            var chart = c3.generate({
+                bindto: '#TopPopularBarChart',
+                data: {
+                    json: jsondata,
+                    keys: {
+                        value: ['thumbs_up', 'thumbs_down'],
+                    },
+                    columns: ['thumbs_up', 'thumbs_down'],
+                    type: 'bar',
+                    groups: [
+                        ['thumbs_up', 'thumbs_down']
+                    ]
+                },
+                color: {
+                    pattern: ['#1f77b4', '#aec7e8', '#ff7f0e', '#ffbb78', '#2ca02c', '#98df8a', '#d62728', '#ff9896', '#9467bd', '#c5b0d5', '#8c564b', '#c49c94', '#e377c2', '#f7b6d2', '#7f7f7f', '#c7c7c7', '#bcbd22', '#dbdb8d', '#17becf', '#9edae5']
+                },
+            });
+        }
+
+        function csvFile(topic_id) {
+            $.post('@Url.Action("ExportCSV", "Export")', { ID: topic_id})
+        }
+
+        function postComment(idea_id)
+        {
+            var comment = document.getElementById("comment_content").value;
+            if (document.getElementById("comment_enonymous").checked) {
+                var enonymous = true;
+            }
+            else {
+                var enonymous = false;
+            }
+            $.post('@Url.Action("Create", "comments")', { ID: idea_id , Comment: comment, Enonymous: enonymous })
+
+        }
+
+        function postIdea()
+        {
+            var category = parseInt(document.getElementById("idea_category_id").value);
+            var topic = parseInt(document.getElementById("idea_topic_id").value);
+            var title = document.getElementById("idea_title").value;
+
+            if (document.getElementById("idea_enonymous").checked)
+                var enonymous = true;
+            else  var enonymous = false;
+            var content = document.getElementById("idea_content").value;
+            var files = document.getElementById("files");
+            var formdata = new FormData();
+
+            formdata.append("Category", category);
+            formdata.append("Topic_id", topic);
+            formdata.append("Title", title);
+            formdata.append("Enonymous", enonymous);
+            formdata.append("Content", content);
+            for (var i = 0; i < files.files.length; i++)
+            {
+                var sfileName = files.files[i].name;
+                formdata.append(sfileName, files.files[i]);
+            }
+            $.ajax({
+                url: '@Url.Action("postIdea", "ideas")',
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: formdata,
+                async: false,
+                success: function (result) {window.location.href = result.Url;}
+            });
+        }
+
+        function createAccount()
+        {
+            var email = document.getElementById("Username").value;
+            var pass = document.getElementById("Pass").value;
+            var confirm = document.getElementById("Confirm").value;
+            var state = document.getElementById("addStatus").value;
+
+            $.post('@Url.Action("Create", "accounts")', { Email: email, Password: pass, Confirm: confirm, State: state },
+                function (result) {window.location.href = result.Url});
+        }
+
+        function changePass()
+        {
+            var id = parseInt(document.getElementById("accountID").value);
+            var current = document.getElementById("Current").value;
+            var pass = document.getElementById("Pass1").value;
+            var confirm = document.getElementById("Confirm1").value;
+
+            $.post('@Url.Action("ChangePassword", "accounts")', { ID: id ,CurrentPassword: current, Password: pass, Confirm: confirm},
+                function (result) {window.location.href = result.Url});
+        }
+
+        function downloadFile(file_id) {
+            preventDefault();
+            $.post('@Url.Action("DownloadFile", "files")', { ID: file_id})
+        }
+
+
+        $('#thumbsupButton').click(function (e) { e.preventDefault(); return false;  })
+        $('#thumbsdownButton').click(function (e) {e.preventDefault();return false; })
+
+        function checkClass(id1, idea_id) {
+
+            var status = 0;
+            if (id1.is($('#thumbsupButton'))) {
+                var id2 = $('#thumbsdownButton')
+                status = 1
+            } else {
+                var id2 = $('#thumbsupButton')
+                status = -1
+            }
+
+            if (id1.hasClass('btn-outline-primary')) {
+                id1.addClass('btn-primary').removeClass('btn-outline-primary')
+
+                if (id2.hasClass('btn-primary')) {
+                    id2.addClass('btn-outline-primary').removeClass('btn-primary')
+                    id1.disabled = true;
+                    id2.disabled = true;
+                    setTimeout(() => { id1.disabled = false; id2.disabled = false; }, 1000)
+                     $.post('@Url.Action("EditThumb", "reactions")', { ID: idea_id, Status: status })
+                }
+                else
+                {
+                    id1.disabled = true;
+                    id2.disabled = true;
+                    setTimeout(() => { id1.disabled = false; id2.disabled = false; }, 1000)
+                     $.post('@Url.Action("AddThumb", "reactions")', { ID: idea_id, Status: status })
+
+                }
+
+
+            } else {
+                id1.addClass('btn-outline-primary').removeClass('btn-primary')
+                id1.disabled = true;
+                id2.disabled = true;
+                setTimeout(() => { id1.disabled = false; id2.disabled = false; }, 1000)
+                $.post('@Url.Action("DeleteThumb", "reactions")', { ID: idea_id})
+            }
+
+        }
+
+
+
+    </script>
+    <script>
+        function UserCheck() {
+            if ($("#Username").val() != "" && $("#Username").val() != null) {
+                $("#Status").html("Checking...");
+                $.post("@Url.Action("CheckUsernameAvailability", "Home")",
+                    {
+                        userdata: $("#Username").val()
+                    },
+                    function (data) {
+                        if (data == 0) {
+                            $("#Status").html('<font color="Green"> Available!</font>');
+                            $("#Username").css("border-color", "Green");
+                        } else {
+                            $("#Status").html('<font color="Red">That email is existed!</font>');
+                            $("#Username").css("border-color", "Red");
+                        }
+                    });
+            } else
+            {
+                $("#Status").html('<font color="Red">Required!</font>');
+                $("#Username").css("border-color", "Red");
+            }
+
+        }
+
+   function PassCheck() {
+        $.post("@Url.Action("CheckPasswordAvailability", "Home")",
+            {
+                pass: $("#Pass").val(),
+                confirm: $("#Confirm").val(),
+            },
+        function(data) {
+            if (data == 0) {
+                $("#Confirm").css("border-color", "Green");
+                $("#Pass").css("border-color", "Green");
+            } else {
+                $("#Confirm").css("border-color", "Red");
+                $("#Pass").css("border-color", "Red");
+            }
+            });
+        }
+
+         function PassCheck1() {
+        $.post("@Url.Action("CheckPasswordAvailability", "Home")",
+            {
+                pass: $("#Pass1").val(),
+                confirm: $("#Confirm1").val(),
+            },
+        function(data) {
+            if (data == 0) {
+                $("#Confirm1").css("border-color", "Green");
+                $("#Pass1").css("border-color", "Green");
+            } else {
+                $("#Confirm1").css("border-color", "Red");
+                $("#Pass1").css("border-color", "Red");
+            }
+            });
+        }
+
+
+        // Bootstrap Date Picker
+        $('#simple-date1 .input-group.date').datepicker({
+            format: 'dd/mm/yyyy',
+            todayBtn: 'linked',
+            todayHighlight: true,
+            autoclose: true,
+        });
+        // Bootstrap Date Picker
+        $('#simple-date2 .input-group.date').datepicker({
+            format: 'dd/mm/yyyy',
+            todayBtn: 'linked',
+            todayHighlight: true,
+            autoclose: true,
+        });
+    </script>
+</body>
+
+</html>
+@RenderSection("JavaScript", required: false)
+
+

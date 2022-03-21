@@ -257,6 +257,7 @@
     </Content>
     <Content Include="font\Nunito-Regular.ttf" />
     <Content Include="img\logo\logo.ai" />
+    <None Include="Properties\PublishProfiles\squadnerd - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\c3.js" />
     <Content Include="Scripts\c3.min.js" />

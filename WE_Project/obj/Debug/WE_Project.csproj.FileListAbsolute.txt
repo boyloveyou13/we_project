@@ -241,7 +241,6 @@ D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\System.Web.WebPages.Razor.x
 D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Newtonsoft.Json.xml
 D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Antlr3.Runtime.pdb
 D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-D:\Study\EnterpriseWeb\git\we_project\WE_Project\obj\Debug\WE_Project.csproj.AssemblyReference.cache
 D:\Study\EnterpriseWeb\git\we_project\WE_Project\obj\Debug\WE_Project.csproj.CoreCompileInputs.cache
 D:\Study\EnterpriseWeb\git\we_project\WE_Project\obj\Debug\WE_Project.csproj.CopyComplete
 D:\Study\EnterpriseWeb\git\we_project\WE_Project\obj\Debug\WE_Project.dll

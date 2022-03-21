@@ -1,0 +1,38 @@
+﻿@model WE_Project.Models.department
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.department_id)
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-6">
+            <!-- Form Basic -->
+            <div class="card mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Edit category</h6>
+                    @if (ViewBag.ErrorMessage != null && ViewBag.ErrorMessage != "")
+                    {
+                        <div class="text-danger">@ViewBag.ErrorMessage</div>
+                    }
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="form-group">
+                            <label>Category Name</label>
+                            @Html.EditorFor(model => model.department_name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.department_name, "", new { @class = "text-danger" })
+                        </div>
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+}

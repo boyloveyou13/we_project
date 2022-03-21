@@ -1,0 +1,61 @@
+﻿@model WE_Project.Models.topic
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.ValidationMessageFor(model => model.topic_id, "", new { @account = "text-danger" })
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-6">
+            <!-- Form Basic -->
+            <div class="card mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Category detail</h6>
+                </div>
+                <div class="card-body">
+                    <form>
+
+                        <div class="form-group">
+                            <label>
+                                <dt>@Html.DisplayNameFor(model => model.topic_name)</dt><br />
+                                @Html.DisplayFor(model => model.topic_name)
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <label>
+                                <dt>@Html.DisplayNameFor(model => model.describe)</dt><br />
+                                @Html.DisplayFor(model => model.describe)
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <label>
+                                <dt>@Html.DisplayNameFor(model => model.closure_date)</dt><br />
+                                @Html.DisplayFor(model => model.closure_date)
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <dt>@Html.DisplayNameFor(model => model.final_date)</dt><br />
+                                @Html.DisplayFor(model => model.final_date)
+                            </label>
+                        </div>
+
+                        <div style="text-align: left">
+                            @Html.ActionLink("Edit", "Edit", new { id = Model.topic_id })
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}

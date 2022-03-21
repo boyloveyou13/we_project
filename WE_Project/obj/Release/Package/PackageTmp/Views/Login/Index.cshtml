@@ -1,0 +1,100 @@
+﻿@model WE_Project.Models.account
+
+@{
+    Layout = null;
+}
+
+@if (Session["us"] != null)
+{
+    Session.Clear();
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="~/img/logo/logo.png" rel="icon">
+    <title>Login</title>
+    <link href="~/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="~/css/ruang-admin.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gradient-login">
+    <br /><br />
+
+    <div class="container-login">
+        <div class="row justify-content-center">
+            <div class="col-xl-4 col-lg-5 col-md-6">
+                <div class="card shadow-sm my-5">
+                    <div class="card-body p-0">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="login-form">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">Login</h1>
+                                    </div>
+                                    @if (ViewBag.ErrorMessage != null && ViewBag.ErrorMessage != "")
+                                    {
+                                        <div class="text-danger">@ViewBag.ErrorMessage</div>
+                                    }
+                                    @using (Html.BeginForm("Index", "Login", FormMethod.Post))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <div class="form-group">
+                                            @*<input type="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address">*@
+                                            @Html.LabelFor(m => m.email)
+                                            @Html.TextBoxFor(m => m.email, "", new { @class = "form-control"  })
+                                            @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group">
+                                            @*<input type="password" class="form-control" id="exampleInputPassword" placeholder="Password">*@
+                                            @Html.LabelFor(m => m.password)
+                                            @Html.PasswordFor(m => m.password, new { @class = "form-control", Type = "password" })
+                                            @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+                                        </div>
+                                        if (ViewBag.url != null)
+                                        {
+                                              <input type="text" value="@ViewBag.id"/>
+                                        }
+
+                                        <div class="form-group">
+                                            <input type="submit" name="submit" class="btn btn-primary btn-block" value="Login" />
+                                        </div>
+
+
+                                        @*<a href="index.html" class="btn btn-google btn-block">
+                <i class="fab fa-google fa-fw"></i> Login with Google
+            </a>
+            <a href="index.html" class="btn btn-facebook btn-block">
+                <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
+            </a>
+            <hr>*@
+
+                                    }
+                                    @*<div class="text-center">
+            <a class="font-weight-bold small" href="register.html">Create an Account!</a>
+        </div>*@
+                                    <div class="text-center">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="visibility: hidden">
+    </div>
+
+    <script src="~/vendor/jquery/jquery.min.js"></script>
+    <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="~/js/ruang-admin.min.js"></script>
+</body>
+
+</html>

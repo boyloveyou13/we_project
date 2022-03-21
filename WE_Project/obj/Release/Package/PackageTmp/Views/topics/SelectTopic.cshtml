@@ -1,0 +1,21 @@
+﻿@model IEnumerable<WE_Project.Models.topic>
+
+@{
+    ViewBag.Title = "SelectTopic";
+}
+
+@foreach (var item in Model)
+{
+    if (item.final_date != null && DateTime.Compare((DateTime)item.final_date, DateTime.Now.Date) < 0)
+    {
+        if (Convert.ToInt32(Session["state"].ToString()) <= 2)
+        {
+            <a class="collapse-item" href="@Url.Action("Index", "ideas",  new { id= item.topic_id, sort=1 })" style="overflow:hidden">@Html.DisplayFor(modelItem => item.topic_name)</a>
+        }
+    }
+    else
+    {
+        <a class="collapse-item" href="@Url.Action("Index", "ideas",  new { id= item.topic_id, sort=1 })" style="overflow:hidden">@Html.DisplayFor(modelItem => item.topic_name)</a>
+    }
+
+}

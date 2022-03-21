@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ddc5914c999c4581900b3fe41fdd5d46" Name="Diagram1" ZoomLevel="66">
+        <EntityTypeShape EntityType="squadnerdModel.account" Width="1.5" PointX="3" PointY="5" />
+        <EntityTypeShape EntityType="squadnerdModel.category" Width="1.5" PointX="6" PointY="9.625" />
+        <EntityTypeShape EntityType="squadnerdModel.comment" Width="1.5" PointX="5.25" PointY="5.75" />
+        <EntityTypeShape EntityType="squadnerdModel.department" Width="1.5" PointX="0.75" PointY="6.25" />
+        <EntityTypeShape EntityType="squadnerdModel.file" Width="1.5" PointX="10.5" PointY="8.875" />
+        <EntityTypeShape EntityType="squadnerdModel.idea" Width="1.5" PointX="8.25" PointY="4.875" />
+        <EntityTypeShape EntityType="squadnerdModel.notification" Width="1.5" PointX="6.25" PointY="2.5" />
+        <EntityTypeShape EntityType="squadnerdModel.reaction" Width="1.5" PointX="3.25" PointY="1.875" />
+        <EntityTypeShape EntityType="squadnerdModel.topic" Width="1.5" PointX="9.625" PointY="2.125" />
+        <AssociationConnector Association="squadnerdModel.FK_account_department" />
+        <AssociationConnector Association="squadnerdModel.FK_comment_account" />
+        <AssociationConnector Association="squadnerdModel.FK_idea_account" />
+        <AssociationConnector Association="squadnerdModel.FK_notification_account" />
+        <AssociationConnector Association="squadnerdModel.FK_reaction_account" />
+        <AssociationConnector Association="squadnerdModel.FK_idea_category" />
+        <AssociationConnector Association="squadnerdModel.FK_comment_idea" />
+        <AssociationConnector Association="squadnerdModel.FK_file_idea" />
+        <AssociationConnector Association="squadnerdModel.FK_idea_topic" />
+        <AssociationConnector Association="squadnerdModel.FK_notification_idea" />
+        <AssociationConnector Association="squadnerdModel.FK_reaction_idea" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

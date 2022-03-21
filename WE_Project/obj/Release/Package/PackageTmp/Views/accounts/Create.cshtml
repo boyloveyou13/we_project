@@ -1,0 +1,52 @@
+﻿@model WE_Project.Models.account
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="row">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-6">
+        <!-- Form Basic -->
+        <div class="card mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Create new account</h6>
+                @if (ViewBag.ErrorMessage != null && ViewBag.ErrorMessage != "")
+                {
+                    <div class="text-danger">@ViewBag.ErrorMessage</div>
+                }
+            </div>
+            <div class="card-body">
+                <form>
+
+                    <div class="form-group">
+                        <label>E-mail</label>
+                        <input type="text" id="Username" onchange="UserCheck()" class="form-control" />
+                        <p id="Status" />
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" class="form-control" id="Pass" onchange="PassCheck()" />
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm password</label>
+                        <input type="password" class="form-control" id="Confirm" onchange="PassCheck()" />
+                    </div>
+
+
+                    <div class="form-group" hidden>
+                        <label>Role</label>
+                        <input type="text" value="@ViewBag.t" id="addStatus" />
+                    </div>             
+
+                    <input type="submit" onclick="createAccount()" value="Create" class="btn btn-primary" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
