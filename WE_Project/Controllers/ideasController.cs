@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 using WE_Project.Models;
@@ -51,8 +52,8 @@ namespace WE_Project.Controllers
                 DateTime close = (DateTime)topic.closure_date;
                 DateTime final = (DateTime)topic.final_date;
                 ViewBag.topic_name = topic.topic_name;
-                ViewBag.closure = close.ToString("dd/MM/yy");
-                ViewBag.final = final.ToString("dd/MM/yy");
+                ViewBag.closure = close.ToString("MM/dd/yy");
+                ViewBag.final = final.ToString("MM/dd/yy");
                 ViewBag.category_id = new SelectList(db.category, "category_id", "category_name");
                 return View(idea.ToList());
             }
@@ -73,15 +74,13 @@ namespace WE_Project.Controllers
             }
             if(idNotification != null)
             {
-                notification notification = db.notification.Find(idNotification);
-                notification.state = true;
-                var notifyList = db.notification.Where(t => t.state == false && t.idea_id == id && t.account_id == notification.account_id);
+                var account_id = Convert.ToInt32(Session["id"]);
+                var notifyList = db.notification.Where(t => t.state == false && t.idea_id == id && t.account_id == account_id);
                 foreach(var l in notifyList)
                 {
                     l.state = true;
                     db.Entry(l).State = System.Data.Entity.EntityState.Modified;
                 }    
-                db.Entry(notification).State = System.Data.Entity.EntityState.Modified;
                 
             }
             idea idea = db.idea.Find(id);
@@ -144,8 +143,8 @@ namespace WE_Project.Controllers
             idea.views = 0;
             idea.idea_date = DateTime.Now;
             idea.idea_recent = DateTime.Now;
-            string enon = Request["Enonymous"];
-            if(enon == "true")
+            string anon = Request["Anonymous"];
+            if(anon == "true")
             {
                 idea.idea_trigger = true;
             }else
@@ -153,19 +152,21 @@ namespace WE_Project.Controllers
                 idea.idea_trigger = false;
             }        
             db.idea.Add(idea);
+            db.SaveChanges();
+            int ideaid = idea.idea_id;
             var redirectUrl = "";
             HttpFileCollectionBase files = Request.Files;
             byte[] bytes;
             for(int i = 0;i<files.Count;i++)
             {
-                var supportedTypes = new[] { "png", "jpg", "jpeg", "txt", "doc", "docx", "pdf", "xls", "xlsx", "ppt" };
+                var supportedTypes = new[] { "png", "jpg", "jpeg", "txt", "doc", "docx", "pdf", "xls", "xlsx", "ppt", "csv", "rar", "zip" };
                 var fileExt = System.IO.Path.GetExtension(files[i].FileName).Substring(1);
                 if (!supportedTypes.Contains(fileExt))
                 {
                     redirectUrl = new UrlHelper(Request.RequestContext).Action("Index", new { id = idea.topic_id });
                     return Json(new { Url = redirectUrl });
                 }
-                else if (files[i].ContentLength > 3*1024 * 1024)
+                else if (files[i].ContentLength > 5*1024 * 1024)
                 {
                     redirectUrl = new UrlHelper(Request.RequestContext).Action("Index", new { id = idea.topic_id });
                     return Json(new { Url = redirectUrl });
@@ -188,16 +189,49 @@ namespace WE_Project.Controllers
             }
 
             notification notify = new notification();
-            var list = db.account.Where(t => t.state == 3 && t.department_id == account.department_id).ToList();
+            var list = db.account.Where(t => t.state == 3 && t.department_id == account.department_id && t.account_id != _account_id).ToList();
             if(list.Count != 0)
             {
-                notify.account_id = list.First().account_id;
-                notify.idea_id = idea.idea_id;
-                notify.state = false;
+                foreach(var l in list)
+                {
+                    notify.account_id = l.account_id;
+                    notify.idea_id = idea.idea_id;
+                    notify.state = false;
 
-                db.notification.Add(notify);
-            }    
+                    db.notification.Add(notify);
+
+                    // Email notification here
+
+                    var senderEmail = new MailAddress("blueswitch.squadnerd@gmail.com", "BlueSwitch - Squadnerd");
+                    var receiverEmail = new MailAddress(l.email, "Receiver");
+                    var password = "Squadnerd123";
+                    var sub = "Your staff posted an idea, check it out!";
+                    var body = account.fname + " posted an idea <br><br><b>Title: " + idea.idea_title + "</b><br><a href='https://squadnerd.azurewebsites.net/" + Url.Action("Details","ideas",new {id = ideaid, ed=0}) + "'>View Now</a><br><br>Do not reply this email!<br><b>BlueSwitch University</b>";
+                    var smtp = new SmtpClient
+                    {
+                        Host = "smtp.gmail.com",
+                        Port = 587,
+                        EnableSsl = true,
+                        DeliveryMethod = SmtpDeliveryMethod.Network,
+                        UseDefaultCredentials = false,                       
+                        Credentials = new NetworkCredential(senderEmail.Address, password)
+                    };
+                    MailMessage mess = new MailMessage(senderEmail, receiverEmail);
+                    mess.Subject = sub;
+                    mess.Body = body;
+                    mess.IsBodyHtml = true;
+
+                    smtp.Send(mess);
+
+                }
+                
+
+            }
+
             
+
+
+
             db.SaveChanges();
             redirectUrl = new UrlHelper(Request.RequestContext).Action("Details",new { id = idea.idea_id });
             return Json(new {Url = redirectUrl});
@@ -216,6 +250,7 @@ namespace WE_Project.Controllers
             var list = db.reaction.Where(t => t.idea_id == id);
             var list2 = db.file.Where(t => t.idea_id == id);
             var list3 = db.notification.Where(t => t.idea_id == id);
+            var list4 = db.comment.Where(t => t.idea_id == id);
             if (idea != null)
             {
                 foreach(var l in list)
@@ -229,7 +264,11 @@ namespace WE_Project.Controllers
                 foreach (var l in list3)
                 {
                     db.notification.Remove(l);
-                }    
+                }
+                foreach (var l in list4)
+                {
+                    db.comment.Remove(l);
+                }
                 ViewBag.id = idea.topic_id;
                 db.idea.Remove(idea);
                 db.SaveChanges();

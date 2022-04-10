@@ -26,7 +26,7 @@ namespace WE_Project.Models
         }
     
         public int idea_id { get; set; }
-        public Nullable<int> topic_id { get; set; }
+        public int topic_id { get; set; }
         public Nullable<int> account_id { get; set; }
         public Nullable<int> category_id { get; set; }
 

@@ -16,7 +16,7 @@
                 <div style="display: flex; justify-content: center;">
                     @if (Model.img != null)
                     {
-                        <img src="@Url.Action("show","accounts", new { id = Model.account_id })" alt="Avatar" style="width:250px; border-radius: 50%; border: 2px; border-style: solid;">
+                        <img src="@Url.Action("show","accounts", new { id = Model.account_id })" alt="Avatar" style="width:250px; height:250px ; border-radius: 50%; border: 2px; border-style: solid;">
                     }
                     else
                     {
@@ -64,7 +64,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12 " style="text-align: center; ">
-                        <a href="@Url.Action("EditAccount", "accounts", new { id = Model.account_id})" class="btn btn-primary"> Edit Profile </a>
+                        <a href="@Url.Action("Edit", "accounts", new { id = Model.account_id, s = 1})" class="btn btn-primary"> Edit Profile </a>
                         <a href="@Url.Action("ChangePassword", "accounts", new { id = Model.account_id})" class="btn btn-primary"> Change Password </a>
                     </div>
                 </div>

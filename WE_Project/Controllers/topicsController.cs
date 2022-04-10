@@ -138,6 +138,10 @@ namespace WE_Project.Controllers
             {
                 return HttpNotFound();
             }
+            DateTime close = (DateTime)topic.closure_date;
+            DateTime final = (DateTime)topic.final_date;
+            ViewBag.closure = close.ToString("MM/dd/yy");
+            ViewBag.final = final.ToString("MM/dd/yy");
             return View(topic);
         }
 

@@ -164,7 +164,7 @@ namespace WE_Project.Controllers
         }
 
         // GET: accounts/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int? id, int? s)
         {
             if (Session["us"] == null)
             {
@@ -179,7 +179,13 @@ namespace WE_Project.Controllers
             {
                 return HttpNotFound();
             }
-
+            if(s != null)
+            {
+                Session["s"] = "profile";
+            }  else
+            {
+                Session["s"] = "";
+            }    
             ViewBag.department_id = new SelectList(db.department, "department_id", "department_name", account.department_id);
             return View(account);
         }
@@ -207,25 +213,7 @@ namespace WE_Project.Controllers
             return RedirectToAction("Index", new { t = account.state });
         }
 
-        public ActionResult EditAccount(int? id)
-        {
-            if (Session["us"] == null)
-            {
-                return RedirectToAction("Index", "Login");
-            }
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            account account = db.account.Find(id);
-            if (account == null)
-            {
-                return HttpNotFound();
-            }          
-
-            ViewBag.department_id = new SelectList(db.department, "department_id", "department_name", account.department_id);
-            return View(account);
-        }
+        
 
         public ActionResult ChangePassword(int? id, int? e)
         {
@@ -373,79 +361,16 @@ namespace WE_Project.Controllers
                 {
                     db.Entry(account2).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
-                    return RedirectToAction("Index", new { t = account.state });
+                    if(Session["s"].ToString() == "profile")
+                        return RedirectToAction("Details", new { id = account.account_id });
+                    else  
+                        return RedirectToAction("Index", new { t = account.state });
                 }
-            }
-
-           
+            } 
 
             ViewBag.department_id = new SelectList(db.department, "department_id", "department_name", account.department_id);
             return View(account);
         }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult EditAccount(account account, HttpPostedFileBase avatar)
-        {
-            if (Session["us"] == null)
-            {
-                return RedirectToAction("Index", "Login");
-            }
-            if (avatar != null)
-            {
-                var supportedTypes = new[] { "png", "jpg", "jpeg" };
-                var fileExt = System.IO.Path.GetExtension(avatar.FileName).Substring(1);
-                if (!supportedTypes.Contains(fileExt))
-                {
-                    ViewBag.ErrorMessage = "File Extension Is InValid - Only Upload PNG/JPG/JPEG File";
-                    ViewBag.department_id = new SelectList(db.department, "department_id", "department_name", account.department_id);
-                    return View(account);
-                }
-                else if (avatar.ContentLength > 400 * 1024)
-                {
-                    ViewBag.ErrorMessage = "File is too large - File should be up to 400KB";
-                    ViewBag.department_id = new SelectList(db.department, "department_id", "department_name", account.department_id);
-                    return View(account);
-                }
-                else
-                {
-                    byte[] bytes;
-                    using (BinaryReader br = new BinaryReader(avatar.InputStream))
-                    {
-                        bytes = br.ReadBytes(avatar.ContentLength);
-                    }
-                    account.img = bytes;
-                }
-                if (ModelState.IsValid)
-                {
-                    db.Entry(account).State = System.Data.Entity.EntityState.Modified;
-                    db.SaveChanges();
-                    return RedirectToAction("Details", new { id = account.account_id });
-                }
-            }
-            else
-            {
-                account account2 = db.account.Find(account.account_id);
-                account2.fname = account.fname;
-                account2.gender = account.gender;
-                account2.department_id = account.department_id;
-                account2.phone = account.phone;
-                account2.position = account.position;
-                if (ModelState.IsValid)
-                {
-                    db.Entry(account2).State = System.Data.Entity.EntityState.Modified;
-                    db.SaveChanges();
-                    return RedirectToAction("Details", new { id = account.account_id });
-                }
-            }
-            
-            ViewBag.department_id = new SelectList(db.department, "department_id", "department_name", account.department_id);
-            return View(account);
-        }
-
-
-
-
 
         public FileContentResult show(int? id)
         {

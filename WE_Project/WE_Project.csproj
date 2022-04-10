@@ -228,6 +228,7 @@
     <Content Include="img\logo\logo2.png" />
     <Content Include="img\man.png" />
     <Content Include="img\screenshot\ss2.png" />
+    <Content Include="img\slide.png" />
     <Content Include="img\think.svg" />
     <Content Include="img\undraw_posting_photo.svg" />
     <Content Include="js\demo\chart-area-demo.js" />
@@ -2392,9 +2393,9 @@
     <Content Include="Views\accounts\ChangePassword.cshtml" />
     <Content Include="Views\topics\SelectTopic.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
-    <Content Include="Views\accounts\EditAccount.cshtml" />
     <Content Include="Views\Report\Index.cshtml" />
     <Content Include="Views\Export\Index.cshtml" />
+    <Content Include="Views\Shared\TermAndConditions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

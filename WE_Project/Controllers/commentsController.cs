@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 using WE_Project.Models;
@@ -29,7 +30,7 @@ namespace WE_Project.Controllers
        
 
         [HttpPost]
-        public JsonResult Create(int ID, string Comment, bool Enonymous)
+        public JsonResult Create(int ID, string Comment, bool Anonymous)
         {
 
             comment comment = new comment();
@@ -38,7 +39,9 @@ namespace WE_Project.Controllers
             comment.idea_id = ID;
             comment.comment_content = Comment.Trim();
             comment.comment_date = DateTime.Now;
-            comment.comment_status = Enonymous;
+            comment.comment_status = Anonymous;
+            db.comment.Add(comment);
+            db.SaveChanges();
             if (ModelState.IsValid)
             {
                 notification notify = new notification();
@@ -50,9 +53,31 @@ namespace WE_Project.Controllers
                     notify.idea_id = ID;
                     notify.state = false;
                     db.notification.Add(notify);
+
+                    // Email notification here
+
+                    var senderEmail = new MailAddress("blueswitch.squadnerd@gmail.com", "BlueSwitch - Squadnerd");
+                    var receiverEmail = new MailAddress(idea.account.email, "Receiver");
+                    var password = "Squadnerd123";
+                    var sub = "Some one commented your idea, check it out!";
+                    var body = db.account.Find(account_id).fname +" commented your idea <br><br><b>Title: " + idea.idea_title + "</b><br><a href='https://squadnerd.azurewebsites.net/" + Url.Action("Details", "ideas", new { id = comment.idea_id, ed = 0 }) + "'>View Now</a><br><br>Do not reply this email!<br><b>BlueSwitch University</b>";
+                    var smtp = new SmtpClient
+                    {
+                        Host = "smtp.gmail.com",
+                        Port = 587,
+                        EnableSsl = true,
+                        DeliveryMethod = SmtpDeliveryMethod.Network,
+                        UseDefaultCredentials = false,
+                        Credentials = new NetworkCredential(senderEmail.Address, password)
+                    };
+                    MailMessage mess = new MailMessage(senderEmail, receiverEmail);
+                    mess.Subject = sub;
+                    mess.Body = body;
+                    mess.IsBodyHtml = true;
+
+                    smtp.Send(mess);
                 }
                 db.Entry(idea).State = System.Data.Entity.EntityState.Modified;
-                db.comment.Add(comment);
                 db.SaveChanges();
             }
             return Json(true);

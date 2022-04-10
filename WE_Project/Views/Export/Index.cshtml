@@ -10,15 +10,16 @@
     <div class="card mb-4">
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
             <h6 class="m-0 font-weight-bold text-primary">Topic: @Model.First().topic.topic_name</h6>
-            @using (Html.BeginForm("ExportCSV", "Export", new { id = Model.First().topic_id }, FormMethod.Post))
-            {
-                <input type="submit" class="btn btn-primary" value="Export CSV" />
-            }
-            @using (Html.BeginForm("ExportZIP", "Export", new { id = Model.First().topic_id }, FormMethod.Post))
-            {
-                <input type="submit" class="btn btn-primary" value="Export Uploaded Files" />
-            }
-
+            <div class="row">
+                @using (Html.BeginForm("ExportCSV", "Export", new { id = Model.First().topic_id }, FormMethod.Post))
+                {
+                    <input type="submit" class="btn btn-primary" style="margin-right:10px" value="Export CSV" />
+                }
+                @using (Html.BeginForm("ExportZIP", "Export", new { id = Model.First().topic_id }, FormMethod.Post))
+                {
+                    <input type="submit" class="btn btn-primary" value="Export Uploaded Files" />
+                }
+            </div>
         </div>
         <div class="table-responsive p-3">
             <table class="table align-items-center table-flush table-hover" id="dataTableHover">

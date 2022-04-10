@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link href="~/img/logo/logo.png" rel="icon">
-    <title>WE Project</title>
+    <title>BlueSwitch's Home - A place to express your opinion</title>
     <link href="~/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="~/css/ruang-admin.min.css" rel="stylesheet">
@@ -26,7 +26,7 @@
                 <div class="sidebar-brand-icon">
                     <img src="~/img/logo/logo.png">
                 </div>
-                <div class="sidebar-brand-text mx-3">SquadNerd</div>
+                <div class="sidebar-brand-text mx-3">BlueSwitch University</div>
             </a>
             <hr class="sidebar-divider my-0">
             <li class="nav-item active">
@@ -74,7 +74,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="@Url.Action("Index", "categories")">
-                            <i class="fa-solid fa-city"></i>
+                            <i class="fa-solid fa-table-list"></i>
                             <span>Manage Categories</span>
                         </a>
                     </li>
@@ -85,7 +85,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="@Url.Action("Index", "Report" , new {id = 0})">
                             <i class="fa-solid fa-chart-line"></i>
-                            <span>Statistical analysis</span>
+                            <span>Dashboard</span>
                         </a>
                     </li>
                 }
@@ -361,13 +361,13 @@
         function postComment(idea_id)
         {
             var comment = document.getElementById("comment_content").value;
-            if (document.getElementById("comment_enonymous").checked) {
-                var enonymous = true;
+            if (document.getElementById("comment_anonymous").checked) {
+                var anonymous = true;
             }
             else {
-                var enonymous = false;
+                var anonymous = false;
             }
-            $.post('@Url.Action("Create", "comments")', { ID: idea_id , Comment: comment, Enonymous: enonymous })
+            $.post('@Url.Action("Create", "comments")', { ID: idea_id , Comment: comment, Anonymous: anonymous })
 
         }
 
@@ -377,9 +377,9 @@
             var topic = parseInt(document.getElementById("idea_topic_id").value);
             var title = document.getElementById("idea_title").value;
 
-            if (document.getElementById("idea_enonymous").checked)
-                var enonymous = true;
-            else  var enonymous = false;
+            if (document.getElementById("idea_anonymous").checked)
+                var anonymous = true;
+            else  var anonymous = false;
             var content = document.getElementById("idea_content").value;
             var files = document.getElementById("files");
             var formdata = new FormData();
@@ -387,10 +387,14 @@
             formdata.append("Category", category);
             formdata.append("Topic_id", topic);
             formdata.append("Title", title);
-            formdata.append("Enonymous", enonymous);
+            formdata.append("Anonymous", anonymous);
             formdata.append("Content", content);
             for (var i = 0; i < files.files.length; i++)
             {
+                if (files.files[i].size > 3072 * 1024) {
+                    alert("File too Big, please select a file less than 3Mb");
+                    return;
+                }
                 var sfileName = files.files[i].name;
                 formdata.append(sfileName, files.files[i]);
             }

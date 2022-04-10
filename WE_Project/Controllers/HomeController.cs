@@ -37,6 +37,8 @@ namespace WE_Project.Controllers
             }
         }
 
+
+
         public string CalCulateTime(DateTime date)
         {
             string message = "";
@@ -97,6 +99,12 @@ namespace WE_Project.Controllers
         {
             ViewBag.Message = "Your application description page.";
 
+            return View();
+        }
+
+
+        public ActionResult TermAndConditions()
+        {            
             return View();
         }
 

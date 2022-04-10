@@ -542,3 +542,4 @@ D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\Microsoft.Owin.Security.xml
 D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\DotNetZip.dll
 D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\DotNetZip.pdb
 D:\Study\EnterpriseWeb\git\we_project\WE_Project\bin\DotNetZip.xml
+D:\Study\EnterpriseWeb\git\we_project\WE_Project\obj\Debug\WE_Project.csproj.AssemblyReference.cache
