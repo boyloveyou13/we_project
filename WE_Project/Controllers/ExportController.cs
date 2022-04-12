@@ -27,8 +27,15 @@ namespace WE_Project.Controllers
             }
             if (id != null)
             {
-                var list = db.idea.Where(t => t.topic_id == id).ToList();
-                ViewBag.count = list.OrderByDescending(t => t.comment.Count).First().comment.Count;                
+                var list = db.idea.Where(t => t.topic_id == id).OrderByDescending(t => t.topic_id).ToList();
+                if(list.Count != 0)
+                {
+                    ViewBag.count = list.OrderByDescending(t => t.comment.Count).First().comment.Count;
+                }else
+                {
+                    return RedirectToAction("Index","topics", new { msg = 2 });
+                }
+                           
                 return View(list.ToList());
             }
             else

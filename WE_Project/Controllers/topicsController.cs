@@ -23,6 +23,8 @@ namespace WE_Project.Controllers
             }
             if (msg == 1)
                 ViewBag.ErrorMessage = "This topic contains idea, which cannot be deleted";
+            else if(msg == 2)
+                ViewBag.ErrorMessage = "This topic contains no data";
             var topic = db.topic.ToList();
             return View(topic);
         }
